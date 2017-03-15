@@ -31,12 +31,12 @@ import com.thinkgem.jeesite.modules.money.service.TallyTypeService;
 public class TallyTypeController extends BaseController {
 
 	@Autowired
-	private TallyTypeService dictService;
+	private TallyTypeService tallyTypeService;
 	
 	@ModelAttribute
 	public TallyType get(@RequestParam(required=false) String id) {
 		if (StringUtils.isNotBlank(id)){
-			return dictService.get(id);
+			return tallyTypeService.get(id);
 		}else{
 			return new TallyType();
 		}
@@ -44,23 +44,23 @@ public class TallyTypeController extends BaseController {
 	
 	@RequiresPermissions("sys:dict:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(TallyType dict, HttpServletRequest request, HttpServletResponse response, Model model) { 
-        Page<TallyType> page = dictService.findPage(new Page<TallyType>(request, response), dict); 
+	public String list(TallyType tallyType, HttpServletRequest request, HttpServletResponse response, Model model) { 
+        Page<TallyType> page = tallyTypeService.findPage(new Page<TallyType>(request, response), tallyType); 
         model.addAttribute("page", page);
-		return "modules/sys/dictList";
+		return "modules/money/tallyTypeList";
 	}
 
 	@RequiresPermissions("sys:dict:view")
 	@RequestMapping(value = "form")
-	public String form(TallyType dict, Model model) {
-		model.addAttribute("dict", dict);
-		return "modules/sys/dictForm";
+	public String form(TallyType tallyType, Model model) {
+		model.addAttribute("tallyType", tallyType);
+		return "modules/money/tallyTypeForm";
 	}
 
-	@RequiresPermissions("sys:dict:edit")
+	@RequiresPermissions("sys:dict:view")
 	@RequestMapping(value = "save")//@Valid 
-	public String save(TallyType dict, Model model, RedirectAttributes redirectAttributes) { 
-		dictService.save(dict); 
-		return "redirect:" + adminPath + "/sys/dict/?repage&type=";
+	public String save(TallyType tallyType, Model model, RedirectAttributes redirectAttributes) { 
+		tallyTypeService.save(tallyType); 
+		return "redirect:" + adminPath + "/money/tallyType/?repage&type=";
 	}  
 }

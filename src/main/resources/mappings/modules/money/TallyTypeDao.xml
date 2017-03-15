@@ -10,6 +10,23 @@
 		a.orderid AS "orderId" 
 	</sql>
 	
+	<sql id="queryCondition">
+		<trim prefix="WHERE" prefixOverrides="AND"> 
+			<if test="moneyTypeDesc != null and moneyTypeDesc != ''">
+				AND tally_type_desc like  CONCAT('%',#{moneyTypeDesc},'%')
+			</if>
+			<if test="moneyType != null and moneyType != ''">
+				AND money_type = #{moneyType }
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND parent_code = #{parentCode }
+			</if> 
+			<if test="typeCode != null and typeCode != ''">
+				AND type_code = #{typeCode }
+			</if> 
+		</trim>
+	</sql>
+	
 	<select id="get" resultType="TallyType">
 		SELECT 
 			<include refid="tallyTypeColumns"/>
@@ -17,23 +34,25 @@
 		WHERE a.tally_type_sno = #{id}
 	</select>
 	
-	<select id="findList" resultType="Dict">
+	<select id="findList" resultType="TallyType">
 		SELECT 
-			* 
-		FROM tally_type_t  
-		ORDER BY type, sort, update_date DESC
-	</select>
+			<include refid="tallyTypeColumns"/>
+		FROM tally_type_t    a 
+		<include refid="queryCondition"></include>	
+	</select> 
 	
-	<select id="findAllList" resultType="Dict">
+	<select id="findAllList" resultType="TallyType">
 		SELECT 
-			* 
-		FROM tally_type_t  
+		<include refid="tallyTypeColumns"/>
+		FROM tally_type_t  a
+		<include refid="queryCondition"></include>	
 	</select>
 	
 	<select id="findTypeList" resultType="string">
 		SELECT 
 			tally_type_sno 
 		FROM tally_type_t  
+		<include refid="queryCondition"></include>	
 	</select>
 	
 	<insert id="insert">
