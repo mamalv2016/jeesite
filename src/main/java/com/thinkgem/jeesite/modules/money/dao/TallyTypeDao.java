@@ -6,5 +6,5 @@ import com.thinkgem.jeesite.modules.money.entity.TallyType;
 
 @MyBatisDao
 public interface TallyTypeDao extends CrudDao<TallyType> { 
-	
+	public int generateMaxId();
 }

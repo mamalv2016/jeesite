@@ -20,7 +20,6 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
 import com.thinkgem.jeesite.modules.money.service.TallyTypeService;
-
 /**
  * 字典Controller
  * @author ThinkGem
@@ -42,22 +41,22 @@ public class TallyTypeController extends BaseController {
 		}
 	}
 	
-	@RequiresPermissions("sys:dict:view")
+	@RequiresPermissions("money:tallytype:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(TallyType tallyType, HttpServletRequest request, HttpServletResponse response, Model model) { 
         Page<TallyType> page = tallyTypeService.findPage(new Page<TallyType>(request, response), tallyType); 
-        model.addAttribute("page", page);
+        model.addAttribute("page", page); 
 		return "modules/money/tallyTypeList";
 	}
 
-	@RequiresPermissions("sys:dict:view")
+	@RequiresPermissions("money:tallytype:edit")
 	@RequestMapping(value = "form")
 	public String form(TallyType tallyType, Model model) {
 		model.addAttribute("tallyType", tallyType);
 		return "modules/money/tallyTypeForm";
 	}
 
-	@RequiresPermissions("sys:dict:view")
+	@RequiresPermissions("money:tallytype:edit")
 	@RequestMapping(value = "save")//@Valid 
 	public String save(TallyType tallyType, Model model, RedirectAttributes redirectAttributes) { 
 		tallyTypeService.save(tallyType); 

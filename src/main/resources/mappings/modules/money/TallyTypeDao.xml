@@ -34,6 +34,12 @@
 		WHERE a.tally_type_sno = #{id}
 	</select>
 	
+	<select id="generateMaxId" resultType="Integer">
+		SELECT 
+			 max(a.tally_type_sno)
+		FROM tally_type_t a  
+	</select>
+	
 	<select id="findList" resultType="TallyType">
 		SELECT 
 			<include refid="tallyTypeColumns"/>
@@ -56,52 +62,36 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO sys_dict(
-			id, 
-			value, 
-			label, 
-			type, 
-			description, 
-			sort, 
-			create_by, 
-			create_date, 
-			update_by, 
-			update_date, 
-			remarks, 
-			del_flag
+		INSERT INTO tally_type_t(
+			tally_type_sno,
+			tally_type_desc, 
+			money_type, 
+			parent_code, 
+			type_code, 
+			orderid 
 		) VALUES (
 			#{id}, 
-			#{value}, 
-			#{label}, 
-			#{type}, 
-			#{description}, 
-			#{sort}, 
-			#{createBy.id}, 
-			#{createDate}, 
-			#{updateBy.id}, 
-			#{updateDate}, 
-			#{remarks}, 
-			#{delFlag}
+			#{moneyTypeDesc}, 
+			#{moneyType}, 
+			#{parentCode}, 
+			#{typeCode}, 
+			#{orderId} 
 		)
 	</insert>
 	
 	<update id="update">
-		UPDATE sys_dict SET 
-			value = #{value}, 
-			label = #{label}, 
-			type = #{type}, 
-			description = #{description}, 
-			sort = #{sort}, 
-			update_by = #{updateBy.id}, 
-			update_date = #{updateDate}, 
-			remarks = #{remarks}
-		WHERE id = #{id}
+		UPDATE tally_type_t SET 
+			tally_type_desc = #{moneyTypeDesc}, 
+			money_type = #{moneyType}, 
+			parent_code = #{parentCode}, 
+			type_code = #{typeCode}, 
+			orderid = #{orderId} 
+		WHERE tally_type_sno = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE sys_dict SET 
-			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		delete from tally_type_t   
+		WHERE tally_type_sno = #{id}
 	</update>
 	
 </mapper>
