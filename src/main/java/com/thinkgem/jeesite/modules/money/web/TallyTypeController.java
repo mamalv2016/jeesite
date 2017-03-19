@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
 import com.thinkgem.jeesite.modules.money.service.TallyTypeService;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
 /**
  * 字典Controller
  * @author ThinkGem
@@ -62,4 +64,16 @@ public class TallyTypeController extends BaseController {
 		tallyTypeService.save(tallyType); 
 		return "redirect:" + adminPath + "/money/tallyType/?repage&type=";
 	}  
+	
+	@RequiresPermissions("money:tallytype:edit")
+	@RequestMapping(value = "delete")
+	public String delete(TallyType tallyType, RedirectAttributes redirectAttributes) {
+		if(Global.isDemoMode()){
+			addMessage(redirectAttributes, "演示模式，不允许操作！");
+			return "redirect:" + adminPath + "/sys/dict/?repage";
+		}
+		tallyTypeService.delete(tallyType);
+		addMessage(redirectAttributes, "删除类型成功");
+		return "redirect:" + adminPath + "/money/tallyType";
+	}
 }

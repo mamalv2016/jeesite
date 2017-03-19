@@ -23,13 +23,17 @@ public class TallyTypeService extends CrudService<TallyTypeDao, TallyType> {
 
 	@Transactional(readOnly = false)
 	public void save(TallyType dict) {
-		int maxId = dao.generateMaxId()+1;
-		//设置id
-		dict.setId(maxId+"");
-		super.save(dict);
+		if(dict.getId()==null||"".equals(dict.getId().trim())){
+			int maxId = dao.generateMaxId()+1;
+			//设置id
+			dict.setId(maxId+"");
+			dao.insert(dict);
+		}else{
+			dao.update(dict);
+		}
 		CacheUtils.remove(TallyTypeUtils.CACHE_TALLYTYPE_MAP);
-	}
-
+	} 
+	
 	@Transactional(readOnly = false)
 	public void delete(TallyType dict) {
 		super.delete(dict);
