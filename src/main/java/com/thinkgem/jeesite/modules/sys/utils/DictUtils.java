@@ -60,6 +60,11 @@ public class DictUtils {
 		return defaultLabel;
 	}
 	
+	/**
+	 * 根据字典id，从缓存中找到对应的字典类型的数据列表.
+	 * @param type
+	 * @return
+	 */
 	public static List<Dict> getDictList(String type){
 		@SuppressWarnings("unchecked")
 		Map<String, List<Dict>> dictMap = (Map<String, List<Dict>>)CacheUtils.get(CACHE_DICT_MAP);

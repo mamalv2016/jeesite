@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
 import com.thinkgem.jeesite.modules.money.service.TallyTypeService;
+import com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 /**
  * 字典Controller
@@ -55,14 +56,15 @@ public class TallyTypeController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(TallyType tallyType, Model model) {
 		model.addAttribute("tallyType", tallyType);
+		model.addAttribute("types",TallyTypeUtils.getTallyTypes());
 		return "modules/money/tallyTypeForm";
 	}
 
 	@RequiresPermissions("money:tallytype:edit")
 	@RequestMapping(value = "save")//@Valid 
 	public String save(TallyType tallyType, Model model, RedirectAttributes redirectAttributes) { 
-		tallyTypeService.save(tallyType); 
-		return "redirect:" + adminPath + "/money/tallyType/?repage&type=";
+		tallyTypeService.save(tallyType);  
+		return "redirect:" + adminPath + "/money/tallytype";
 	}  
 	
 	@RequiresPermissions("money:tallytype:edit")
@@ -70,10 +72,10 @@ public class TallyTypeController extends BaseController {
 	public String delete(TallyType tallyType, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
-			return "redirect:" + adminPath + "/sys/dict/?repage";
+			return "redirect:modules/money/tallyTypeList";
 		}
 		tallyTypeService.delete(tallyType);
 		addMessage(redirectAttributes, "删除类型成功");
-		return "redirect:" + adminPath + "/money/tallyType";
+		return "redirect:modules/money/tallyTypeList";
 	}
 }

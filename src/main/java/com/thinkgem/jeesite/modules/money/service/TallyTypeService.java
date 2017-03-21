@@ -31,13 +31,13 @@ public class TallyTypeService extends CrudService<TallyTypeDao, TallyType> {
 		}else{
 			dao.update(dict);
 		}
-		CacheUtils.remove(TallyTypeUtils.CACHE_TALLYTYPE_MAP);
+		CacheUtils.remove(TallyTypeUtils.CACHE_TALLYTYPE);
 	} 
 	
 	@Transactional(readOnly = false)
 	public void delete(TallyType dict) {
 		super.delete(dict);
-		CacheUtils.remove(TallyTypeUtils.CACHE_TALLYTYPE_MAP);
+		CacheUtils.remove(TallyTypeUtils.CACHE_TALLYTYPE);
 	}
 
 }

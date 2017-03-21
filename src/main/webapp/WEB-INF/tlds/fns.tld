@@ -244,4 +244,11 @@
     <example>${fns:toJson(object)}</example>  
   </function>
   
+   <function>
+    <description>获取金额类型列表</description>
+    <name>getTallyTypeList</name>
+    <function-class>com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils</function-class>
+    <function-signature>java.util.List getTallyTypes()</function-signature>
+    <example>${fns:getTallyTypeList()}</example>  
+  </function>
 </taglib>

@@ -48,7 +48,10 @@
 		<div class="control-group">
 			<label class="control-label">上级编码:</label>
 			<div class="controls">
-				<form:input path="parentCode" htmlEscape="false" maxlength="50"  />
+				<form:select path="parentCode" class="input-medium">
+					<form:option     value="" htmlEscape="false">不选择</form:option>
+					<form:options items="${fns:getTallyTypeList()}" itemLabel="moneyTypeDesc" itemValue="typeCode" htmlEscape="false"/>
+				</form:select> 
 			</div>
 		</div>
 		<div class="control-group">
