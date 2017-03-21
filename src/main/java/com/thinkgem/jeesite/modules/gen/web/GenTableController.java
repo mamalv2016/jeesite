@@ -27,7 +27,7 @@ import com.thinkgem.jeesite.modules.gen.service.GenTableService;
 import com.thinkgem.jeesite.modules.gen.util.GenUtils;
 
 /**
- * 业务表Controller
+ * 代码生成器Controller
  * @author ThinkGem
  * @version 2013-10-15
  */
