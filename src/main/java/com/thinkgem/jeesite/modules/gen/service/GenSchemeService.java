@@ -81,7 +81,7 @@ public class GenSchemeService extends BaseService {
 		GenTable genTable = genTableDao.get(genScheme.getGenTable().getId());
 		genTable.setColumnList(genTableColumnDao.findList(new GenTableColumn(new GenTable(genTable.getId()))));
 		
-		// 获取所有代码模板
+		// 获取所有代码模板,根据xmls生成java对象
 		GenConfig config = GenUtils.getConfig();
 		
 		// 获取模板列表
@@ -100,8 +100,10 @@ public class GenSchemeService extends BaseService {
 			childTable.setParent(genTable);
 			childTable.setColumnList(genTableColumnDao.findList(new GenTableColumn(new GenTable(childTable.getId()))));
 			genScheme.setGenTable(childTable);
+			//根据数据库里面的scheme生成map对象，准备根据freemark生成文件
 			Map<String, Object> childTableModel = GenUtils.getDataModel(genScheme);
 			for (GenTemplate tpl : childTableTemplateList){
+				//具体生成文件，保存到文件系统
 				result.append(GenUtils.generateToFile(tpl, childTableModel, genScheme.getReplaceFile()));
 			}
 		}
