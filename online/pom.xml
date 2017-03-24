@@ -12,80 +12,47 @@
 	<packaging>war</packaging>
 	<name>online Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	<dependencies>
+	<dependencies> 
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
-			<artifactId>common</artifactId>
+			<artifactId>online-crm</artifactId>
 			<version>1.2.7</version>
-		</dependency>
-<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>${oracle.driver.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>
-		</dependency>
-
+		</dependency> 
 		<dependency>
-			<groupId>org.wltea</groupId>
-			<artifactId>analyzer</artifactId>
-			<version>2012_u6</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/analyzer-2012_u6.jar</systemPath>
-		</dependency>
-		<!-- GENERAL UTILS end -->
-
-		<!-- CKFinder begin -->
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>online-gen</artifactId>
+			<version>1.2.7</version>
+		</dependency> 
 		<dependency>
-			<groupId>net.coobird</groupId>
-			<artifactId>thumbnailator</artifactId>
-			<version>0.4.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/thumbnailator-0.4.2.jar</systemPath>
-		</dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>online-money</artifactId>
+			<version>1.2.7</version>
+		</dependency> 
 		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>apache-ant-zip</artifactId>
-			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/apache-ant-zip-2.3.jar</systemPath>
-		</dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>online-oa</artifactId>
+			<version>1.2.7</version>
+		</dependency>  
 		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>ckfinder</artifactId>
-			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ckfinder-2.3.jar</systemPath>
-		</dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>supcan</artifactId>
+			<version>1.2.7</version>
+		</dependency>  
 		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>ckfinderplugin-fileeditor</artifactId>
-			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ckfinderplugin-fileeditor-2.3.jar</systemPath>
-		</dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>online-act</artifactId>
+			<version>1.2.7</version>
+		</dependency>  
 		<dependency>
-			<groupId>com.ckfinder</groupId>
-			<artifactId>ckfinderplugin-imageresize</artifactId>
-			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ckfinderplugin-imageresize-2.3.jar</systemPath>
-		</dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>online-test</artifactId>
+			<version>1.2.7</version>
+		</dependency>  
+	</dependencies>
 
 
-		<!-- User Agent -->
-		<dependency>
-			<groupId>bitwalker</groupId>
-			<artifactId>UserAgentUtils</artifactId>
-			<version>1.13</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/UserAgentUtils-1.13.jar</systemPath>
-		</dependency>
-	</dependencies> 
-	
-	
 	<profiles>
-		<!-- 初始化数据库 -->			
+		<!-- 初始化数据库 -->
 		<profile>
 			<id>init-db</id>
 			<dependencies>
@@ -94,10 +61,10 @@
 					<artifactId>dbunit</artifactId>
 					<version>2.4.8</version>
 				</dependency>
-			  	<dependency>
-				    <groupId>org.apache.poi</groupId>
-				    <artifactId>poi</artifactId>
-				    <version>3.2-FINAL</version>
+				<dependency>
+					<groupId>org.apache.poi</groupId>
+					<artifactId>poi</artifactId>
+					<version>3.2-FINAL</version>
 				</dependency>
 			</dependencies>
 			<build>
@@ -108,51 +75,63 @@
 						<version>1.7</version>
 						<configuration>
 							<target>
-								
+
 								<!-- mysql -->
-								<property name="dbunit.datatype" value="org.dbunit.ext.mysql.MySqlDataTypeFactory"/>
-								
-								<!-- mssql
-								<property name="dbunit.datatype" value="org.dbunit.ext.mssql.MsSqlDataTypeFactory" /> -->
-								
-								<!-- oracle
-								<property name="dbunit.datatype" value="org.dbunit.ext.oracle.Oracle10DataTypeFactory" /> -->
-								
-								<property file="src/main/resources/jeesite.properties"/>
-								<sql driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}" password="${jdbc.password}" onerror="continue" encoding="${project.build.sourceEncoding}">
-									<classpath refid="maven.test.classpath"/>
-									<transaction src="db/sys/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/cms/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/oa/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/gen/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/gen/example_${jdbc.type}.sql"/>
-									<transaction src="db/test/jeesite_${jdbc.type}.sql"/>
-									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.engine.sql"/>
-									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.history.sql"/>
-									<transaction src="db/act/drop/activiti.${jdbc.type}.drop.identity.sql"/>
-									<transaction src="db/act/create/activiti.${jdbc.type}.create.engine.sql"/>
-									<transaction src="db/act/create/activiti.${jdbc.type}.create.history.sql"/>
-									<transaction src="db/act/create/activiti.${jdbc.type}.create.identity.sql"/>
+								<property name="dbunit.datatype"
+									value="org.dbunit.ext.mysql.MySqlDataTypeFactory" />
+
+								<!-- mssql <property name="dbunit.datatype" value="org.dbunit.ext.mssql.MsSqlDataTypeFactory" 
+									/> -->
+
+								<!-- oracle <property name="dbunit.datatype" value="org.dbunit.ext.oracle.Oracle10DataTypeFactory" 
+									/> -->
+
+								<property file="src/main/resources/jeesite.properties" />
+								<sql driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}"
+									password="${jdbc.password}" onerror="continue"
+									encoding="${project.build.sourceEncoding}">
+									<classpath refid="maven.test.classpath" />
+									<transaction src="db/sys/jeesite_${jdbc.type}.sql" />
+									<transaction src="db/cms/jeesite_${jdbc.type}.sql" />
+									<transaction src="db/oa/jeesite_${jdbc.type}.sql" />
+									<transaction src="db/gen/jeesite_${jdbc.type}.sql" />
+									<transaction src="db/gen/example_${jdbc.type}.sql" />
+									<transaction src="db/test/jeesite_${jdbc.type}.sql" />
+									<transaction
+										src="db/act/drop/activiti.${jdbc.type}.drop.engine.sql" />
+									<transaction
+										src="db/act/drop/activiti.${jdbc.type}.drop.history.sql" />
+									<transaction
+										src="db/act/drop/activiti.${jdbc.type}.drop.identity.sql" />
+									<transaction
+										src="db/act/create/activiti.${jdbc.type}.create.engine.sql" />
+									<transaction
+										src="db/act/create/activiti.${jdbc.type}.create.history.sql" />
+									<transaction
+										src="db/act/create/activiti.${jdbc.type}.create.identity.sql" />
 								</sql>
-								
-								<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="maven.test.classpath"/>
-								
+
+								<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask"
+									classpathref="maven.test.classpath" />
+
 								<!-- mysql、mssql -->
-								<dbunit driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}" password="${jdbc.password}">
-								
-								<!-- oracle
 								<dbunit driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}"
-									password="${jdbc.password}" schema="${jdbc.username}" > -->
-									
+									password="${jdbc.password}">
+
+									<!-- oracle <dbunit driver="${jdbc.driver}" url="${jdbc.url}" userid="${jdbc.username}" 
+										password="${jdbc.password}" schema="${jdbc.username}" > -->
+
 									<dbconfig>
-										<property name="datatypeFactory" value="${dbunit.datatype}"/>
+										<property name="datatypeFactory" value="${dbunit.datatype}" />
 									</dbconfig>
-									<classpath refid="maven.test.classpath"/>
-									<operation type="INSERT" src="db/sys/jeesite_data.xls" format="xls" transaction="true"/>
-									<operation type="INSERT" src="db/cms/jeesite_data.xls" format="xls" transaction="true"/>
-									
+									<classpath refid="maven.test.classpath" />
+									<operation type="INSERT" src="db/sys/jeesite_data.xls"
+										format="xls" transaction="true" />
+									<operation type="INSERT" src="db/cms/jeesite_data.xls"
+										format="xls" transaction="true" />
+
 								</dbunit>
-								
+
 							</target>
 						</configuration>
 					</plugin>
@@ -160,9 +139,9 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 	<build>
-	<finalName>online</finalName>
+		<finalName>online</finalName>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>
 			<!-- Compiler 插件, 设定JDK版本 -->
@@ -176,9 +155,9 @@
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
-			
-			 
-			
+
+
+
 			<!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -187,10 +166,10 @@
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
-				 
+
 			</plugin>
-			
-			 
+
+
 
 			<!-- war 打包插件, 设定war包名称不带版本号 -->
 			<plugin>
@@ -218,15 +197,16 @@
 						static/supcan/doc/**,
 						static/SuperSlide/demo/**,
 						static/treeTable/demo/**<!-- , -->
-						<!-- userfiles/** --><!-- ,/**/*.jsp -->,
+						<!-- userfiles/** --><!-- ,/**/*.jsp -->
+						,
 						test/**
 					</warSourceExcludes>
 					<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory><!-- 
-					<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
+						<webXml>${project.basedir}/target/jspweb.xml</webXml> -->
 					<warName>${project.artifactId}</warName>
 				</configuration>
 			</plugin>
-			
+
 			<!-- Eclipse 插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -251,31 +231,31 @@
 					</additionalProjectnatures>
 				</configuration>
 			</plugin>
-			
+
 			<!-- tomcat6插件 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat6-maven-plugin</artifactId>
-				<version>${tomcat.version}</version> 
+				<version>${tomcat.version}</version>
 				<configuration>
 					<port>${webserver.port}</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>
 			</plugin>
-			
+
 			<!-- tomcat7插件 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>${tomcat.version}</version> 
+				<version>${tomcat.version}</version>
 				<configuration>
 					<port>${webserver.port}</port>
 					<path>/${project.artifactId}</path>
 					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 				</configuration>
 			</plugin>
-			
+
 			<!-- jetty插件 -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -290,7 +270,7 @@
 					<webAppConfig>
 						<contextPath>/${project.artifactId}</contextPath>
 					</webAppConfig>
-					<systemProperties>  
+					<systemProperties>
 						<systemProperty>
 							<name>org.mortbay.util.URI.charset</name>
 							<value>${project.build.sourceEncoding}</value>
@@ -298,35 +278,35 @@
 					</systemProperties>
 				</configuration>
 			</plugin>
-			
+
 			<!-- resource插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
 			</plugin>
-			
+
 			<!-- install插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
 				<version>2.5.2</version>
 			</plugin>
-			
+
 			<!-- clean插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>2.6.1</version>
 			</plugin>
-			
+
 			<!-- ant插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.8</version>
 			</plugin>
-			
+
 			<!-- dependency插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
