@@ -7,21 +7,18 @@
 		<groupId>com.thinkgem.jeesite</groupId>
 		<artifactId>jeesite</artifactId>
 		<version>1.2.7</version>
-	</parent> 
-	<artifactId>online-act</artifactId> 
-	<name>online-act</name>
+	</parent>
+	<artifactId>workflow</artifactId>
+	<name>workflow</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<dependencies> 
+	<dependencies>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>online-oa</artifactId>
 			<version>1.2.7</version>
 		</dependency>
-		
 	</dependencies>
 </project>
-
-

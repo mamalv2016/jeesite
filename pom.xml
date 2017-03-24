@@ -597,5 +597,6 @@
     <module>online-money</module>
     <module>online-oa</module>
     <module>online-test</module>
+    <module>workflow</module>
   </modules>
 </project>

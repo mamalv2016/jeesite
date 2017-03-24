@@ -89,3 +89,8 @@ Caused by: java.lang.ClassNotFoundException: Cannot find class: Test
 	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:113)
 	... 64 more
 2017-03-24 17:36:07,656 [main] DEBUG [com.thinkgem.jeesite.common.utils.SpringContextHolder] - 清除SpringContextHolder中的ApplicationContext:Root WebApplicationContext: startup date [Fri Mar 24 17:36:03 CST 2017]; root of context hierarchy
+2017-03-24 17:45:57,820 [main] DEBUG [com.thinkgem.jeesite.common.utils.SpringContextHolder] - 清除SpringContextHolder中的ApplicationContext:Root WebApplicationContext: startup date [Fri Mar 24 17:45:53 CST 2017]; root of context hierarchy
+2017-03-24 17:59:00,021 [main] DEBUG [com.thinkgem.jeesite.common.utils.SpringContextHolder] - 清除SpringContextHolder中的ApplicationContext:Root WebApplicationContext: startup date [Fri Mar 24 17:58:55 CST 2017]; root of context hierarchy
+2017-03-24 18:04:11,178 [http-8181-1] DEBUG [com.thinkgem.jeesite.modules.sys.dao.DictDao.findAllList] - ==>  Preparing: SELECT * FROM sys_dict WHERE del_flag = ? ORDER BY type, sort, update_date DESC 
+2017-03-24 18:04:11,189 [http-8181-1] DEBUG [com.thinkgem.jeesite.modules.sys.dao.DictDao.findAllList] - ==> Parameters: 0(String)
+2017-03-24 18:04:11,342 [http-8181-1] DEBUG [com.thinkgem.jeesite.modules.sys.dao.DictDao.findAllList] - <==      Total: 78
