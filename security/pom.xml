@@ -8,8 +8,8 @@
 		<artifactId>jeesite</artifactId>
 		<version>1.2.7</version>
 	</parent>
-	<artifactId>online-security</artifactId>
-	<name>online-security</name>
+	<artifactId>security</artifactId>
+	<name>security</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

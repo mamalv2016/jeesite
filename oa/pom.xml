@@ -7,11 +7,9 @@
 		<groupId>com.thinkgem.jeesite</groupId>
 		<artifactId>jeesite</artifactId>
 		<version>1.2.7</version>
-	</parent>
-	<groupId>com.thinkgem.jeesite</groupId>
-	<artifactId>online-gen</artifactId>
-	<version>1.2.7</version>
-	<name>online-gen</name>
+	</parent> 
+	<artifactId>oa</artifactId> 
+	<name>oa</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,8 +17,9 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
-			<artifactId>online-security</artifactId>
+			<artifactId>security</artifactId>
 			<version>1.2.7</version>
 		</dependency>
+		
 	</dependencies>
 </project>

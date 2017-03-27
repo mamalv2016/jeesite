@@ -590,13 +590,13 @@
     <module>common</module>
     <module>online</module>
     <module>supcan</module> 
-    <module>online-security</module>
-    <module>online-act</module>
-    <module>online-crm</module>
-    <module>online-gen</module>
-    <module>online-money</module>
-    <module>online-oa</module>
-    <module>online-test</module>
+    <module>security</module>
+    <module>act</module>
+    <module>crm</module>
+    <module>gen</module>
+    <module>money</module>
+    <module>oa</module>
+    <module>test</module>
     <module>workflow</module>
   </modules>
 </project>
