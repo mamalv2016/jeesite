@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME) 
-public @interface ReportCount {
+public @interface Sum {
 	String desc() default "";  //描述数值的内容信息.
 	
 	String dbColumn();  //描述数据库中对应的字段

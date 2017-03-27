@@ -22,13 +22,13 @@ public class ReportUtils {
 
 	List<Object[]> annotationList = Lists.newArrayList();
 
-	Table table = new Table();
+	Tb table = new Tb();
 
-	private List<Sum> sums = Lists.newArrayList();
+	private List<S> sums = Lists.newArrayList();
 	
-	private List<Count> counts = Lists.newArrayList();
+	private List<C> counts = Lists.newArrayList();
 
-	private List<Group> groups = Lists.newArrayList();
+	private List<G> groups = Lists.newArrayList();
 
 	public ReportUtils(String title, Class<?> cls) {
 		ReportTable tb = cls.getAnnotation(ReportTable.class); 
@@ -40,29 +40,29 @@ public class ReportUtils {
 		// 循环全部的属性,找到里面的group列，sum列
 		Field[] fields = cls.getDeclaredFields();
 		for (Field f : fields) {
-			ReportGroup reportGroup = f.getAnnotation(ReportGroup.class);
+			Group reportGroup = f.getAnnotation(Group.class);
 			if (reportGroup != null) {
 				annotationList.add(new Object[] { reportGroup, f });
-				Group g = new Group();
+				G g = new G();
 				g.dbCoulmn = reportGroup.dbColumn();
 				g.desc = StringUtils.isEmpty(reportGroup.desc())?g.dbCoulmn:reportGroup.desc();
 				groups.add(g);
 			}
 			
-			ReportCount reportCount = f.getAnnotation(ReportCount.class);
+			Count reportCount = f.getAnnotation(Count.class);
 			if (reportCount != null) {
 				annotationList.add(new Object[] { reportCount, f });
-				Count c = new Count();
+				C c = new C();
 				c.dbCoulmn = reportCount.dbColumn();
 				c.alias = StringUtils.isEmpty(reportCount.alias())?c.dbCoulmn:reportCount.alias();
 				c.desc = StringUtils.isEmpty(reportCount.desc())?c.dbCoulmn:reportCount.desc();
 				counts.add(c);
 			}
 
-			ReportSum reportSum = f.getAnnotation(ReportSum.class);
+			Sum reportSum = f.getAnnotation(Sum.class);
 			if (reportSum != null) {
 				annotationList.add(new Object[] { reportSum, f });
-				Sum s = new Sum();
+				S s = new S();
 				s.dbCoulmn = reportSum.dbColumn();
 				s.alias = StringUtils.isEmpty(reportSum.alias())?s.dbCoulmn:reportSum.alias();
 				s.desc = StringUtils.isEmpty(reportSum.desc())?s.dbCoulmn:reportSum.desc();
@@ -77,11 +77,11 @@ public class ReportUtils {
 	public String getReportSql() {
 		StringBuilder sql = new StringBuilder(128);
 		sql.append("select ");
-		for (Sum s : sums) {
+		for (S s : sums) {
 			sql.append(" sum(").append(s.dbCoulmn).append(") AS ").append(s.alias).append(" ,");
 		}
 		
-		for (Count c : counts) {
+		for (C c : counts) {
 			sql.append(" count(").append(c.dbCoulmn).append(") AS ").append(c.alias).append(" ,");
 		}
 		
@@ -94,7 +94,7 @@ public class ReportUtils {
 		}
 		if (!CollectionUtils.isEmpty(groups)) {
 			sql.append(" group by ");
-			for (Group g : groups) {
+			for (G g : groups) {
 				sql.append(g.dbCoulmn).append(" ,");
 			}
 			sql = sql.deleteCharAt(sql.lastIndexOf(","));
@@ -117,24 +117,24 @@ public class ReportUtils {
 		System.out.println(report.getReportSql());
 	}
 	
-	class Sum {
+	class S {
 		String dbCoulmn;
 		String desc;
 		String alias;
 	}
 
-	class Count {
+	class C {
 		String dbCoulmn;
 		String desc;
 		String alias;
 	}
 	
-	class Group {
+	class G {
 		String dbCoulmn;
 		String desc;
 	}
 
-	class Table {
+	class Tb {
 		String dbTable;
 		String dbWhere;
 	}

@@ -2,13 +2,13 @@ package com.renjie120.report;
 
 @ReportTable(dbTable = "money_t")
 public class TestVo {
-	@ReportGroup(desc = "年份", dbColumn = "year")
+	@Group(desc = "年份", dbColumn = "year")
 	private String year;
 
-	@ReportSum(desc = "金额", dbColumn = "money")
+	@Sum(desc = "金额", dbColumn = "money")
 	private double money;
 
-	@ReportCount(desc = "用户id", dbColumn = "user_id" )
+	@Count(desc = "用户id", dbColumn = "user_id" )
 	private int userId;
 
 	public int getUserId() {
