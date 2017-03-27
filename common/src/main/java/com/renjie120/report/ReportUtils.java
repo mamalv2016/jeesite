@@ -56,6 +56,7 @@ public class ReportUtils {
 				c.dbCoulmn = reportCount.dbColumn();
 				c.alias = StringUtils.isEmpty(reportCount.alias())?c.dbCoulmn:reportCount.alias();
 				c.desc = StringUtils.isEmpty(reportCount.desc())?c.dbCoulmn:reportCount.desc();
+				c.distinct = reportCount.distinct();
 				counts.add(c);
 			}
 
@@ -82,7 +83,7 @@ public class ReportUtils {
 		}
 		
 		for (C c : counts) {
-			sql.append(" count(").append(c.dbCoulmn).append(") AS ").append(c.alias).append(" ,");
+			sql.append(" count(").append(c.distinct?" distinct ":"" ).append(c.dbCoulmn).append(") AS ").append(c.alias).append(" ,");
 		}
 		
 		sql = sql.deleteCharAt(sql.lastIndexOf(","));
@@ -102,17 +103,7 @@ public class ReportUtils {
 		return sql.toString();
 	} 
 
-	public static void main(String[] as) {
-		List<TestVo> datas = Lists.newArrayList();
-		TestVo v1 = new TestVo();
-		v1.setMoney(123);
-		v1.setYear("2016");
-		TestVo v2 = new TestVo();
-		v2.setMoney(1333);
-		v2.setYear("2018");
-		datas.add(v2);
-		datas.add(v1);
-
+	public static void main(String[] as) { 
 		ReportUtils report = new ReportUtils("test", TestVo.class);
 		System.out.println(report.getReportSql());
 	}
@@ -127,6 +118,7 @@ public class ReportUtils {
 		String dbCoulmn;
 		String desc;
 		String alias;
+		boolean distinct;
 	}
 	
 	class G {

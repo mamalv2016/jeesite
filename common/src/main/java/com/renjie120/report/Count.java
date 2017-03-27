@@ -13,4 +13,6 @@ public @interface Count {
 	String dbColumn();  //描述数据库中对应的字段
 	
 	String alias() default "";  //查询字段别名
+	
+	boolean distinct() default false;//是否去重.
 }
