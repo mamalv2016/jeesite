@@ -138,7 +138,8 @@ public class LoginController extends BaseController{
 	@RequestMapping(value = "${adminPath}")
 	public String index(HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
-		testPointer.testSth("测试一下");
+		String ans = testPointer.testSth("测试一下");
+		System.out.println(ans+"-----------------------");
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(principal.getLoginName(), false, true);
 		

@@ -3,13 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.money.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.renjie120.common.annotation.LoggerPoint;
-import com.renjie120.common.aspect.LoggerAspect;
-import com.renjie120.common.enums.PointerKey;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.modules.money.dao.TallyTypeDao;
@@ -23,9 +19,7 @@ import com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils;
  */
 @Service
 @Transactional(readOnly = true)
-public class TallyTypeService extends CrudService<TallyTypeDao, TallyType> { 
-	@Autowired
-	private LoggerAspect loggerAspect;
+public class TallyTypeService extends CrudService<TallyTypeDao, TallyType> {  
 	
 	@Transactional(readOnly = false) 
 	public void save(TallyType dict) {

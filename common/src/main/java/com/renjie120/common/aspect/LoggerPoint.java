@@ -1,4 +1,4 @@
-package com.renjie120.common.annotation;
+package com.renjie120.common.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
