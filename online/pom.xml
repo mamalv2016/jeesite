@@ -15,22 +15,17 @@
 	<dependencies> 
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
-			<artifactId>online-crm</artifactId>
+			<artifactId>crm</artifactId>
 			<version>1.2.7</version>
 		</dependency> 
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
-			<artifactId>online-gen</artifactId>
+			<artifactId>gen</artifactId>
 			<version>1.2.7</version>
 		</dependency> 
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
-			<artifactId>online-money</artifactId>
-			<version>1.2.7</version>
-		</dependency> 
-		<dependency>
-			<groupId>com.thinkgem.jeesite</groupId>
-			<artifactId>online-oa</artifactId>
+			<artifactId>money</artifactId>
 			<version>1.2.7</version>
 		</dependency>  
 		<dependency>
@@ -45,9 +40,21 @@
 		</dependency>  
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
-			<artifactId>online-test</artifactId>
+			<artifactId>test</artifactId>
 			<version>1.2.7</version>
 		</dependency>  
+		
+		<dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>money</artifactId>
+			<version>1.2.7</version>
+		</dependency>  
+		
+		<dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>common</artifactId>
+			<version>1.2.7</version>
+		</dependency>
 	</dependencies>
 
 

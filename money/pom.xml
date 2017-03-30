@@ -19,6 +19,6 @@
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>security</artifactId>
 			<version>1.2.7</version>
-		</dependency>
+		</dependency> 
 	</dependencies>
 </project>

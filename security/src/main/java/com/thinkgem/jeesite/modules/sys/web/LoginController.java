@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.collect.Maps;
+import com.renjie120.common.aspect.TestPointer;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.security.shiro.session.SessionDAO;
 import com.thinkgem.jeesite.common.servlet.ValidateCodeServlet;
@@ -42,6 +43,8 @@ public class LoginController extends BaseController{
 	@Autowired
 	private SessionDAO sessionDAO;
 	
+	@Autowired
+	private TestPointer testPointer;
 	/**
 	 * 管理登录
 	 */
@@ -49,6 +52,8 @@ public class LoginController extends BaseController{
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
 
+		testPointer.testSth("测试一下");
+		
 //		// 默认页签模式
 //		String tabmode = CookieUtils.getCookie(request, "tabmode");
 //		if (tabmode == null){
@@ -133,7 +138,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(value = "${adminPath}")
 	public String index(HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
-
+		testPointer.testSth("测试一下");
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(principal.getLoginName(), false, true);
 		
