@@ -35,6 +35,20 @@
 	</context:component-scan>
 	 
     
+    <bean id="propertyConfigurer"
+          class="com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer"
+          lazy-init="false">
+        <property name="order" value="1"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="fileEncoding" value="UTF-8"></property>
+        <property name="locations">
+            <list> 
+                 <value>classpath*:online.properties</value> 
+                  <!--  value>classpath*:jeesite.properties</value-->
+            </list>
+        </property>
+    </bean>
+    
 	<bean id="loggerAspect" class="com.renjie120.common.annotation.log.LoggerAspect" /> 
 	
  	

@@ -1,7 +1,5 @@
 package com.renjie120.common.utils;
 
-import groovy.json.JsonParser;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,13 +11,12 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 对fastjson的简单封装.
@@ -183,7 +180,21 @@ public class JsonUtils {
 		return null;
 	}
  
-
+	/**
+	 * 根据反射的类型进行解析json串.
+	 * @param str
+	 * @param type
+	 * @return
+	 */
+	public static <T> T parseJsonStr(String str, Type type) {
+		try {
+			return (T) JSON.parseObject(str,type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static void main(String[] aegs) throws Exception {
 //		Long a = 1476547200000L; 
 //		System.out.println(DateUtils.parseDate(a, "yyyy-MM-dd"));;

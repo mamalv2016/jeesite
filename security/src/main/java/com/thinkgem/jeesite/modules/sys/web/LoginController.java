@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.collect.Maps;
 import com.renjie120.common.annotation.log.LoggerPoint;
-import com.renjie120.common.aspect.TestPointer;
 import com.renjie120.common.enums.PointerKey;
+import com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.security.shiro.session.SessionDAO;
 import com.thinkgem.jeesite.common.servlet.ValidateCodeServlet;
@@ -44,17 +44,14 @@ public class LoginController extends BaseController{
 	
 	@Autowired
 	private SessionDAO sessionDAO;
-	
-	@Autowired
-	private TestPointer testPointer;
+	 
 	/**
 	 * 管理登录
 	 */
 	@RequestMapping(value = "${adminPath}/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
-
-		testPointer.testSth("测试一下");
+ 
 		
 //		// 默认页签模式
 //		String tabmode = CookieUtils.getCookie(request, "tabmode");
@@ -137,12 +134,11 @@ public class LoginController extends BaseController{
 	 * 登录成功，进入管理首页
 	 */
 	@RequiresPermissions("user")
-	@RequestMapping(value = "${adminPath}")
-	@LoggerPoint(pointKey=PointerKey.Test)
+	@RequestMapping(value = "${adminPath}") 
 	public String index(HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
-		String ans = testPointer.testSth("测试一下");
-		System.out.println(ans+"-----------------------");
+	 
+		System.out.println(CustomizedPropertyPlaceholderConfigurer.getContextProperty("test.name"));
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(principal.getLoginName(), false, true);
 		

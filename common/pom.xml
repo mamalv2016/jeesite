@@ -12,8 +12,15 @@
 	<packaging>jar</packaging>
 	<name>A custom project using myfaces</name>
 	<url>http://www.myorganization.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
-		
+		<dependency>
+			<groupId>com.thinkgem.jeesite</groupId>
+			<artifactId>project-pro</artifactId>
+			<version>1.2.7</version>
+		</dependency>
 	</dependencies>
 
 	<build>

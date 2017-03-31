@@ -12,44 +12,44 @@
 	<packaging>war</packaging>
 	<name>online Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	<dependencies> 
+	<dependencies>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>crm</artifactId>
 			<version>1.2.7</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>gen</artifactId>
 			<version>1.2.7</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>money</artifactId>
 			<version>1.2.7</version>
-		</dependency>  
+		</dependency>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>supcan</artifactId>
 			<version>1.2.7</version>
-		</dependency>  
+		</dependency>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>workflow</artifactId>
 			<version>1.2.7</version>
-		</dependency>  
+		</dependency>
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>test</artifactId>
 			<version>1.2.7</version>
-		</dependency>  
-		
+		</dependency>
+
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>money</artifactId>
 			<version>1.2.7</version>
-		</dependency>  
-		
+		</dependency>
+
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>common</artifactId>
@@ -247,7 +247,7 @@
 				<configuration>
 					<port>${webserver.port}</port>
 					<path>/${project.artifactId}</path>
-					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+					<uriEncoding>${project.build.sourceEncoding}</uriEncoding> 
 				</configuration>
 			</plugin>
 
