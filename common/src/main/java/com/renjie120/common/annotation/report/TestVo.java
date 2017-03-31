@@ -1,4 +1,4 @@
-package com.renjie120.report.annotation;
+package com.renjie120.common.annotation.report;
 
 @ReportTable(dbTable = "money_t")
 public class TestVo {

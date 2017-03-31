@@ -1,4 +1,4 @@
-package com.renjie120.report.annotation;
+package com.renjie120.common.annotation.report;
 
 import java.lang.reflect.Field;
 import java.util.List;

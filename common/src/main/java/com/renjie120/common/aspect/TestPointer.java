@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.renjie120.common.annotation.log.LoggerPoint;
+import com.renjie120.common.enums.PointerKey;
  
 @Component
 public class TestPointer {
@@ -12,9 +15,9 @@ public class TestPointer {
 	@Autowired
 	private TestPointer2 testPointer2;
 
-	
-	public String testSth(Object asa){
-		String ans =  testPointer2.testSth(asa);
+	@LoggerPoint(pointKey=PointerKey.Test)
+	public String testSth(String asa){
+		String ans =  testPointer2.sayHello(asa);
 		return ans;
 	}
 }

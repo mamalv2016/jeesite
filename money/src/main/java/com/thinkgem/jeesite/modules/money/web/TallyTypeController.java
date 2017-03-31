@@ -15,16 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.renjie120.common.aspect.LoggerPoint;
-import com.renjie120.common.enums.PointerKey;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
-import com.thinkgem.jeesite.modules.money.service.TallyTypeService;
+import com.thinkgem.jeesite.modules.money.service.wrapper.TallyTypeServiceWrapper;
 import com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils;
-import com.thinkgem.jeesite.modules.sys.entity.Dict;
 /**
  * 字典Controller
  * @author ThinkGem
@@ -35,7 +32,7 @@ import com.thinkgem.jeesite.modules.sys.entity.Dict;
 public class TallyTypeController extends BaseController {
 
 	@Autowired
-	private TallyTypeService tallyTypeService;
+	private TallyTypeServiceWrapper tallyTypeService;
 	
 	@ModelAttribute
 	public TallyType get(@RequestParam(required=false) String id) {
