@@ -11,9 +11,9 @@ import static java.lang.annotation.ElementType.METHOD;
 public @interface CachePoint {
 	CacheBoxConvert value();
 
-	String cacheExpireTimeKey();
+	String expireTimeKey();
 
-	int cacheSizeLimit() default 1000;
+	//int sizeLimit() default 1;
 
-	boolean isCacheEnable() default true;
+	boolean enable() default true;
 }

@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.collect.Maps;
-import com.renjie120.common.annotation.log.LoggerPoint;
-import com.renjie120.common.enums.PointerKey;
+import com.renjie120.common.aspect.TestPointer;
 import com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.security.shiro.session.SessionDAO;
@@ -45,6 +44,8 @@ public class LoginController extends BaseController{
 	@Autowired
 	private SessionDAO sessionDAO;
 	 
+	@Autowired
+	private TestPointer testPointer;
 	/**
 	 * 管理登录
 	 */
@@ -137,7 +138,9 @@ public class LoginController extends BaseController{
 	@RequestMapping(value = "${adminPath}") 
 	public String index(HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
-	 
+	  
+		System.out.println(testPointer.testSth("2222222222"));
+		
 		System.out.println(CustomizedPropertyPlaceholderConfigurer.getContextProperty("test.name"));
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(principal.getLoginName(), false, true);

@@ -6,92 +6,87 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer;
 import com.renjie120.common.utils.JsonUtils;
 import com.renjie120.common.utils.MD5Utils;
+import com.thinkgem.jeesite.common.utils.CacheUtils;
 
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class CacheAspect {
 
-	@Value("lvfit.shopping.cacheTime")
+	@Value("project.cacheExpireTime")
 	private String cacheExpireTime;
 
-	@Value("lvfit.isCacheEnable")
+	@Value("project.isCacheEnable")
 	private String isCacheEnable;
 
-	public final static String PREFIX = "_LVMAMA_LVFIT_";
+	public final static String PREFIX = "_RENJIE120_CACHE_";
 
 	public static Logger logger = LoggerFactory.getLogger(CacheAspect.class);
 
-	@Around("@annotation(com.lvmama.lvtraffic.actualtime.common.cache.CachePoint)")
+//	@Around("@annotation(com.renjie120.common.annotation.cache.CachePoint)")
 	public Object cache(ProceedingJoinPoint pjp) throws Throwable {
 
-//		Method method = method(pjp);
-//		if (!this.isCacheEnable()) {
-//			// 总开关控制是否运用缓存
-//			return pjp.proceed();
-//		}
-//
-//		String cacheKey = null;
-//
-//		try {
-//			cacheKey = getCacheKey(method, pjp.getArgs());
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-////			logger.error(TraceContext.getTraceId() + " " + method.getName()
-////					+ " get cache key error!", ex);
-//		}
-//
-//		if (null == cacheKey) {
-//			return pjp.proceed();
-//		}
-//
-//		CachePoint cachePoint = method.getAnnotation(CachePoint.class);
-//		try {
-//			CacheBox cacheBox = CacheUtils.getInstance().get(cacheKey);
-//
-//			if (vaildExpire(cacheBox) && cachePoint.isCacheEnable()) {
-//				String json = cacheBox.getJson();
-////				logger.info(TraceContext.getTraceId() + " " + method.getName()
-////						+ " user cache:json size" + json.length());
-//				return cachePoint.value().convertTo(json);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-////			logger.error(TraceContext.getTraceId() + " " + method.getName()
-////					+ " get cache error!", e);
-//		}
-//
-//		Object obj = pjp.proceed();
-//
-//		try {
-//			CacheBox cacheBox = new CacheBox();
-//			cacheBox.setExpireTime(new Date().getTime()
-//					+ getCacheExpireTime(cachePoint));
-//			cacheBox.setKey(cacheKey);
-//			String json = cachePoint.value().convertFrom(obj);
-//			if (json.length() < cachePoint.cacheSizeLimit()) {
-//				return obj;
-//			}
-//			cacheBox.setJson(json);
-//			MemcachedUtil.getInstance().set(cacheKey, cacheBox);
-////			logger.info(TraceContext.getTraceId() + " " + method.getName()
-////					+ " user proceed:json size" + json.length());
-//		} catch (Exception e) {
-////			logger.error(TraceContext.getTraceId() + " " + method.getName()
-////					+ " set cache error!", e);
-//		}
-//		return obj;
-		return null;
+		Method method = method(pjp);
+		if (!this.isCacheEnable()) {
+			// 总开关控制是否运用缓存
+			return pjp.proceed();
+		}
+
+		String cacheKey = null;
+
+		try {
+			cacheKey = getCacheKey(method, pjp.getArgs());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+//			logger.error(TraceContext.getTraceId() + " " + method.getName()
+//					+ " get cache key error!", ex);
+		}
+
+		if (null == cacheKey) {
+			return pjp.proceed();
+		}
+
+		CachePoint cachePoint = method.getAnnotation(CachePoint.class);
+		try {
+			CacheBox cacheBox = (CacheBox)CacheUtils.get(cacheKey);
+
+			if (vaildExpire(cacheBox) && cachePoint.enable()) {
+				String json = cacheBox.getJson();
+//				logger.info(TraceContext.getTraceId() + " " + method.getName()
+//						+ " user cache:json size" + json.length());
+				return cachePoint.value().convertTo(json);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+//			logger.error(TraceContext.getTraceId() + " " + method.getName()
+//					+ " get cache error!", e);
+		}
+
+		Object obj = pjp.proceed();
+
+		try {
+			CacheBox cacheBox = new CacheBox();
+			cacheBox.setExpireTime(new Date().getTime()
+					+ getCacheExpireTime(cachePoint));
+			cacheBox.setKey(cacheKey);
+			String json = cachePoint.value().convertFrom(obj); 
+			cacheBox.setJson(json);
+			CacheUtils.put(cacheKey, cacheBox);
+//			logger.info(TraceContext.getTraceId() + " " + method.getName()
+//					+ " user proceed:json size" + json.length());
+		} catch (Exception e) {
+			e.printStackTrace();
+//			logger.error(TraceContext.getTraceId() + " " + method.getName()
+//					+ " set cache error!", e);
+		}
+		return obj; 
 	}
 
 	private boolean vaildExpire(CacheBox cacheBox) {
@@ -125,11 +120,10 @@ public class CacheAspect {
 
 	private Long getCacheExpireTime(CachePoint cachePoint) {
 		try {
-			if (StringUtils.isNotBlank(cachePoint.cacheExpireTimeKey())) {
+			if (StringUtils.isNotBlank(cachePoint.expireTimeKey())) {
 				return Long
 						.valueOf((String) CustomizedPropertyPlaceholderConfigurer
-								.getContextProperty(cachePoint
-										.cacheExpireTimeKey()));
+								.getContextProperty(cachePoint.expireTimeKey()));
 			}
 			return Long
 					.valueOf((String) CustomizedPropertyPlaceholderConfigurer

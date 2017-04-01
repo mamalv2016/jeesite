@@ -51,17 +51,32 @@
     
 	<bean id="loggerAspect" class="com.renjie120.common.annotation.log.LoggerAspect" /> 
 	
- 	
- 	<aop:config>
+ 	<bean id="cacheAspect" class="com.renjie120.common.annotation.cache.CacheAspect" /> 
+	
+	<aop:config>
 		<!-- aop:pointcut id="pt"
 			expression="execution(* com.renjie120.common.aspect.*.sayHello(..))" /-->
 			
 		<aop:pointcut id="loginPointer"
-			expression="@annotation(com.renjie120.common.annotation.log.LoggerPoint)" />
+			expression="@annotation(com.renjie120.common.annotation.log.LoggerPoint)" /> 
 			
 		<aop:aspect id="aspect" ref="loggerAspect">
 
 			<aop:around method="trafficInterface" pointcut-ref="loginPointer" />
+
+		</aop:aspect> 
+		 
+	</aop:config> 
+	
+ 	<aop:config> 
+		
+		<aop:pointcut id="cachePointer"
+			expression="@annotation(com.renjie120.common.annotation.cache.CachePoint)" />
+			 
+		
+		<aop:aspect id="aspect2" ref="cacheAspect">
+
+			<aop:around method="cache" pointcut-ref="cachePointer" />
 
 		</aop:aspect>
 		 
