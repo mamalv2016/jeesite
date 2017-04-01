@@ -145,3 +145,6 @@
 2017-04-01 15:24:51,029 [SaveLogThread] DEBUG [com.thinkgem.jeesite.modules.sys.dao.LogDao.insert] - ==>  Preparing: INSERT INTO sys_log( id, type, title, create_by, create_date, remote_addr, user_agent, request_uri, method, params, exception ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) 
 2017-04-01 15:24:51,030 [SaveLogThread] DEBUG [com.thinkgem.jeesite.modules.sys.dao.LogDao.insert] - ==> Parameters: 28250b54968e42dbb7fb34c31164f2a2(String), 1(String), 我的面板-个人信息-个人信息(String), 1(String), 2017-04-01 15:24:51.025(Timestamp), 0:0:0:0:0:0:0:1(String), Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 BIDUBrowser/8.4 Safari/537.36(String), /online/a/sys/user/info(String), GET(String), (String), (String)
 2017-04-01 15:24:51,074 [SaveLogThread] DEBUG [com.thinkgem.jeesite.modules.sys.dao.LogDao.insert] - <==    Updates: 1
+2017-04-01 16:28:18,012 [http-8181-1] DEBUG [com.thinkgem.jeesite.modules.sys.dao.DictDao.findAllList] - ==>  Preparing: SELECT * FROM sys_dict WHERE del_flag = ? ORDER BY type, sort, update_date DESC 
+2017-04-01 16:28:18,022 [http-8181-1] DEBUG [com.thinkgem.jeesite.modules.sys.dao.DictDao.findAllList] - ==> Parameters: 0(String)
+2017-04-01 16:28:18,063 [http-8181-1] DEBUG [com.thinkgem.jeesite.modules.sys.dao.DictDao.findAllList] - <==      Total: 78

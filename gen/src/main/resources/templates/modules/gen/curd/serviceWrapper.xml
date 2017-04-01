@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>serviceWrapper</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/service/${subModuleName}/wrapper</filePath>
+	<fileName>${ClassName}ServiceWrapper.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.wrapper;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.renjie120.common.annotation.log.LoggerPoint;
+import com.renjie120.common.enums.PointerKey;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.ICurdService;
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
+
+/**
+ * ${functionName}ServiceWrapper
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Service
+@Transactional(readOnly = true)
+public class ${ClassName}ServiceWrapper implements ICurdService<${ClassName}> {
+	@Autowired
+	private  ${ClassName}Service ${className}Service;
+	
+	public ${ClassName} get(String id) {
+		return ${className}Service.get(id);
+	}
+	
+	public ${ClassName} get(${ClassName} entity) {
+		return ${className}Service.get(entity);
+	}
+	
+	public List<${ClassName}> findList(${ClassName} ${className}) {
+		return ${className}Service.findList(${className});
+	}
+	
+	@LoggerPoint(pointKey=PointerKey.UNKNOW)
+	public Page<${ClassName}> findPage(Page<${ClassName}> page, ${ClassName} ${className}) {
+		return ${className}Service.findPage(page, ${className});
+	}
+	 
+	@LoggerPoint(pointKey=PointerKey.UNKNOW)
+	public void save(${ClassName} ${className}) {
+		${className}Service.save(${className});
+	}
+	 
+	@LoggerPoint(pointKey=PointerKey.UNKNOW)
+	public void delete(${ClassName} ${className}) {
+		${className}Service.delete(${className});
+	}
+	
+}]]>
+	</content>
+</template>

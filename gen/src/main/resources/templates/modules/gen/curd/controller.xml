@@ -26,7 +26,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
-import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
+import ${packageName}.${moduleName}.service.wrapper.<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}ServiceWrapper;
 
 /**
  * ${functionName}Controller
@@ -38,7 +38,7 @@ import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModule
 public class ${ClassName}Controller extends BaseController {
 
 	@Autowired
-	private ${ClassName}Service ${className}Service;
+	private ${ClassName}ServiceWrapper ${className}Service;
 	
 	@ModelAttribute
 	public ${ClassName} get(@RequestParam(required=false) String id) {

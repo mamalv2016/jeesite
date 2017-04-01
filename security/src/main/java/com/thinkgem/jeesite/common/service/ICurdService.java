@@ -1,10 +1,10 @@
-package com.thinkgem.jeesite.modules.money.service.wrapper;
+package com.thinkgem.jeesite.common.service;
 
 import java.util.List;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 
-public interface ITallyTypeService<T> {
+public interface ICurdService<T> {
 	/**
 	 * 获取单条数据
 	 * @param id

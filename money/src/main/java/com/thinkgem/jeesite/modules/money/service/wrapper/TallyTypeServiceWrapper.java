@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.renjie120.common.annotation.log.LoggerPoint;
 import com.renjie120.common.enums.PointerKey;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.ICurdService;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
 import com.thinkgem.jeesite.modules.money.service.TallyTypeService;
 
@@ -21,7 +22,7 @@ import com.thinkgem.jeesite.modules.money.service.TallyTypeService;
  * @version 2014-05-16
  */
 @Service
-public class TallyTypeServiceWrapper implements ITallyTypeService<TallyType> {
+public class TallyTypeServiceWrapper implements ICurdService<TallyType> {
 	@Autowired
 	private TallyTypeService tallyTypeService;
 
