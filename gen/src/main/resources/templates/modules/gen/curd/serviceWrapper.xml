@@ -27,7 +27,6 @@ import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModule
  * @version ${functionVersion}
  */
 @Service
-@Transactional(readOnly = true)
 public class ${ClassName}ServiceWrapper implements ICurdService<${ClassName}> {
 	@Autowired
 	private  ${ClassName}Service ${className}Service;
