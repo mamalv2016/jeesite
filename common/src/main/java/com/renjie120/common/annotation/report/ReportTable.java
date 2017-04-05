@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 public @interface ReportTable {
 	String dbTable(); // 描述数据库中对应的表名
 
-	String dbWhere() default "";// 报表查询数据的时候，添加一些条件sql
+//	String dbWhere() default "";// 报表查询数据的时候，添加一些条件sql
 }
