@@ -16,5 +16,7 @@
 */target/
 */.settings/*
 temp/*
+*.log
+online/.externalToolBuilders/
 logs/*
 *.data

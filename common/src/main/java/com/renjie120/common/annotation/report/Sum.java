@@ -12,5 +12,5 @@ public @interface Sum {
 	
 	String dbColumn();  //描述数据库中对应的字段
 	
-	String alias() default "";  //查询字段别名
+//	String alias() default "";  //查询字段别名
 }

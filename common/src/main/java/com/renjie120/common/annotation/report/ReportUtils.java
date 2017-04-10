@@ -2,13 +2,21 @@ package com.renjie120.common.annotation.report;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -18,38 +26,39 @@ import com.google.common.collect.Maps;
 import com.renjie120.common.enums.Condition;
 import com.renjie120.common.utils.JsonUtils;
 
+@Component
 public class ReportUtils<T> {
-	// @Autowired
-	// private DataSource dataSource;
-
-	private List<TestVo> datas;
-
-	public List<TestVo> getDatas() {
-		return datas;
-	}
-
-	public void setDatas(List<TestVo> datas) {
-		this.datas = datas;
-	}
+	@Autowired
+	private DataSource dataSource; 
 
 	List<Object[]> annotationList = Lists.newArrayList();
 
 	Tb table = new Tb();
 
-	private List<S> sums = Lists.newArrayList();
+	private List<S> sums = null;
 
-	private List<C> counts = Lists.newArrayList();
+	private List<C> counts = null;
 
-	private List<G> groups = Lists.newArrayList();
+	private List<G> groups = null;
 
-	private List<W> wheres = Lists.newArrayList();
+	private List<W> wheres = null;
 
-	private Map<String, Field> fieldsMap = Maps.newHashMap();
+	private Map<String, Field> fieldsMap = null;
 
-	// public ReportUtils(String title, Class<?> vo) {
-	//
-	// }
+	private void init() {
+		sums = Lists.newArrayList();
 
+		counts = Lists.newArrayList();
+
+		groups = Lists.newArrayList();
+
+		wheres = Lists.newArrayList();
+
+		fieldsMap = Maps.newHashMap();
+		
+		haveWhere =false;
+	} 
+	
 	private String genMapKey(Object obj) {
 		StringBuilder sb = new StringBuilder(64);
 		if (obj instanceof ReportUtils.G) {
@@ -70,7 +79,7 @@ public class ReportUtils<T> {
 
 	private boolean haveWhere = false;
 
-	private String getWhereSql(ReportUtils.W w) {
+	private String getWhereSql(T vo, ReportUtils.W w) {
 		StringBuilder sb = new StringBuilder(64);
 		if (haveWhere) {
 			sb.append(" and ");
@@ -79,7 +88,8 @@ public class ReportUtils<T> {
 		Condition c = w.condition;
 		Field f = fieldsMap.get(genMapKey(w));
 		Object valueObj = getFieldValue(vo, f.getName());
-
+		if (valueObj == null)
+			return "";
 		if (c == Condition.CONTAIN) {
 			String json = JsonUtils.toJsonStr(valueObj);
 			JSONArray array = JSON.parseArray(json);
@@ -135,10 +145,7 @@ public class ReportUtils<T> {
 		return value;
 	}
 
-	private T vo;
-
-	public ReportUtils(String title, T vo) {
-		this.vo = vo;
+	private void parseArgument(T vo) {
 		Class<?> cls = vo.getClass();
 		System.out.println(vo.getClass());
 		ReportTable tb = cls.getAnnotation(ReportTable.class);
@@ -158,7 +165,9 @@ public class ReportUtils<T> {
 
 				g.order = reportGroup.order();
 
-				g.desc = StringUtils.isEmpty(reportGroup.desc()) ? g.dbCoulmn
+				g.alias = f.getName();
+
+				g.desc = StringUtils.isEmpty(reportGroup.desc()) ? f.getName()
 						: reportGroup.desc();
 				groups.add(g);
 
@@ -170,9 +179,11 @@ public class ReportUtils<T> {
 				annotationList.add(new Object[] { reportCount, f });
 				C c = new C();
 				c.dbCoulmn = reportCount.dbColumn();
-				c.alias = StringUtils.isEmpty(reportCount.alias()) ? c.dbCoulmn
-						: reportCount.alias();
-				c.desc = StringUtils.isEmpty(reportCount.desc()) ? c.dbCoulmn
+				// c.alias = StringUtils.isEmpty(reportCount.alias()) ?
+				// f.getName()
+				// : reportCount.alias();
+				c.alias = f.getName();
+				c.desc = StringUtils.isEmpty(reportCount.desc()) ? f.getName()
 						: reportCount.desc();
 				c.distinct = reportCount.distinct();
 				counts.add(c);
@@ -185,9 +196,11 @@ public class ReportUtils<T> {
 				annotationList.add(new Object[] { reportSum, f });
 				S s = new S();
 				s.dbCoulmn = reportSum.dbColumn();
-				s.alias = StringUtils.isEmpty(reportSum.alias()) ? s.dbCoulmn
-						: reportSum.alias();
-				s.desc = StringUtils.isEmpty(reportSum.desc()) ? s.dbCoulmn
+				// s.alias = StringUtils.isEmpty(reportSum.alias()) ?
+				// f.getName()
+				// : reportSum.alias();
+				s.alias = f.getName();
+				s.desc = StringUtils.isEmpty(reportSum.desc()) ? f.getName()
 						: reportSum.desc();
 				sums.add(s);
 
@@ -212,11 +225,60 @@ public class ReportUtils<T> {
 				cls.getName() + "必须至少含有@ReportSum/@ReportCount之一注解的属性!");
 	}
 
-	public String getReportSql() {
-		// JdbcTemplate template = new JdbcTemplate(dataSource);
+	public  List<T> generateReportData(String title, T vo) {
+		init();
+
+		parseArgument(vo);
+
+		List<T> ans = queryReportList(vo);
+		init();
+		return ans;
+	}
+
+	private List<T> queryReportList(final T vo) {
+		final List<T> ans = Lists.newArrayList();
+		String sql = getReportSql(vo);
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		template.query(sql, new RowCallbackHandler() {
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				Map map = Maps.newHashMap();
+				for (S s : sums) {
+					map.put(s.alias, rs.getObject(s.alias));
+				}
+				for (C c : counts) {
+					map.put(c.alias, rs.getObject(c.alias));
+				}
+				for (G g : groups) {
+					map.put(g.alias, rs.getObject(g.alias));
+				}
+				T t = (T)JSON.parseObject(JsonUtils.toJsonStr(map), vo.getClass());
+				ans.add(t);
+			}
+		});
+		return ans;
+	}
+
+	private String getReportSql(T vo) {
 
 		StringBuilder sql = new StringBuilder(128);
+		Collections.sort(groups, new Comparator<ReportUtils.G>() {
+			@Override
+			public int compare(ReportUtils.G o1, ReportUtils.G o2) {
+				if (o1.order > o2.order) {
+					return 1;
+				} else if (o1.order < o2.order) {
+					return -1;
+				} else
+					return 0;
+			}
+		});
+
 		sql.append("select ");
+		for (G g : groups) {
+			sql.append(g.dbCoulmn).append(" AS ").append(g.alias).append(" , ");
+		}
+
 		for (S s : sums) {
 			sql.append(" sum(").append(s.dbCoulmn).append(") AS ")
 					.append(s.alias).append(" ,");
@@ -235,21 +297,9 @@ public class ReportUtils<T> {
 		if (!CollectionUtils.isEmpty(wheres)) {
 			sql.append(" where ");
 			for (W w : wheres) {
-				sql.append(getWhereSql(w));
+				sql.append(getWhereSql(vo, w));
 			}
-		} 
-
-		Collections.sort(groups, new Comparator<ReportUtils.G>() {
-			@Override
-			public int compare(ReportUtils.G o1, ReportUtils.G o2) {
-				if (o1.order > o2.order) {
-					return 1;
-				} else if (o1.order < o2.order) {
-					return -1;
-				} else
-					return 0;
-			} 
-		});
+		}
 
 		if (!CollectionUtils.isEmpty(groups)) {
 			sql.append(" group by ");
@@ -262,21 +312,24 @@ public class ReportUtils<T> {
 	}
 
 	public static void main(String[] as) {
-		TestVo vo = new TestVo();
-		vo.setMoney(123);
-		vo.setBigMoney(123);
-		vo.setLikeName("lishuiqing");
-		List<String> ans = Lists.newArrayList();
-		ans.add("2016");
-		ans.add("2017");
-		vo.setYears(ans);
-		vo.setSmallMoney(44);
-
-		int[] users = new int[] { 1, 2, 3, 4 };
-		vo.setUsers(users);
-		ReportUtils report = new ReportUtils("test", vo);
-		System.out.println(report.getReportSql());
-		System.out.println(vo.getMoney());
+		// TestVo vo = new TestVo();
+		// vo.setMoney(123);
+		// vo.setBigMoney(123);
+		// vo.setLikeName("renjie120");
+		// List<String> ans = Lists.newArrayList();
+		// ans.add("2016");
+		// ans.add("2017");
+		// vo.setYears(ans);
+		// vo.setSmallMoney(44);
+		//
+		// // String[] users = new String[] { "renjie120"};
+		// // vo.setUsers(users);
+		// ReportUtils report = new ReportUtils();
+		// report.setTitle("test");
+		// report.initReport(vo);
+		// System.out.println(report.getReportSql());
+		// report.queryReportList();
+		// // System.out.println(vo.getMoney());
 	}
 
 	class S {
@@ -300,6 +353,7 @@ public class ReportUtils<T> {
 	class G {
 		String dbCoulmn;
 		String desc;
+		String alias;
 		int order;
 	}
 

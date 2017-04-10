@@ -89,7 +89,7 @@ public class JsonUtils {
 		try {
 			String sqlFlie = readFile(name);
 			String result = sqlFlie;
-			if (StringUtils.isNotBlank(result)) {
+			if (StringUtils.isNotBlank(result)) { 
 				return (T) JSON.parseObject(result, clazz);
 			}
 			return null;

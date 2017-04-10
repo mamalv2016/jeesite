@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.renjie120.common.enums.Condition;
 
-@ReportTable(dbTable = "money_t")
+@ReportTable(dbTable = "money_detail_view")
 public class TestVo {
-	@Group(desc = "年份", dbColumn = "year", order = 3)
+	@Group(desc = "年份", dbColumn = "y", order = 3)
 	private String year;
 
-	@Group(desc = "金额类型", dbColumn = "type", order = 2)
+	@Group(desc = "金额类型", dbColumn = "moneytype", order = 2)
 	private String moneyType;
 
 	@Sum(desc = "金额", dbColumn = "money")
@@ -18,20 +18,20 @@ public class TestVo {
 	@Where(dbColumn = "money", condition = Condition.GREATER_EQUAL)
 	private double smallMoney;
 
-	@Where(dbColumn = "year", condition = Condition.CONTAIN)
+	@Where(dbColumn = "y", condition = Condition.CONTAIN)
 	private List<String> years;
 
 	@Where(dbColumn = "money", condition = Condition.LESS_EQUAL)
 	private double bigMoney;
 
-	@Where(dbColumn = "user_name", condition = Condition.LIKE)
+	@Where(dbColumn = "username", condition = Condition.LIKE)
 	private String likeName;
 
-	@Count(desc = "用户id", dbColumn = "user_id")
+	@Count(desc = "用户id", dbColumn = "username")
 	private int userId;
 
-	@Where(condition = Condition.NOT_CONTAIN, dbColumn = "user_id")
-	private int[] users;
+	@Where(condition = Condition.NOT_CONTAIN, dbColumn = "username")
+	private String[] users;
 
 	public String getLikeName() {
 		return likeName;
@@ -49,11 +49,11 @@ public class TestVo {
 		this.moneyType = moneyType;
 	}
 
-	public int[] getUsers() {
+	public String[] getUsers() {
 		return users;
 	}
 
-	public void setUsers(int[] users) {
+	public void setUsers(String[] users) {
 		this.users = users;
 	}
 

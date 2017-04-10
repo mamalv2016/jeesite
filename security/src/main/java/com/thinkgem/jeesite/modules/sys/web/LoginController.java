@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sys.web;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.renjie120.common.annotation.report.ReportUtils;
+import com.renjie120.common.annotation.report.TestVo;
 import com.renjie120.common.aspect.TestPointer;
 import com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer;
 import com.thinkgem.jeesite.common.config.Global;
@@ -46,6 +50,9 @@ public class LoginController extends BaseController{
 	 
 	@Autowired
 	private TestPointer testPointer;
+	
+	@Autowired
+	private ReportUtils<TestVo> reportUtils;
 	/**
 	 * 管理登录
 	 */
@@ -53,6 +60,20 @@ public class LoginController extends BaseController{
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
  
+		TestVo vo = new TestVo();
+		vo.setMoney(123);
+		vo.setBigMoney(123);
+		vo.setLikeName("renjie120");
+		List<String> ans = Lists.newArrayList();
+		ans.add("2016");
+		ans.add("2017");
+		vo.setYears(ans);
+		vo.setSmallMoney(44);
+
+		// String[] users = new String[] { "renjie120"};
+		// vo.setUsers(users);  
+		List<TestVo> aaaaa = reportUtils.generateReportData("test",vo);
+		
 		
 //		// 默认页签模式
 //		String tabmode = CookieUtils.getCookie(request, "tabmode");
