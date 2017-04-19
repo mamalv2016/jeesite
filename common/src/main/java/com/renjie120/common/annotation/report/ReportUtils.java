@@ -29,7 +29,7 @@ import com.renjie120.common.utils.JsonUtils;
 @Component
 public class ReportUtils<T> {
 	@Autowired
-	private DataSource dataSource; 
+	private DataSource dataSource;
 
 	List<Object[]> annotationList = Lists.newArrayList();
 
@@ -55,10 +55,10 @@ public class ReportUtils<T> {
 		wheres = Lists.newArrayList();
 
 		fieldsMap = Maps.newHashMap();
-		
-		haveWhere =false;
-	} 
-	
+
+		haveWhere = false;
+	}
+
 	private String genMapKey(Object obj) {
 		StringBuilder sb = new StringBuilder(64);
 		if (obj instanceof ReportUtils.G) {
@@ -225,7 +225,7 @@ public class ReportUtils<T> {
 				cls.getName() + "必须至少含有@ReportSum/@ReportCount之一注解的属性!");
 	}
 
-	public  List<T> generateReportData(String title, T vo) {
+	public synchronized List<T> generateReportData(String title, T vo) {
 		init();
 
 		parseArgument(vo);
@@ -252,7 +252,8 @@ public class ReportUtils<T> {
 				for (G g : groups) {
 					map.put(g.alias, rs.getObject(g.alias));
 				}
-				T t = (T)JSON.parseObject(JsonUtils.toJsonStr(map), vo.getClass());
+				T t = (T) JSON.parseObject(JsonUtils.toJsonStr(map),
+						vo.getClass());
 				ans.add(t);
 			}
 		});

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lvmama.lvtraffic.vas.persistence.mapper.VasTransferCityMapper"> 
+     <resultMap id="BaseResultMap" type="com.lvmama.lvtraffic.vas.common.dto.transfer.VasTransferCityDto" >  
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="city_id" property="cityId" jdbcType="VARCHAR" />
+		<result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+		<result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="english_name" property="englishName" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="VARCHAR" />
+		<result column="latitude" property="latitude" jdbcType="VARCHAR" />
+		<result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+		<result column="first_letter" property="firstLetter" jdbcType="VARCHAR" />
+		<result column="jianpin" property="jianpin" jdbcType="VARCHAR" />
+		<result column="extend_1" property="extend1" jdbcType="VARCHAR" />
+		<result column="extend_2" property="extend2" jdbcType="VARCHAR" />
+		<result column="extend_3" property="extend3" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="city_status" property="cityStatus" jdbcType="VARCHAR" />
+	 </resultMap> 
+	 
+  <sql id="columns" >
+		id,city_id,city_code,country_code,city_name,english_name,longitude,latitude,pinyin,first_letter,jianpin,extend_1,extend_2,extend_3,create_time,update_time,city_status
+   </sql> 
+	
+	<sql id="queryCondition">
+		<trim prefix="WHERE" prefixOverrides="AND"> 
+			<if test="condition != null">
+				<if test="condition.id!=null and condition.id != ''">
+					AND id = #{condition.id,jdbcType=INTEGER}
+				</if>
+				<if test="condition.cityId!=null and condition.cityId != ''">
+					AND city_id = #{condition.cityId,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.cityCode!=null and condition.cityCode != ''">
+					AND city_code = #{condition.cityCode,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.countryCode!=null and condition.countryCode != ''">
+					AND country_code = #{condition.countryCode,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.cityName!=null and condition.cityName != ''">
+					AND city_name = #{condition.cityName,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.englishName!=null and condition.englishName != ''">
+					AND english_name = #{condition.englishName,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.longitude!=null and condition.longitude != ''">
+					AND longitude = #{condition.longitude,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.latitude!=null and condition.latitude != ''">
+					AND latitude = #{condition.latitude,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.pinyin!=null and condition.pinyin != ''">
+					AND pinyin = #{condition.pinyin,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.firstLetter!=null and condition.firstLetter != ''">
+					AND first_letter = #{condition.firstLetter,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.jianpin!=null and condition.jianpin != ''">
+					AND jianpin = #{condition.jianpin,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.extend1!=null and condition.extend1 != ''">
+					AND extend_1 = #{condition.extend1,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.extend2!=null and condition.extend2 != ''">
+					AND extend_2 = #{condition.extend2,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.extend3!=null and condition.extend3 != ''">
+					AND extend_3 = #{condition.extend3,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.createTime!=null and condition.createTime != ''">
+					AND create_time = #{condition.createTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="condition.updateTime!=null and condition.updateTime != ''">
+					AND update_time = #{condition.updateTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="condition.cityStatus!=null and condition.cityStatus != ''">
+					AND city_status = #{condition.cityStatus,jdbcType=VARCHAR}
+				</if>
+			</if>
+		</trim>
+	</sql>
+	  
+	<select id="get" resultMap="BaseResultMap">
+		SELECT 
+			<include refid="columns"/>
+		FROM t_vas_transfer_city a
+		<include refid="vasTransferCityJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="query"  resultMap="BaseResultMap">
+		select distinct * from  (SELECT 
+			<include refid="columns"/>
+		FROM t_vas_transfer_city a 
+		<include refid="queryCondition"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when> 
+		</choose> ) t
+		<include refid="MYSQL.pagination" />
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(1) from 		
+		(select distinct (a.id)  from t_vas_transfer_city a 
+		<include refid="queryCondition"/>) t
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_vas_transfer_city(
+			id, 
+			city_id, 
+			city_code, 
+			country_code, 
+			city_name, 
+			english_name, 
+			longitude, 
+			latitude, 
+			pinyin, 
+			first_letter, 
+			jianpin, 
+			extend_1, 
+			extend_2, 
+			extend_3, 
+			create_time, 
+			update_time, 
+			city_status
+		) VALUES (
+			#{id}, 
+			#{cityId}, 
+			#{cityCode}, 
+			#{countryCode}, 
+			#{cityName}, 
+			#{englishName}, 
+			#{longitude}, 
+			#{latitude}, 
+			#{pinyin}, 
+			#{firstLetter}, 
+			#{jianpin}, 
+			#{extend1}, 
+			#{extend2}, 
+			#{extend3}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{cityStatus}
+		)
+	</insert>
+	
+	<select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT 
+			<include refid="columns"/>
+		FROM t_vas_transfer_city a 
+		WHERE id = #{id}
+	</select>  
+	
+	<update id="updateById">
+		UPDATE t_vas_transfer_city  
+		<set> 	
+			<if test="i.id!=null">
+				id = #{i.id,jdbcType=INTEGER},
+			</if>
+			<if test="i.cityId!=null">
+				city_id = #{i.cityId,jdbcType=VARCHAR},
+			</if>
+			<if test="i.cityCode!=null">
+				city_code = #{i.cityCode,jdbcType=VARCHAR},
+			</if>
+			<if test="i.countryCode!=null">
+				country_code = #{i.countryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="i.cityName!=null">
+				city_name = #{i.cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="i.englishName!=null">
+				english_name = #{i.englishName,jdbcType=VARCHAR},
+			</if>
+			<if test="i.longitude!=null">
+				longitude = #{i.longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="i.latitude!=null">
+				latitude = #{i.latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="i.pinyin!=null">
+				pinyin = #{i.pinyin,jdbcType=VARCHAR},
+			</if>
+			<if test="i.firstLetter!=null">
+				first_letter = #{i.firstLetter,jdbcType=VARCHAR},
+			</if>
+			<if test="i.jianpin!=null">
+				jianpin = #{i.jianpin,jdbcType=VARCHAR},
+			</if>
+			<if test="i.extend1!=null">
+				extend_1 = #{i.extend1,jdbcType=VARCHAR},
+			</if>
+			<if test="i.extend2!=null">
+				extend_2 = #{i.extend2,jdbcType=VARCHAR},
+			</if>
+			<if test="i.extend3!=null">
+				extend_3 = #{i.extend3,jdbcType=VARCHAR},
+			</if>
+			<if test="i.createTime!=null">
+				create_time = #{i.createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="i.updateTime!=null">
+				update_time = #{i.updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="i.cityStatus!=null">
+				city_status = #{i.cityStatus,jdbcType=VARCHAR}
+			</if>
+		</set> 	
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_vas_transfer_city
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

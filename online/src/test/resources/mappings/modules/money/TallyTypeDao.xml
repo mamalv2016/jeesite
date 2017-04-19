@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.money.dao.TallyTypeDao">
+    <sql id="tallyTypeColumns">
+		a.tally_type_sno AS "id",
+		a.tally_type_desc AS "moneyTypeDesc",
+		a.money_type AS "moneyType",
+		a.parent_code AS "parentCode",
+		a.type_code AS "typeCode",
+		a.orderid AS "orderId" 
+	</sql>
+	
+	<sql id="queryCondition">
+		<trim prefix="WHERE" prefixOverrides="AND"> 
+			<if test="moneyTypeDesc != null and moneyTypeDesc != ''">
+				AND tally_type_desc like  CONCAT('%',#{moneyTypeDesc},'%')
+			</if>
+			<if test="moneyType != null and moneyType != ''">
+				AND money_type = #{moneyType }
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND parent_code = #{parentCode }
+			</if> 
+			<if test="typeCode != null and typeCode != ''">
+				AND type_code = #{typeCode }
+			</if> 
+		</trim>
+	</sql>
+	
+	<select id="get" resultType="TallyType">
+		SELECT 
+			<include refid="tallyTypeColumns"/>
+		FROM tally_type_t a 
+		WHERE a.tally_type_sno = #{id}
+	</select>
+	
+	<select id="generateMaxId" resultType="Integer">
+		SELECT 
+			 max(a.tally_type_sno)
+		FROM tally_type_t a  
+	</select>
+	
+	<select id="findList" resultType="TallyType">
+		SELECT 
+			<include refid="tallyTypeColumns"/>
+		FROM tally_type_t    a 
+		<include refid="queryCondition"></include>	
+	</select> 
+	
+	<select id="findAllList" resultType="TallyType">
+		SELECT 
+		<include refid="tallyTypeColumns"/>
+		FROM tally_type_t  a
+		<include refid="queryCondition"></include>	
+	</select>
+	
+	<select id="findTypeList" resultType="string">
+		SELECT 
+			tally_type_sno 
+		FROM tally_type_t  
+		<include refid="queryCondition"></include>	
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tally_type_t(
+			tally_type_sno,
+			tally_type_desc, 
+			money_type, 
+			parent_code, 
+			type_code, 
+			orderid 
+		) VALUES (
+			#{id}, 
+			#{moneyTypeDesc}, 
+			#{moneyType}, 
+			#{parentCode}, 
+			#{typeCode}, 
+			#{orderId} 
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tally_type_t SET 
+			tally_type_desc = #{moneyTypeDesc}, 
+			money_type = #{moneyType}, 
+			parent_code = #{parentCode}, 
+			type_code = #{typeCode}, 
+			orderid = #{orderId} 
+		WHERE tally_type_sno = #{id}
+	</update>
+	
+	<update id="delete">
+		delete from tally_type_t   
+		WHERE tally_type_sno = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>mapper</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Dao.xml</fileName>
+	<content><![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductInfoMapper" >
+
+  <resultMap id="BaseResultMap" type="com.lvmama.lvtraffic.vas.common.dto.product.VasProductInfoDto" >
+  
+    <id column="id" property="id" jdbcType="INTEGER" />   
+    <result column="supp_id" property="suppInfoDto.suppId" jdbcType="INTEGER" />
+    <result column="supp_code" property="suppInfoDto.suppCode" jdbcType="VARCHAR" />
+    <result column="supp_name" property="suppInfoDto.suppName" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_desc" property="productDesc" jdbcType="VARCHAR" />
+    <result column="batch_no_1" property="batchNo1" jdbcType="VARCHAR" />
+    <result column="batch_no_2" property="batchNo2" jdbcType="VARCHAR" />
+    <result column="batch_no_3" property="batchNo3" jdbcType="VARCHAR" />
+    <result column="recommend_level" property="recommendLevel" jdbcType="INTEGER" />
+    <result column="work_start_time" property="workTimeRange.startTime" jdbcType="TIMESTAMP" />
+    <result column="work_end_time" property="workTimeRange.endTime" jdbcType="TIMESTAMP" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+	<result column="service_content" property="serviceContent" jdbcType="VARCHAR" />
+    <result column="tgq_rule" property="tgqRule" jdbcType="VARCHAR" /> 
+    <result column="total_stock" property="totalStock" jdbcType="INTEGER" />
+    <result column="remaining_stock" property="remainingStock" jdbcType="INTEGER" />
+    <result column="settlement_price" property="settlementPrice" jdbcType="DOUBLE" />
+    <result column="market_price" property="marketPrice" jdbcType="DOUBLE" />
+    <result column="active_status" property="activeStatus.activeStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <association property="productType" column="product_type_id" select="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductTypeMapper.getById"/>
+    <association property="productSaleRuleDto" column="product_sale_rule_id" select="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductSaleRuleMapper.getById"/>
+  	<association property="productImgs" column="id" select="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductImgInfoMapper.getByProductId"/>
+ 	<association property="saleChannelPrices" column="{productId=id,ruleId=product_sale_rule_id}" select="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductSaleChannelPriceMapper.getByProductAndRuleId"/>
+  </resultMap> 
+
+    <resultMap id="MainVasProductInfoResultMap" type="com.lvmama.lvtraffic.vas.common.dto.product.VasProductInfoDto" >
+  
+    <id column="id" property="id" jdbcType="INTEGER" />   
+    <result column="supp_id" property="suppInfoDto.suppId" jdbcType="INTEGER" />
+    <result column="supp_code" property="suppInfoDto.suppCode" jdbcType="VARCHAR" />
+    <result column="supp_name" property="suppInfoDto.suppName" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_desc" property="productDesc" jdbcType="VARCHAR" />
+    <result column="batch_no_1" property="batchNo1" jdbcType="VARCHAR" />
+    <result column="batch_no_2" property="batchNo2" jdbcType="VARCHAR" />
+    <result column="batch_no_3" property="batchNo3" jdbcType="VARCHAR" />
+    <result column="recommend_level" property="recommendLevel" jdbcType="INTEGER" />
+    <result column="work_start_time" property="workTimeRange.startTime" jdbcType="TIMESTAMP" />
+    <result column="work_end_time" property="workTimeRange.endTime" jdbcType="TIMESTAMP" />
+    <result column="total_stock" property="totalStock" jdbcType="INTEGER" />
+    <result column="remaining_stock" property="remainingStock" jdbcType="INTEGER" />
+    <result column="settlement_price" property="settlementPrice" jdbcType="DOUBLE" />
+    <result column="market_price" property="marketPrice" jdbcType="DOUBLE" />
+    <result column="active_status" property="activeStatus.activeStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <association property="productType" resultMap="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductTypeMapper.BaseResultMap"></association>
+    <association property="productSaleRuleDto" resultMap="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductSaleRuleMapper.BaseResultMap"></association>
+       
+  </resultMap>
+  
+  
+  
+  
+  <resultMap id="VasProductInfoResultMap" type="com.lvmama.lvtraffic.vas.common.dto.product.VasProductInfoDto" >
+  
+    <id column="id" property="id" jdbcType="INTEGER" />   
+    <result column="supp_id" property="suppInfoDto.suppId" jdbcType="INTEGER" />
+    <result column="supp_code" property="suppInfoDto.suppCode" jdbcType="VARCHAR" />
+    <result column="supp_name" property="suppInfoDto.suppName" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+      <result column="product_desc" property="productDesc" jdbcType="VARCHAR" />
+    <result column="batch_no_1" property="batchNo1" jdbcType="VARCHAR" />
+    <result column="batch_no_2" property="batchNo2" jdbcType="VARCHAR" />
+    <result column="batch_no_3" property="batchNo3" jdbcType="VARCHAR" /><result column="recommend_level" property="recommendLevel" jdbcType="INTEGER" />
+    <result column="work_start_time" property="workTimeRange.startTime" jdbcType="TIMESTAMP" />
+    <result column="work_end_time" property="workTimeRange.endTime" jdbcType="TIMESTAMP" />
+    <result column="total_stock" property="totalStock" jdbcType="INTEGER" />
+    <result column="remaining_stock" property="remainingStock" jdbcType="INTEGER" />
+    <result column="settlement_price" property="settlementPrice" jdbcType="DOUBLE" />
+    <result column="market_price" property="marketPrice" jdbcType="DOUBLE" />
+    <result column="active_status" property="activeStatus.activeStatus" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="location" property="location" jdbcType="LONGVARCHAR" />
+    <result column="service_content" property="serviceContent" jdbcType="LONGVARCHAR" />
+    <result column="tgq_rule" property="tgqRule" jdbcType="LONGVARCHAR" />
+    
+    <association property="productType" resultMap="com.lvmama.lvtraffic.vas.persistence.mapper.VasProductTypeMapper.BaseResultMap"></association>
+    <association property="productSaleRuleDto" resultMap="VasProductSaleRuleMap"></association>
+    <collection property="productImgs" javaType="java.util.ArrayList" resultMap="VasProductImgInfoResultMap"></collection>
+    <collection property="saleChannelPrices" javaType="java.util.ArrayList" resultMap="VasProductSaleChannelPriceResultMap"></collection>
+       
+  </resultMap>
+  
+  <resultMap id="VasProductSaleRuleMap" type="com.lvmama.lvtraffic.vas.common.dto.product.VasProductSaleRuleDto">   
+    <id column="rule_id" property="id" jdbcType="INTEGER" />
+    <result column="dept_start_date" property="deptDateRange.startDate" jdbcType="DATE" />
+    <result column="dept_end_date" property="deptDateRange.endDate" jdbcType="DATE" />
+    <result column="sale_start_date" property="saleDateRange.startDate" jdbcType="DATE" />
+    <result column="sale_end_date" property="saleDateRange.endDate" jdbcType="DATE" />
+    <result column="advanced_days" property="advancedDays" jdbcType="INTEGER" />
+    <result column="include_dept_airport" property="includeDeptAirports_Str" jdbcType="VARCHAR" />
+    <result column="include_dept_terminal" property="includeDeptTerminals_Str" jdbcType="VARCHAR" />
+    <result column="product_lines" property="vasCouponProductLineNames" jdbcType="VARCHAR" />
+  </resultMap> 
+       
+  <resultMap id="VasProductImgInfoResultMap" type="com.lvmama.lvtraffic.vas.common.dto.product.VasProductImgInfoDto">  
+    <id column="img_id" jdbcType="INTEGER" property="id" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="img_name" jdbcType="VARCHAR" property="imgName" />
+  </resultMap>
+  
+  <resultMap id="VasProductSaleChannelPriceResultMap" type="com.lvmama.lvtraffic.vas.common.dto.product.VasProductSaleChannelPriceDto" > 
+    <id column="sale_price_id" property="id" jdbcType="INTEGER" />
+    <result column="sale_parent_channel" property="parentSaleChannel" jdbcType="VARCHAR" />
+    <result column="sale_son_channel" property="sonSaleChannel" jdbcType="VARCHAR" />
+    <result column="plus_price" property="plusPrice" jdbcType="DOUBLE" />
+    <result column="channel_sale_price" property="channelSalePrice" jdbcType="DOUBLE" />
+    <result column="sale_status" property="saleChannelStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  
+ 
+       
+  <sql id="columns" >
+    id, product_type_id, supp_id, supp_code, supp_name, product_name,product_desc,batch_no_1,batch_no_2,batch_no_3, recommend_level, 
+    work_start_time, work_end_time, total_stock, remaining_stock, settlement_price, market_price, 
+    active_status, create_time, update_time
+  </sql>
+  
+   	<sql id="queryCondition">
+		<trim prefix="WHERE" prefixOverrides="AND">
+		
+			<if test="condition != null">
+				<if test="condition.suppInfoDto!=null and condition.suppInfoDto.suppId != null and condition.suppInfoDto.suppId != ''">
+					AND vpi.supp_id = #{condition.suppInfoDto.suppId,jdbcType=DECIMAL}
+				</if>
+				<if test="condition.suppInfoDto!=null and condition.suppInfoDto.suppCode != null and condition.suppInfoDto.suppCode != ''">
+					AND vpi.supp_code = #{condition.suppInfoDto.suppCode,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.productName != null and condition.productName != ''">
+					AND vpi.product_name = #{condition.productName,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.productType!=null and condition.productType.subProductCode != null and condition.productType.subProductCode != ''">
+					AND vpt.sub_product_code = #{condition.productType.subProductCode,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.activeStatus!=null and condition.activeStatus.activeStatus != null and condition.activeStatus.activeStatus != ''">
+					AND vpi.active_status = #{condition.activeStatus.activeStatus,jdbcType=VARCHAR}
+				</if>				
+				<if test="condition.productSaleRuleDto!=null and condition.productSaleRuleDto.includeDeptAirports_Str != null and condition.productSaleRuleDto.includeDeptAirports_Str != '' ">
+					AND vpsr.include_dept_airport = #{condition.productSaleRuleDto.includeDeptAirports_Str,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.productSaleRuleDto!=null and condition.productSaleRuleDto.includeDeptTerminals_Str != null and condition.productSaleRuleDto.includeDeptTerminals_Str !='' ">
+					AND vpsr.include_dept_terminal = #{condition.productSaleRuleDto.includeDeptTerminals_Str,jdbcType=VARCHAR}
+				</if>
+				<if test="condition.productSaleRuleDto!=null and condition.productSaleRuleDto.vasCouponProductLineNames != null and condition.productSaleRuleDto.vasCouponProductLineNames !='' ">
+					AND vpsr.product_lines like concat('%',#{condition.productSaleRuleDto.vasCouponProductLineNames,jdbcType=VARCHAR},'%')
+				</if>	
+				<if test="condition.remainingStock != null and condition.remainingStock != ''">
+					AND vpi.remaining_stock &lt; 5
+				</if>
+				<if test="condition.productType!=null and condition.productType.mainProductCode!= null and condition.productType.mainProductCode!= ''">
+					AND vpt.main_product_code = #{condition.productType.mainProductCode,jdbcType=VARCHAR}
+				</if>
+					
+			</if>
+		</trim>
+	</sql>
+	
+   <select id="query" resultMap="MainVasProductInfoResultMap">
+			
+			select distinct * from  (
+			select 
+			
+			vpi.id,
+			vpt.sub_product_name,
+			vpi.supp_code,
+			vpi.supp_name, 
+			vpt.sub_product_code,
+			vpi.product_name,
+			vpi.product_desc,
+			vpi.batch_no_1,
+			vpi.batch_no_2,
+			vpi.batch_no_3,
+			vpsr.include_dept_airport,
+			vpsr.include_dept_terminal,
+			vpi.total_stock,
+			vpi.remaining_stock,
+			vpi.active_status,
+			vpi.recommend_level,
+			vpi.create_time
+			
+			from t_vas_product_info vpi 
+			left join t_vas_product_type vpt on vpi.product_type_id = vpt.id
+			left join t_vas_product_sale_rule_price_r vpsrp on vpi.id = vpsrp.product_id
+			left join t_vas_product_sale_rule vpsr on vpsrp.product_sale_rule_id = vpsr.id
+			
+			<include refid="queryCondition"/>
+			order by vpi.create_time desc ) t
+		<include refid="MYSQL.pagination" />
+   </select>
+   
+   <select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(1) from 		
+		(select distinct (vpi.id)  from t_vas_product_info vpi 
+						left join t_vas_product_type vpt on vpi.product_type_id = vpt.id
+						left join t_vas_product_sale_rule_price_r vpsrp on vpi.id = vpsrp.product_id
+						left join t_vas_product_sale_rule vpsr on vpsrp.product_sale_rule_id = vpsr.id
+		<include refid="queryCondition"/>) t
+	</select>
+	  
+   <insert id="insert" useGeneratedKeys="true" keyProperty="id"  parameterType="com.lvmama.lvtraffic.vas.common.dto.product.VasProductInfoDto">
+   
+		insert into t_vas_product_info (
+			
+				product_type_id, 
+				supp_id, 
+				supp_code, 
+				supp_name, 
+				product_name, 
+				product_desc, 
+				batch_no_1, 
+				batch_no_2, 
+				batch_no_3, 
+				recommend_level, 
+				work_start_time, 
+				work_end_time, 
+				location,
+				service_content,
+				tgq_rule,
+				total_stock, 
+				remaining_stock, 
+				settlement_price, 
+				market_price, 
+				active_status, 
+				create_time, 
+				update_time
+				)
+			
+			values (
+				#{productType.id,jdbcType=INTEGER}, 
+				#{suppInfoDto.suppId,jdbcType=INTEGER}, 
+				#{suppInfoDto.suppCode,jdbcType=VARCHAR}, 
+				#{suppInfoDto.suppName,jdbcType=VARCHAR}, 
+				#{productName,jdbcType=VARCHAR}, 
+				#{productDesc,jdbcType=VARCHAR}, 
+				#{batchNo1,jdbcType=VARCHAR}, 
+				#{batchNo2,jdbcType=VARCHAR}, 
+				#{batchNo3,jdbcType=VARCHAR}, 
+				#{recommendLevel,jdbcType=INTEGER}, 
+				#{workTimeRange.startTime,jdbcType=TIMESTAMP}, 
+				#{workTimeRange.endTime,jdbcType=TIMESTAMP},
+				#{location,jdbcType=LONGVARCHAR},
+				#{serviceContent,jdbcType=LONGVARCHAR},
+				#{tgqRule,jdbcType=LONGVARCHAR} ,
+				#{totalStock,jdbcType=INTEGER}, 
+				#{remainingStock,jdbcType=INTEGER}, 
+				#{settlementPrice,jdbcType=DOUBLE}, 
+				#{marketPrice,jdbcType=DOUBLE}, 
+				#{activeStatus.activeStatus,jdbcType=VARCHAR}, 
+				#{createTime,jdbcType=TIMESTAMP}, 
+				#{updateTime,jdbcType=TIMESTAMP}
+				)
+   </insert>
+   
+   <update id="updateById" statementType="PREPARED">
+	
+		update t_vas_product_info
+		<set > 
+		      
+	    </set>
+	    where id = #{id,jdbcType=DECIMAL}
+	</update>
+   
+   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select distinct pro.*,rel.product_sale_rule_id 
+		from t_vas_product_sale_rule_price_r rel
+			inner join t_vas_product_info pro
+			on rel.product_id=pro.id
+		where rel.product_id = #{id,jdbcType=DECIMAL}
+	</select>  
+   <update id="updateStatusById" statementType="PREPARED">
+	
+		update t_vas_product_info
+		set active_status = #{activeStatus.activeStatus,jdbcType=VARCHAR}
+	    where id = #{id,jdbcType=DECIMAL}
+	</update>
+	 
+	 <delete id="deleteById">
+		delete from T_FAPI_FLOW WHERE ID = #{id}
+	</delete> 
+    
+</mapper>]]>
+	</content>
+</template>

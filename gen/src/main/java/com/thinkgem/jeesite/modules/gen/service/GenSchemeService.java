@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.renjie120.common.utils.JsonUtils;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -60,7 +61,7 @@ public class GenSchemeService extends BaseService {
 		}else{
 			genScheme.preUpdate();
 			genSchemeDao.update(genScheme);
-		}
+		} 
 		// 生成代码
 		if ("1".equals(genScheme.getFlag())){
 			return generateCode(genScheme);
