@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>list_ftl</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}_list.ftl</fileName>
+	<content><![CDATA[
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+     <link rel="stylesheet" href="${request.contextPath}/css/trip-list.css">
+    <link rel="stylesheet" href="${request.contextPath}/css/order-details.css" type="text/css"/>
+	<link type="text/css" rel="stylesheet" href="${request.contextPath}/js/resources/jquery-ui-1.8.11/css/redmond/jquery-ui-1.8.11.css"/>
+	<link type="text/css" rel="stylesheet" href="${request.contextPath}/js/resources/jqGrid/css/ui.jqgrid.css"/>
+	<script src="${request.contextPath}/js/resources/jqGrid/js/jquery-1.7.2.min.js"> </script>
+	<script src="${request.contextPath}/js/resources/jquery-ui-1.8.10.custom.min.js"></script>
+	<script src="${request.contextPath}/js/resources/jqGrid/src/i18n/grid.locale-cn.js"></script>
+	<script src="${request.contextPath}/js/resources/jqGrid/js/jquery.jqGrid.src.js"></script>
+	<script type="text/javascript" src="${request.contextPath}/js/My97DatePicker/WdatePicker.js"></script>
+
+  	<style>
+        span{
+            width: 15%;
+        }
+    </style>
+</head>
+<body>
+<div class="content content1">
+    <div class="breadnav"><span>增值服务</span>>${moduleDesc}</div>
+    <form id="myForm" autocomplete="off" >
+        <div class="infor1">
+            <div class="product message">
+                <div class="main">
+
+                    <div class="part">
+                        <span style="width:15%;">城市名称：</span> <input type="text" id="cityName" name="cityName" value="" mod="address|notice" mod_address_source="hotel" 
+							mod_address_suggest="" mod_address_reference="getcityid" placeholder="中文/拼音" />
+                        <span>有效性:</span>&nbsp;&nbsp;
+                        <select id="cityStatus" name="cityStatus" >
+                         <option value="">全部</option>
+					  	 <#list validStatus as tp>
+							 <option value="${tp}">${tp.cnName}</option>
+					  	 </#list> 							  	
+                        </select><br>                  
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="click">
+            <a href="javascript:;"><div class="button" onclick="query()">查询</div></a>
+            <a href="javascript:;"><div class="button" onclick="add()">新增</div></a> 
+        </div>
+
+    </form>
+
+    <div class="content1" style="margin-top:50px;">
+        <table id="${className}List"></table>
+        <div id="pager"></div>
+    </div>
+
+	<div id="jsContainer" class="jsContainer" style="height: 0">
+		<div id="tuna_alert"
+			style="display: none; position: absolute; z-index: 999; overflow: hidden;"></div>
+		<div id="tuna_jmpinfo"
+			style="visibility: hidden; position: absolute; z-index: 120;"></div>
+	</div>                 
+	
+		
+	<div id="addLayer" class="content content1" style="display:none; width: 400px; height: 380px;">
+		<table width="100%" style="margin-top: 5px;">
+			<#list table.columnList as c>
+			<tr height="30">
+				<td align="left" width="120"><font style=" color:red">*</font>${c.comments}：</td>
+				<td colspan="3">
+					<input type="text" style="width: 80%" id="add${c.javaFieldId?cap_first}" name="add${c.javaFieldId?cap_first}"/>
+				</td>
+			</tr>
+			</#list> 
+		</table>
+		<div class="click" style="margin:0px 240px;margin-top: 20px;">
+			<a href="javascript:void(0);" id="bt_add_${className}"><div class="button" id="div2310">保存</div></a>
+		</div>
+	</div>
+
+	<div id="editLayer" class="content content1" style="display:none; width: 400px; height: 380px;">
+		<table width="100%" style="margin-top: 5px;">
+			<#list table.columnList as c>
+			<tr height="30">
+				<td align="left" width="120"><font style="color:red">*</font>${c.comments}：</td>
+				<td colspan="3">
+					<input type="text" style="width: 80%" id="edit${c.javaFieldId?cap_first}" name="edit${c.javaFieldId?cap_first}" />
+				</td>
+			</tr>
+			</#list>  
+		</table>
+		<div class="click" style="margin:0px 240px;margin-top: 20px;">
+			<a href="javascript:void(0);" id="bt_edit_${className}"><div class="button" id="div2311">保存</div></a>
+		</div>
+	</div> 
+</div>
+</body>
+<script type="text/javascript"> 
+    $(function (){ 
+        initGrid(); 
+		
+		$("#bt_edit_${className}").on("click",function(){ 
+			<#list table.columnList as c>
+			var ${c.javaFieldId}Val = $("#edit${c.javaFieldId?cap_first}").val();
+			</#list>   
+			
+			/*
+            if(cityNameVal == ''){
+				alert("城市名称不能空");
+				return false;
+			} */
+            $.ajax({
+                url : '${request.contextPath}/${className}/edit${className}',
+                type : 'POST',
+                data : {
+	                <#assign editvals><#list table.columnList as c>
+	                "${className}Dto.${c.javaFieldId}" : ${c.javaFieldId}Val, 
+	                </#list></#assign>${editvals?substring(0, editvals?last_index_of(","))}   
+                },
+                success : function(data){ 
+                    if(data.flag == 'SUCCESS'){
+                        alert("数据修改成功！");
+						$("#editLayer").dialog('close')  ;				
+						query();
+                    }else{
+                        alert("数据修改失败");
+                    }
+                }
+            });
+        });
+		
+		 $("#bt_add_${className}").on("click",function(){  
+            <#list table.columnList as c>
+			var ${c.javaFieldId}Val = $("#add${c.javaFieldId?cap_first}").val();
+			</#list>  
+			/*
+            if(cityNameV == ''){
+				alert("城市名称不能空");
+				return false;
+			} */
+			
+            $.ajax({
+                url : '${request.contextPath}/${className}/insert${className}',
+                type : 'POST',
+                data : {
+                    <#assign addvals><#list table.columnList as c>
+	                "${className}Dto.${c.javaFieldId}" : ${c.javaFieldId}Val, 
+	                </#list></#assign>${addvals?substring(0, addvals?last_index_of(","))}   
+                },
+                success : function(data){ 
+                    if(data.flag == 'SUCCESS'){
+                        alert("数据新增成功！"); 
+						$("#addLayer").dialog('close')  ;	
+						query(); 
+                    }else{
+                        alert("数据新增失败");
+                    }
+                }
+            });
+        });
+    });
+
+    //清空查询信息
+    function reset() {
+        document.getElementById("myForm").reset();
+    } 
+	
+    //查询列表信息
+    function query() { 
+        $("#${className}List").jqGrid('setGridParam', {
+            url : "${request.contextPath}/${className}/query${ClassName}List",
+            datatype : "json",
+            mtype : "POST",
+            postData : getQueryParams()
+        }).trigger("reloadGrid");
+    }
+ 
+	
+	//修改
+	function edit(trNode) {  
+		<#assign x=1 />
+		<#list table.columnList as c>
+		$("#edit${c.javaFieldId?cap_first}").val($(trNode).children().eq(${x}).text());
+		<#assign x=x+1 />
+		</#list>  
+		
+		$('#editLayer').dialog({
+				title:'修改数据',
+				width:600,
+				height:400,
+				modal:'true'
+			});
+	} 
+	
+	function add(){ 
+		 $('#addLayer input').val('');
+		 $('#addLayer').dialog({
+			title:'新增数据',
+			width:600,
+			height:400,
+			modal:'true'
+		});
+	}
+  
+
+   function getQueryParams() { 
+	var cn = $("#cityName").val();
+	cn = cn.substring(0,cn.indexOf('(')); 
+    return  {
+            'cityName':cn, 
+            'cityStatus':$("#cityStatus").val() }
+    } 
+		
+    function initGrid() {
+        $("#${className}List").jqGrid({
+            url : "${request.contextPath}/${className}/queryVasCityList",
+            datatype : "json",
+            mtype : "POST",
+            colNames : [<#assign listTitle><#list table.columnList as c>${c.comments},</#list></#assign>${listTitle?substring(0, listTitle?last_index_of(","))}],
+            colModel : [<#assign listModel><#list table.columnList as c>{
+                name : '${c.javaFieldId}',
+                index : '${c.javaFieldId}',
+                align : 'center', 
+                sortable:false
+            },</#list></#assign>${listModel?substring(0, listModel?last_index_of(","))}],
+            rowNum: 10,            //每页显示记录数
+            autowidth: true,      //自动匹配宽度
+            pager: '#pager',      //表格数据关联的分页条，html元素
+            rowList:[10,20,50,500],   //分页选项，可以下拉选择每页显示记录数
+            viewrecords: true,    //显示总记录数
+            height:'auto',//高度，表格高度。可为数值、百分比或'auto' 
+            gridview:true,        //加速显示
+            viewrecords: true,    //显示总记录数
+            multiselect : true,
+            sortable:true,        //可以排序
+            sortname: 'createTime',  //排序字段名
+            sortorder: "desc",    //排序方式：倒序
+            caption : '${moduleDesc}列表',
+            jsonReader : {
+                root : "results",                
+                page : "pagination.page",       
+                records : "pagination.records",  
+                total:'pagination.total',        
+                repeatitems : false            
+            },
+            onPaging : function(pgButton) {
+                $("#${className}List").jqGrid('setGridParam', {
+                    postData : getQueryParams()
+                });
+            },
+            postData : getQueryParams(),
+            gridComplete:function(){  
+                var ids=jQuery("#${className}List").jqGrid('getDataIDs');
+                for(var i=0; i<ids.length; i++){
+                    var id=ids[i];
+                    var rowData = $('#${className}List').jqGrid('getRowData',id);
+					var operateClick = '<a href="javascript:;" style="color:blue" onclick="edit(this.parentNode.parentNode)" >修改</a> ';
+                    jQuery("#${className}List").jqGrid('setRowData', id , {operate:operateClick});
+                }
+            }
+        });
+    } 
+     
+    </script> 
+</html>
+]]>
+	</content>
+</template>
