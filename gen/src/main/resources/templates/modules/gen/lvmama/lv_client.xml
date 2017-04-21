@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>Client</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Client.java</fileName>
+	<content><![CDATA[
+package ${packageName}.${moduleName}.common.client;
+
+import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.lvmama.lvf.common.client.RestClient;
+import com.lvmama.lvf.common.dto.BaseQueryDto;
+import com.lvmama.lvf.common.dto.BaseResultDto;
+import com.lvmama.lvf.common.dto.BaseSingleResultDto;
+import com.lvmama.lvf.common.exception.ExceptionCode;
+import com.lvmama.lvf.common.exception.ExceptionWrapper;
+import com.lvmama.lvf.common.utils.JSONMapper;
+import ${packageName}.${moduleName}.common.client.path.${ClassName}BusinessClientPath;
+import ${packageName}.${moduleName}.common.dto.enums.ValidStatus;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto; 
+
+@Component
+public class ${ClassName}Client {
+
+	private static final Logger logger = LoggerFactory.getLogger(${ClassName}Client.class);
+
+	@Value("traffic-${moduleName}-service.baseurl")
+	private String baseUrl;
+
+	@Autowired
+	private RestClient restClient;
+
+	/**
+	 * 根据id获得${moduleDesc}
+	* @param  
+	* @return BaseResponseDto<Object>
+	* @throws
+	 */
+	public ${ClassName}Dto query${ClassName}ById(Long cityId){ 
+		${ClassName}BusinessClientPath command = ${ClassName}BusinessClientPath.QUERY_${CLASSNAME}_BY_ID;
+		String url = command.url(baseUrl);
+		try { 
+			String resultStr = restClient.post(url,  String.class, cityId);			
+			return JSONMapper.getInstance().readValue(resultStr, new TypeReference<${ClassName}Dto>() { });
+		} catch (ExceptionWrapper ew) {
+			ew.setErrMessage(ExceptionCode.REMOTE_INVOKE.errMessage(command.cnName, url)+ew.getErrMessage());
+			logger.error(ew.getErrMessage(),ew);
+			throw ew;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return null;
+	}
+	
+	/**
+	 * 获得${moduleDesc}列表 
+	 * @param
+	 * @return BaseResponseDto<Object>
+	 * @throws
+	 */
+	public BaseResultDto<${ClassName}Dto> query${ClassName}List(BaseQueryDto<${ClassName}Dto> query) { 
+		${ClassName}BusinessClientPath command = ${ClassName}BusinessClientPath.QUERY_${CLASSNAME}_LIST;
+		String url = command.url(baseUrl);
+		try {
+			String resultStr = restClient.post(url, String.class, query);
+			return JSONMapper.getInstance().readValue(resultStr,
+					new TypeReference<BaseResultDto<${ClassName}Dto>>() {
+					});
+		} catch (ExceptionWrapper ew) {
+			ew.setErrMessage(ExceptionCode.REMOTE_INVOKE.errMessage(
+					command.cnName, url) + ew.getErrMessage());
+			logger.error(ew.getErrMessage(), ew);
+			throw ew;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	} 
+	
+	/**
+	 * 新增${moduleDesc}.
+	 * @param ${moduleName}ProductInfo
+	 * @return
+	 */
+	public BaseSingleResultDto<${ClassName}Dto> insert${ClassName}(${ClassName}Dto ${className}Dto){ 
+		${ClassName}BusinessClientPath command = ${ClassName}BusinessClientPath.INSERT_${CLASSNAME};
+		String url = command.url(baseUrl);
+		try {
+			String resultStr = restClient.post(url, String.class, ${className}Dto);
+			return JSONMapper.getInstance().readValue(resultStr, new TypeReference<BaseSingleResultDto<${ClassName}Dto>>(){});
+		} catch (ExceptionWrapper ew) {
+			ew.setErrMessage(ExceptionCode.REMOTE_INVOKE.errMessage(command.cnName, url)+ew.getErrMessage());
+			logger.error(ew.getErrMessage(),ew);
+			throw ew;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	 
+	 /**
+	 * 修改${moduleDesc}
+	 * @param ${className}Dto
+	 * @return
+	 */
+	 public BaseSingleResultDto<${ClassName}Dto> edit${ClassName}(${ClassName}Dto ${className}Dto) { 
+		${ClassName}BusinessClientPath command = ${ClassName}BusinessClientPath.EDIT_${CLASSNAME};
+		String url = command.url(baseUrl);
+		try {
+			String resultStr = restClient.post(url, String.class,${className}Dto);
+			return JSONMapper.getInstance().readValue(
+							resultStr,new TypeReference<BaseSingleResultDto<${ClassName}Dto>>() {
+							});
+		} catch (ExceptionWrapper ew) {
+			ew.setErrMessage(ExceptionCode.REMOTE_INVOKE.errMessage(
+					command.cnName, url) + ew.getErrMessage());
+			logger.error(ew.getErrMessage(), ew);
+			throw ew;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+}
+]]>
+	</content>
+</template>

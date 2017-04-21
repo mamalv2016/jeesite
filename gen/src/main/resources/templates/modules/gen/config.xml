@@ -10,11 +10,16 @@
 			<template>curd/viewList.xml</template>
 		</category>
 		<category value="curd_lvmama" label="增删改查（驴妈妈）">
-			<template>curd/controller.xml</template>
-			<template>curd/service.xml</template>
-			<template>category-ref:dao</template>
-			<template>curd/viewForm.xml</template>
-			<template>curd/viewList.xml</template>
+			<template>lvmama/lv_client.xml</template>
+			<template>lvmama/lv_clientpath.xml</template>
+			<template>lvmama/lv_controll.xml</template>
+			<template>lvmama/lv_controllimpl.xml</template>
+			<template>lvmama/lv_form.xml</template>
+			<template>lvmama/lv_mapper_jv.xml</template>
+			<template>lvmama/lv_mapper.xml</template>
+			<template>lvmama/lv_resource.xml</template>
+			<template>lvmama/lv_service.xml</template>
+			<template>lvmama/lv_serviceimpl.xml</template>
 		</category>
 		<category value="curd_many" label="增删改查（一对多）">
 			<template>curd/controller.xml</template>
@@ -27,7 +32,9 @@
 			</childTable>
 		</category>
 		<category value="dao" label="仅持久层（dao/entity/mapper）"> 
-			<template>dao/mapper2.xml</template>
+			<template>dao/mapper.xml</template>
+			<template>dao/entity.xml</template>
+			<template>dao/dao.xml</template>
 		</category>
 		<category value="treeTable" label="树结构表（一体）">
 			<template>treetable/controller.xml</template>

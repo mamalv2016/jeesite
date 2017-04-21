@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>Resource</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Resource.java</fileName>
+	<content><![CDATA[
+package ${packageName}.${moduleName}.service;
+
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.lvmama.lvf.common.dto.BaseQueryDto;
+import com.lvmama.lvf.common.dto.BaseResultDto;
+import com.lvmama.lvf.common.dto.BaseSingleResultDto;
+import com.lvmama.lvf.common.dto.Pagination;
+import ${packageName}.${moduleName}.business.service.${ClassName}Service;
+import ${packageName}.${moduleName}.common.client.path.${ClassName}BusinessClientPath;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}VehicleDto;
+
+@Component
+@Path("")
+public class ${ClassName}Resource{
+	
+	private static final Logger logger = LoggerFactory.getLogger(${ClassName}Resource.class);
+	
+	@Autowired
+	private  ${ClassName}Service ${className}Service;
+	
+	/**
+	 * 
+	 * @Description: 根据id获得${moduleDesc}
+	 * @param request
+	 * @return Response 
+	 * @throws
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path(${ClassName}BusinessClientPath.Path.QUERY_${CLASSNAME}_BY_ID)
+	public Response queryProductTypeById(Long cityId){ 
+		try {
+			${ClassName}Dto ${className}Dto = ${className}Service.query${ClassName}ById(cityId);
+			return Response.ok(${className}Dto).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.noContent().build();
+		}
+	}  
+	
+	@POST
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path(${ClassName}BusinessClientPath.Path.QUERY_${CLASSNAME}_LIST)
+	public Response query${ClassName}List(BaseQueryDto<${ClassName}Dto> request){
+		try { 
+			BaseResultDto<${ClassName}Dto> baseResult = new BaseResultDto<${ClassName}Dto>(); 
+			List<${ClassName}Dto> data = ${className}Service.query${ClassName}s(request);
+			int count = ${className}Service.query${ClassName}Count(request);
+			Pagination pagination = request.getPagination();
+			pagination.setRecords(count);
+			pagination.countRecords(count); 
+			
+			baseResult.setResults(data);
+			baseResult.setPagination(pagination);
+			return Response.ok(baseResult).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+			return Response.noContent().build();
+		}
+	}
+	
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path(${ClassName}BusinessClientPath.Path.INSERT_${CLASSNAME})
+	public Response insert${ClassName}(${ClassName}Dto ${className}Dto){ 
+		try{ 
+			BaseSingleResultDto<${ClassName}Dto> result = new BaseSingleResultDto<${ClassName}Dto>();		
+			
+			result = ${className}Service.insert${ClassName}(${className}Dto);
+			
+			return Response.ok(result).build();
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+			return Response.noContent().build();
+		}
+	}
+	
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path(${ClassName}BusinessClientPath.Path.EDIT_${CLASSNAME})
+	public Response edit${ClassName}(${ClassName}Dto ${className}Dto){ 
+		try{ 
+			BaseSingleResultDto<${ClassName}Dto> result = new BaseSingleResultDto<${ClassName}Dto>();		
+			
+			result = ${className}Service.update${ClassName}(${className}Dto);
+			
+			return Response.ok(result).build();
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+			return Response.noContent().build();
+		}
+	}
+}
+]]>
+	</content>
+</template>

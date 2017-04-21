@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>ControllerImpl</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}ControllerImpl.java</fileName>
+	<content><![CDATA[
+package ${packageName}.offline.web.controller.vas.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.lvmama.comm.pet.po.perm.PermUser;
+import com.lvmama.lvf.common.dto.BaseQueryDto;
+import com.lvmama.lvf.common.dto.BaseResponseDto;
+import com.lvmama.lvf.common.dto.BaseResultDto;
+import com.lvmama.lvf.common.dto.BaseSingleResultDto;
+import com.lvmama.lvf.common.utils.DateUtils;
+import ${packageName}.offline.web.controller.vas.${ClassName}Controller;
+import ${packageName}.offline.web.form.vas.${ClassName}Form;
+import ${packageName}.offline.web.utils.servlet.Constant;
+import ${packageName}.offline.web.utils.servlet.ServletUtil;
+import ${packageName}.vas.common.client.VasLogClient;
+import ${packageName}.vas.common.client.VasTransferClient;
+import ${packageName}.vas.common.dto.enums.OperName;
+import ${packageName}.vas.common.dto.enums.OperSouce;
+import ${packageName}.vas.common.dto.enums.OperType;
+import ${packageName}.vas.common.dto.enums.ValidStatus;
+import ${packageName}.vas.common.dto.log.LogOperateInfoDto;
+import ${packageName}.vas.common.dto.transfer.${ClassName}Dto;
+
+@Controller
+@RequestMapping("${className}")
+public class ${ClassName}ControllerImpl implements ${ClassName}Controller {
+	private static final Logger logger = Logger.getLogger(${ClassName}ControllerImpl.class);
+	@Autowired
+	private VasTransferClient vasTransferClient; 
+
+	@Autowired
+	private VasLogClient vasLogClient;
+	
+	@Override
+	@RequestMapping("to${ClassName}ListQuery")
+	public String to${ClassName}ListQuery(Model model) {  
+		model.addAttribute("validStatus", ValidStatus.values());
+		return "vas/vas_${className}_list";
+	} 
+	
+	@Override
+	public void exportCsv(${ClassName}Form input, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
+ 
+	@Override
+	@ResponseBody
+	@RequestMapping("query${ClassName}List")
+	public BaseResponseDto<${ClassName}Form> queryVasCityList(Model model,
+			${ClassName}Form queryForm) {   
+		BaseQueryDto<${ClassName}Dto> query = new BaseQueryDto<${ClassName}Dto>(queryForm.getPagination(),queryForm);
+		BaseResultDto<${ClassName}Dto> baseResult = vasTransferClient.query${ClassName}List(query);
+		List<${ClassName}Dto> results = baseResult.getResults(); 
+		
+		List<${ClassName}Form> forms = new ArrayList<${ClassName}Form>();
+		try {
+			for (${ClassName}Dto vpt : results) {
+				${ClassName}Form retForm = new ${ClassName}Form();
+				BeanUtils.copyProperties(retForm,vpt);
+				retForm.setCreateTimeStr(getTimeStr(vpt.getCreateTime()));
+				retForm.setUpdateTimeStr(getTimeStr(vpt.getUpdateTime())); 
+				forms.add(retForm);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("出现异常："+e.getMessage(),e);
+		}
+		BaseResponseDto<${ClassName}Form> response = new BaseResponseDto<${ClassName}Form>();
+		response.setResults(forms); 
+		response.setPagination(baseResult.getPagination());
+		return response;
+	}
+
+	public String getTimeStr(Date d) {
+		if(d!=null)
+			return DateUtils.formatCnHmDate(d);
+		return "";
+	}
+
+	@Override
+	@RequestMapping("toAdd${ClassName}")
+	public String toAdd${ClassName}(Model model) {
+		return "vas/add_${className}";
+	}
+
+	@Override
+	@RequestMapping("insert${ClassName}")
+	@ResponseBody
+	public Map<String, Object> insert${ClassName}(Model model,
+			${ClassName}Form queryForm, HttpServletRequest request,
+			HttpServletResponse response) {
+		${ClassName}Dto ${ClassName}Dto = queryForm.get${ClassName}Dto();
+		${ClassName}Dto.setCityStatus(ValidStatus.VALID);//默认有效
+		BaseSingleResultDto<${ClassName}Dto> result =  vasTransferClient.insert${ClassName}(${ClassName}Dto);
+		Map<String, Object> retMap = new HashMap<String, Object>();
+		retMap.put("flag", result.getStatus().name());
+		
+		Long id = result.getResult().getId();
+		
+		 //添加操作日志
+		LogOperateInfoDto logOperateInfo = new LogOperateInfoDto();
+		logOperateInfo.setOperSouce(OperSouce.VAS_TRANSFER_CITY);
+		logOperateInfo.setSourceId(id);
+		logOperateInfo.setOperType(OperType.VAS_TRANSFER_CITY_ADD);
+		logOperateInfo.setOperDesc("新增${moduleDesc}");
+		logOperateInfo.setOperTime(new Date());
+		PermUser user = (PermUser)ServletUtil.getSession(request, response, Constant.SESSION_BACK_USER);
+		if(null!=user){
+			logOperateInfo.setOperAccount(user.getUserName());	
+			logOperateInfo.setOperName(OperName.TRANSFER);
+		}
+		vasLogClient.insertVasOpLog(logOperateInfo);
+		return retMap;
+	}
+
+	@Override
+	@RequestMapping(value="toEdit${ClassName}/{cityId}",method=RequestMethod.GET)
+	public String toEdit${ClassName}(Model model,@PathVariable Long cityId) {
+		${ClassName}Dto transferCity = vasTransferClient.query${ClassName}ById(cityId);
+		model.addAttribute("${className}", transferCity); 
+		model.addAttribute("validStatus", ValidStatus.values());
+		return "vas/edit_${className}";
+	}
+
+	@Override
+	@RequestMapping("edit${ClassName}")
+	@ResponseBody
+	public Map<String, Object> edit${ClassName}(Model model,
+			${ClassName}Form ${ClassName}Form,
+			HttpServletRequest request, HttpServletResponse response) {
+		String oldCityCode = (String)request.getAttribute("oldCityCode");
+		Map<String, Object> retMap = new HashMap<String, Object>();
+		${ClassName}Dto ${ClassName}Dto = ${ClassName}Form.get${ClassName}Dto();
+		BaseSingleResultDto<${ClassName}Dto> result = vasTransferClient.edit${ClassName}(${ClassName}Dto);
+		retMap.put("flag", result.getStatus().name());
+
+		// 添加操作日志
+		LogOperateInfoDto logOperateInfo = new LogOperateInfoDto();
+		logOperateInfo.setOperSouce(OperSouce.VAS_TRANSFER_CITY);
+		logOperateInfo.setSourceId(${ClassName}Dto.getId());
+		logOperateInfo.setOperType(OperType.VAS_TRANSFER_CITY_UPDATE);
+		logOperateInfo.setOperDesc("编辑${moduleDesc}");
+		logOperateInfo.setOperTime(new Date());
+		PermUser user = (PermUser) ServletUtil.getSession(request, response,
+				Constant.SESSION_BACK_USER);
+		if (null != user) {
+			logOperateInfo.setOperAccount(user.getUserName());
+			logOperateInfo.setOperName(OperName.TRANSFER);
+		}
+		vasLogClient.insertVasOpLog(logOperateInfo);
+
+		return retMap;
+	}
+}
+]]>
+	</content>
+</template>

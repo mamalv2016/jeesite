@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>ServiceImpl</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}ServiceImpl.java</fileName>
+	<content><![CDATA[
+package ${packageName}.${moduleName}.business.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.lvmama.lvf.common.dto.BaseQueryDto;
+import com.lvmama.lvf.common.dto.BaseResultDto;
+import com.lvmama.lvf.common.dto.BaseSingleResultDto;
+import com.lvmama.lvf.common.dto.status.ResultStatus;
+import ${packageName}.${moduleName}.business.service.${ClassName}Service;
+import ${packageName}.${moduleName}.common.dto.enums.ValidStatus;
+import ${packageName}.${moduleName}.common.dto.request.transfer.${ClassName}SearchRequest;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}ProductDto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}VehicleDto;
+import ${packageName}.${moduleName}.persistence.mapper.${ClassName}Mapper; 
+
+/**
+ * ${moduleDesc}服务实现类.
+ * @author Administrator
+ *
+ */
+@Service
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
+	public static Logger logger = Logger.getLogger(${ClassName}ServiceImpl.class);
+
+	@Autowired
+	private ${ClassName}Mapper ${className}Mapper; 
+	 
+	@Override
+	public List<${ClassName}Dto> query${ClassName}s(
+			BaseQueryDto<${ClassName}Dto> q) { 
+		List<${ClassName}Dto> ${moduleName}OrderInfoDtoList = ${className}Mapper.query(q); 
+		return ${moduleName}OrderInfoDtoList;
+	}
+
+	@Override
+	public int query${ClassName}Count(BaseQueryDto<${ClassName}Dto> q) {
+		return ${className}Mapper.count(q); 
+	}
+
+	@Override
+	public ${ClassName}Dto query${ClassName}ById(Long id) { 
+		return ${className}Mapper.getById(id);
+	}  
+	
+	@Override
+	public BaseSingleResultDto<${ClassName}Dto> insert${ClassName}(
+			${ClassName}Dto ${className}Dto) {
+		BaseSingleResultDto<${ClassName}Dto> result = new BaseSingleResultDto<${ClassName}Dto>();
+		int  record = ${className}Mapper.insert(${className}Dto);
+		
+		result.setResult(${className}Dto);
+		if(record == 0){ 
+			result.setErrorMessage("新增${moduleDesc}失败");
+			return result;
+		} 
+		return result;
+	}
+
+	@Override
+	public BaseSingleResultDto<${ClassName}Dto> update${ClassName}(
+			${ClassName}Dto ${className}Dto) {
+		BaseSingleResultDto<${ClassName}Dto> result = new BaseSingleResultDto<${ClassName}Dto>();
+		try{
+			${className}Mapper.updateById(${className}Dto.getId(), ${className}Dto);
+		}catch(Exception e){ 
+			logger.error(e.getMessage(),e); 
+			result.setErrorMessage("新增${moduleDesc}失败:"+e.getMessage());
+			return result; 
+		}  
+		result.setResult(${className}Dto); 
+		return result;
+	} 
+}
+]]>
+	</content>
+</template>

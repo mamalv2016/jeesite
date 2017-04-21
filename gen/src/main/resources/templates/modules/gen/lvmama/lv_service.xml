@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>Service</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Service.java</fileName>
+	<content><![CDATA[
+package ${packageName}.${moduleName}.business.service;
+
+import java.util.List;
+
+import com.lvmama.lvf.common.dto.BaseQueryDto;
+import com.lvmama.lvf.common.dto.BaseResultDto;
+import com.lvmama.lvf.common.dto.BaseSingleResultDto;
+import ${packageName}.${moduleName}.common.dto.request.transfer.${ClassName}SearchRequest;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}ProductDto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}VehicleDto;
+
+/**
+ * ${moduleDesc}服务
+* @author Administrator
+* @date 
+*/
+public interface ${ClassName}Service {   
+	/**
+	 * 查询${moduleDesc}.
+	 * @param queryCondition
+	 * @return
+	 */
+	List<${ClassName}Dto> query${ClassName}s(BaseQueryDto<${ClassName}Dto> queryCondition);
+	
+	/**
+	 * 查询${moduleDesc}.
+	 * @param queryCondition
+	 * @return
+	 */
+	${ClassName}Dto query${ClassName}ById(Long id);
+	
+	/**
+	 * 查询${moduleDesc}数量
+	 * @param queryCondition
+	 * @return
+	 */
+	int query${ClassName}Count(BaseQueryDto<${ClassName}Dto> queryCondition);
+	
+	/**
+	 * 新增${moduleDesc}
+	 * @param ${className}Dto
+	 * @return
+	 */
+	public BaseSingleResultDto<${ClassName}Dto> insert${ClassName}(${ClassName}Dto ${className}Dto);
+	
+	/**
+	 * 修改${moduleDesc}.
+	 * @param ${className}Dto
+	 * @return
+	 */
+	public BaseSingleResultDto<${ClassName}Dto> update${ClassName}(${ClassName}Dto ${className}Dto);  
+}
+]]>
+	</content>
+</template>

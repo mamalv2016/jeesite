@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>Form</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Form.java</fileName>
+	<content><![CDATA[
+package ${packageName}.offline.web.form.${moduleName};
+
+import java.io.Serializable;
+
+import com.lvmama.lvf.common.dto.Pagination;
+import com.lvmama.lvf.common.form.Form;
+import ${packageName}.${moduleName}.common.dto.enums.ValidStatus;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
+
+public class ${ClassName}Form extends ${ClassName}Dto implements Form,Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private Pagination pagination = new Pagination();
+
+	private String createTimeStr;
+	private String updateTimeStr;   
+	private ${ClassName}Dto ${className}Dto = new ${ClassName}Dto();
+
+	public Pagination getPagination() {
+		return pagination;
+	}
+
+	public void setPagination(Pagination pagination) {
+		this.pagination = pagination;
+	}
+
+	public ${ClassName}Dto get${ClassName}Dto() {
+		return ${className}Dto;
+	}
+
+	public void set${ClassName}Dto(${ClassName}Dto ${className}Dto) {
+		this.${className}Dto = ${className}Dto;
+	}
+
+	public void countRecords(int records) {
+		pagination.countRecords(records);
+	}
+
+	public int getEndRow() {
+		return pagination.getEndRow();
+	}
+
+	public int getPage() {
+		return pagination.getPage();
+	}
+
+	public int getRecords() {
+		return pagination.getRecords();
+	}
+
+	public int getRows() {
+		return pagination.getRows();
+	}
+
+	public String getSidx() {
+		return pagination.getSidx();
+	}
+
+	public String getSord() {
+		return pagination.getSord();
+	}
+
+	public int getStartRow() {
+		return pagination.getStartRow();
+	}
+
+	public int getTotal() {
+		return pagination.getTotal();
+	}
+
+	public boolean isSearch() {
+		return pagination.isSearch();
+	}
+
+	public void setPage(int page) {
+		pagination.setPage(page);
+	}
+
+	public void setRecords(int records) {
+		pagination.setRecords(records);
+	}
+
+	public void setRows(int rows) {
+		pagination.setRows(rows);
+	}
+
+	public void setRowsByCustom(int customRows) {
+		pagination.setRowsByCustom(customRows);
+	}
+
+	public void setSearch(boolean search) {
+		pagination.setSearch(search);
+	}
+
+	public void setSidx(String sidx) {
+		pagination.setSidx(sidx);
+	}
+
+	public void setSord(String sord) {
+		pagination.setSord(sord);
+	}
+
+	public void setTotal(int total) {
+		pagination.setTotal(total);
+	} 
+	
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
+	public void setUpdateTimeStr(String updateTimeStr) {
+		this.updateTimeStr = updateTimeStr;
+	} 
+ 
+	public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+
+	public String getUpdateTimeStr() {
+		return updateTimeStr;
+	} 
+}
+]]>
+	</content>
+</template>

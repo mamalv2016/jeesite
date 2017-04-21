@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>BusinessClientPath</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}BusinessClientPath.java</fileName>
+	<content><![CDATA[
+package ${packageName}.${moduleName}.common.client.path;
+
+import com.lvmama.lvf.common.utils.CustomizedPropertyPlaceholderConfigurer;
+
+/**
+ * ${moduleDesc}相关clientpath枚举.
+ * 
+ * @author Administrator
+ * 
+ */
+public enum ${ClassName}BusinessClientPath {
+	QUERY_${CLASSNAME}_LIST(Path.QUERY_${CLASSNAME}_LIST, "查询${moduleDesc}列表"),
+	QUERY_${CLASSNAME}_BY_ID(Path.QUERY_${CLASSNAME}_BY_ID, "根据id查询${moduleDesc}列表"),
+	INSERT_${CLASSNAME}(Path.INSERT_${CLASSNAME}, "新增${moduleDesc}"), 
+	EDIT_${CLASSNAME}(Path.EDIT_${CLASSNAME}, "编辑${moduleDesc}") ;
+
+	public String path;
+	public String cnName;
+	
+	private ${ClassName}BusinessClientPath(String path, String cnName) {
+		this.path = path;
+		this.cnName = cnName;
+	}
+	
+	public String getPath() {
+		return path;
+	}
+	
+	public String getCnName() {
+		return cnName;
+	}
+	
+	public String url(String baseUrl){
+		if(!baseUrl.contains("http")){
+			baseUrl = CustomizedPropertyPlaceholderConfigurer.getContextProperty(baseUrl);
+		}
+		if(baseUrl.endsWith("/")){
+			return baseUrl+this.path;
+		}
+		return baseUrl+"/" +this.path;
+	}
+	
+	public String url(String baseUrl,Object... args){
+		String url = url(baseUrl);
+		String pat="\\{\\w*\\}";
+		return String.format(url.replaceAll(pat,"%s"),args);
+	}
+	
+	public static class Path {
+
+		public final static String basePath = "${moduleName}transfer/business";
+
+		public final static String QUERY_${CLASSNAME}_LIST = basePath + "/query${ClassName}List";
+		
+		public final static String QUERY_${CLASSNAME}_BY_ID = basePath + "/query${ClassName}ById";  
+		
+		public final static String INSERT_${CLASSNAME} = basePath + "/insert${ClassName}"; 
+		
+		public final static String EDIT_${CLASSNAME} = basePath + "/update${ClassName}"; 
+	}
+} 
+]]>
+	</content>
+</template>

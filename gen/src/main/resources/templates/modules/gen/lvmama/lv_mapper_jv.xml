@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>mapper_java</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Mapper.java</fileName>
+	<content><![CDATA[
+package ${packageName}.${moduleName}.persistence.mapper;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.lvmama.lvf.common.domain.DomainEntityBaseMapper;
+import com.lvmama.lvf.common.domain.DomainEntityByNoMapper;
+import com.lvmama.lvf.common.dto.BaseQueryDto;
+import com.lvmama.lvf.common.dto.Dto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
+import java.util.List;
+public interface ${ClassName}Mapper	extends
+		DomainEntityBaseMapper<${ClassName}Dto, BaseQueryDto<? extends Dto>>,
+		DomainEntityByNoMapper<${ClassName}Dto> {
+	 /**
+	 * 不分页查询
+	 * @param q
+	 * @return
+	 */
+	public List<${ClassName}Dto> queryNoPage(BaseQueryDto<${ClassName}Dto> q);
+} 
+
+]]>
+	</content>
+</template>

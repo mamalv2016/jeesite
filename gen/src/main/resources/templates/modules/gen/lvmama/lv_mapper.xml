@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
-	<name>mapper2</name>
+	<name>lv_mapper</name>
 	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
-	<fileName>${ClassName}Dao2.xml</fileName>
+	<fileName>${ClassName}Mapper.xml</fileName>
 	<content><![CDATA[
 <#macro javatype nm ><#if nm ='String'>VARCHAR<#elseif nm='Long'>INTEGER<#elseif nm='Date'>TIMESTAMP<#else>${nm?upper_case}</#if></#macro>
 <?xml version="1.0" encoding="UTF-8" ?> 

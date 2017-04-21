@@ -297,13 +297,14 @@ public class GenUtils {
 	 */
 	public static Map<String, Object> getDataModel(GenScheme genScheme){
 		Map<String, Object> model = Maps.newHashMap();
-		
+		model.put("moduleDesc", genScheme.getName()); //模块还在描述
 		model.put("packageName", StringUtils.lowerCase(genScheme.getPackageName()));
 		model.put("lastPackageName", StringUtils.substringAfterLast((String)model.get("packageName"),"."));
 		model.put("moduleName", StringUtils.lowerCase(genScheme.getModuleName()));
 		model.put("subModuleName", StringUtils.lowerCase(genScheme.getSubModuleName()));
 		model.put("className", StringUtils.uncapitalize(genScheme.getGenTable().getClassName()));
 		model.put("ClassName", StringUtils.capitalize(genScheme.getGenTable().getClassName()));
+		model.put("CLASSNAME", StringUtils.upperCase(genScheme.getGenTable().getClassName()));
 		
 		model.put("functionName", genScheme.getFunctionName());
 		model.put("functionNameSimple", genScheme.getFunctionNameSimple());

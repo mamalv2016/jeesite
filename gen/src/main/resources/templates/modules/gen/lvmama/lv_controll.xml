@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>Controller</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Controller.java</fileName>
+	<content><![CDATA[
+package ${packageName}.offline.web.controller.vas;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.ui.Model;
+
+import com.lvmama.lvf.common.dto.BaseResponseDto;
+import com.lvmama.lvf.common.dto.BaseSingleResultDto;
+import ${packageName}.offline.web.form.vas.Vas${ClassName}Form;
+
+public interface ${ClassName}Controller   {
+	/**
+	 * 进入${moduleDesc}查询界面
+	 * 
+	 * @param model
+	 * @return String
+	 */
+	public String to${ClassName}ListQuery(Model model);  
+	
+	/**
+	 * 导出${moduleDesc}列表
+	 * @param i
+	 * @param response
+	 */
+	public void exportCsv(Vas${ClassName}Form input, HttpServletResponse response);   
+
+	/**
+	 * 进入新增${moduleDesc}
+	 * @param model
+	 * @return
+	 */
+	public String toAdd${ClassName}(Model model);
+	
+	/**
+	 * 新增${moduleDesc}
+	 * @param model
+	 * @param queryForm
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Map<String,Object> insert${ClassName}(Model model,Vas${ClassName}Form queryForm,HttpServletRequest request,HttpServletResponse response);
+	
+	/**
+	 * 进入编辑${moduleDesc}界面
+	 * @param model
+	 * @param cityId
+	 * @return
+	 */
+	public String toEdit${ClassName}(Model model,Long cityId);
+	
+	/**
+	 * 编辑${moduleDesc}
+	 * @param model
+	 * @param editForm
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Map<String,Object> edit${ClassName}(Model model,Vas${ClassName}Form editForm,HttpServletRequest request,HttpServletResponse response);
+	
+	/**
+	 * 查询所有${moduleDesc}
+	 * @param model
+	 * @param queryForm
+	 * @return
+	 */
+	public BaseResponseDto<Vas${ClassName}Form> queryVasCityList(Model model,Vas${ClassName}Form queryForm);
+	
+}
+]]>
+	</content>
+</template>
