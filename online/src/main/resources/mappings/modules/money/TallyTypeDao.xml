@@ -30,39 +30,39 @@
 	<select id="get" resultType="TallyType">
 		SELECT 
 			<include refid="tallyTypeColumns"/>
-		FROM tally_type_t a 
+		FROM money_type_t a 
 		WHERE a.tally_type_sno = #{id}
 	</select>
 	
 	<select id="generateMaxId" resultType="Integer">
 		SELECT 
 			 max(a.tally_type_sno)
-		FROM tally_type_t a  
+		FROM money_type_t a  
 	</select>
 	
 	<select id="findList" resultType="TallyType">
 		SELECT 
 			<include refid="tallyTypeColumns"/>
-		FROM tally_type_t    a 
+		FROM money_type_t    a 
 		<include refid="queryCondition"></include>	
 	</select> 
 	
 	<select id="findAllList" resultType="TallyType">
 		SELECT 
 		<include refid="tallyTypeColumns"/>
-		FROM tally_type_t  a
+		FROM money_type_t  a
 		<include refid="queryCondition"></include>	
 	</select>
 	
 	<select id="findTypeList" resultType="string">
 		SELECT 
 			tally_type_sno 
-		FROM tally_type_t  
+		FROM money_type_t  
 		<include refid="queryCondition"></include>	
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO tally_type_t(
+		INSERT INTO money_type_t(
 			tally_type_sno,
 			tally_type_desc, 
 			money_type, 
@@ -80,7 +80,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE tally_type_t SET 
+		UPDATE money_type_t SET 
 			tally_type_desc = #{moneyTypeDesc}, 
 			money_type = #{moneyType}, 
 			parent_code = #{parentCode}, 
@@ -90,7 +90,7 @@
 	</update>
 	
 	<update id="delete">
-		delete from tally_type_t   
+		delete from money_type_t   
 		WHERE tally_type_sno = #{id}
 	</update>
 	
