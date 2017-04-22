@@ -21,3 +21,4 @@ online/.externalToolBuilders/
 logs/*
 *.data
 online/tempbar/
+temp/
