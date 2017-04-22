@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.renjie120.modules.moneyuser.dao.MoneyUserInfoDao">
+    
+	<sql id="moneyUserInfoColumns">
+		a.id AS "id",
+		a.username AS "username",
+		a.pass AS "pass",
+		a.loginid AS "loginid",
+		a.orgid AS "orgid",
+		a.email AS "email",
+		a.phone AS "phone",
+		a.mobile AS "mobile",
+		a.usertype AS "usertype",
+		a.address AS "address",
+		a.orderid AS "orderid"
+	</sql>
+	
+	<sql id="moneyUserInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="MoneyUserInfo">
+		SELECT 
+			<include refid="moneyUserInfoColumns"/>
+		FROM money_user_t a
+		<include refid="moneyUserInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MoneyUserInfo">
+		SELECT 
+			<include refid="moneyUserInfoColumns"/>
+		FROM money_user_t a
+		<include refid="moneyUserInfoJoins"/>
+		<where>
+			
+			<if test="username != null and username != ''">
+				AND a.username LIKE 
+					<if test="dbName == 'oracle'">'%'||#{username}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{username}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{username},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MoneyUserInfo">
+		SELECT 
+			<include refid="moneyUserInfoColumns"/>
+		FROM money_user_t a
+		<include refid="moneyUserInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO money_user_t(
+			id,
+			username,
+			pass,
+			loginid,
+			orgid,
+			email,
+			phone,
+			mobile,
+			usertype,
+			address,
+			orderid
+		) VALUES (
+			#{id},
+			#{username},
+			#{pass},
+			#{loginid},
+			#{orgid},
+			#{email},
+			#{phone},
+			#{mobile},
+			#{usertype},
+			#{address},
+			#{orderid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE money_user_t SET 	
+			username = #{username},
+			pass = #{pass},
+			loginid = #{loginid},
+			orgid = #{orgid},
+			email = #{email},
+			phone = #{phone},
+			mobile = #{mobile},
+			usertype = #{usertype},
+			address = #{address},
+			orderid = #{orderid}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM money_user_t
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

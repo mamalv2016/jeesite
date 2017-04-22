@@ -60,19 +60,19 @@ public class LoginController extends BaseController{
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
  
-		TestVo vo = new TestVo();
-		vo.setMoney(123);
-		vo.setBigMoney(123);
-		vo.setLikeName("renjie120");
-		List<String> ans = Lists.newArrayList();
-		ans.add("2016");
-		ans.add("2017");
-		vo.setYears(ans);
-		vo.setSmallMoney(44);
-
-		// String[] users = new String[] { "renjie120"};
-		// vo.setUsers(users);  
-		List<TestVo> aaaaa = reportUtils.generateReportData("test",vo);
+//		TestVo vo = new TestVo();
+//		vo.setMoney(123);
+//		vo.setBigMoney(123);
+//		vo.setLikeName("renjie120");
+//		List<String> ans = Lists.newArrayList();
+//		ans.add("2016");
+//		ans.add("2017");
+//		vo.setYears(ans);
+//		vo.setSmallMoney(44);
+//
+//		// String[] users = new String[] { "renjie120"};
+//		// vo.setUsers(users);  
+//		List<TestVo> aaaaa = reportUtils.generateReportData("test",vo);
 		
 		
 //		// 默认页签模式
