@@ -21,7 +21,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
 import com.thinkgem.jeesite.modules.money.service.wrapper.TallyTypeServiceWrapper;
-import com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils;
+import com.thinkgem.jeesite.modules.money.utils.MoneyUtils;
 /**
  * 字典Controller
  * @author ThinkGem
@@ -55,7 +55,7 @@ public class TallyTypeController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(TallyType tallyType, Model model) {
 		model.addAttribute("tallyType", tallyType);
-		model.addAttribute("types",TallyTypeUtils.getTallyTypes());
+		model.addAttribute("types",MoneyUtils.getTallyTypes());
 		return "modules/money/tallyTypeForm";
 	}
 

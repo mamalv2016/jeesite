@@ -26,11 +26,12 @@ public class MoneyDetailInfoService extends CrudService<MoneyDetailInfoDao, Mone
 		return super.get(id);
 	}
 	
-	public List<MoneyDetailInfo> findList(MoneyDetailInfo moneyDetailInfo) {
+	public List<MoneyDetailInfo> findList(MoneyDetailInfo moneyDetailInfo) { 
 		return super.findList(moneyDetailInfo);
 	}
 	
 	public Page<MoneyDetailInfo> findPage(Page<MoneyDetailInfo> page, MoneyDetailInfo moneyDetailInfo) {
+		page.setOrderBy("money_time desc");
 		return super.findPage(page, moneyDetailInfo);
 	}
 	

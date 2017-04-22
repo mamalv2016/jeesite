@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.modules.money.dao.TallyTypeDao;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
-import com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils;
+import com.thinkgem.jeesite.modules.money.utils.MoneyUtils;
 
 /**
  * 字典Service
@@ -31,13 +31,13 @@ public class TallyTypeService extends CrudService<TallyTypeDao, TallyType> {
 		}else{
 			dao.update(dict);
 		}
-		CacheUtils.remove(TallyTypeUtils.CACHE_TALLYTYPE);
+		CacheUtils.remove(MoneyUtils.CACHE_TALLYTYPE);
 	} 
 	
 	@Transactional(readOnly = false)
 	public void delete(TallyType dict) {
 		super.delete(dict);
-		CacheUtils.remove(TallyTypeUtils.CACHE_TALLYTYPE);
+		CacheUtils.remove(MoneyUtils.CACHE_TALLYTYPE);
 	}
 
 }
