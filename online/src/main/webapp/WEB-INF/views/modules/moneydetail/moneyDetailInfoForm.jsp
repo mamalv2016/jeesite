@@ -54,7 +54,7 @@
 			<div class="controls">
 				<form:select path="moneyType" class="input-xlarge required">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getTallyTypeList()}" itemLabel="moneyTypeDesc" itemValue="typeCode" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -101,7 +101,7 @@
 			<div class="controls">
 				<form:select path="username" class="input-xlarge ">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getMoneyUserList()}" itemLabel="username" itemValue="loginid" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>

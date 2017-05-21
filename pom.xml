@@ -77,12 +77,7 @@
 
 	</pluginRepositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>${oracle.driver.version}</version>
-		</dependency>
+	<dependencies> 
 
 		<dependency>
 			<groupId>com.alibaba</groupId>

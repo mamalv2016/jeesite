@@ -13,6 +13,7 @@
 		ignore-unresolvable="true" location="classpath:jeesite.properties" />
 
 	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->
+	<!-- 对web包下的所有类进行扫描，以完成bean创建和自动依赖注入功能 -->
 	<context:component-scan base-package="com.thinkgem.jeesite,com.renjie120"
 		use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
 		<context:include-filter type="annotation"

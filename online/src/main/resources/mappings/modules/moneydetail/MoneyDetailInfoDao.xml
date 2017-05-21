@@ -37,8 +37,8 @@
 			<if test="beginMoneyTime != null and endMoneyTime != null and beginMoneyTime != '' and endMoneyTime != ''">
 				AND a.money_time BETWEEN #{beginMoneyTime} AND #{endMoneyTime}
 			</if>
-			<if test="beginMoney != null and endMoney != null and beginMoney != '' and endMoney != ''">
-				AND a.money BETWEEN #{beginMoney} AND #{endMoney}
+			<if test="money != null and money != ''">
+				AND a.money = #{money}
 			</if>
 			<if test="moneyType != null and moneyType != ''">
 				AND a.money_type = #{moneyType}

@@ -14,5 +14,7 @@ import com.renjie120.modules.moneyuser.entity.MoneyUserInfo;
  */
 @MyBatisDao
 public interface MoneyUserInfoDao extends CrudDao<MoneyUserInfo> {
+
+	public String finTypename(String str);
 	
 }

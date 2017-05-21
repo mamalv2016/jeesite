@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.renjie120.modules.moneyuser.dao.MoneyUserInfoDao">
-    
+   
 	<sql id="moneyUserInfoColumns">
 		a.id AS "id",
 		a.username AS "username",
@@ -114,5 +114,7 @@
 		DELETE FROM money_user_t
 		WHERE id = #{id}
 	</update>
-	
+	<select id="finTypename" resultType="java.lang.String">
+	    select TALLY_TYPE_DESC from money_type_t where TYPE_CODE=#{str}
+	</select>
 </mapper>

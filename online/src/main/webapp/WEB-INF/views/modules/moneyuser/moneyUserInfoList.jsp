@@ -35,13 +35,22 @@
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
+		
 			<tr>
+			    <th>id</th>
+			    <th>用户名</th>
+			    <th>密码</th>
+			    <th>登陆id</th>
 				<shiro:hasPermission name="moneyuser:moneyUserInfo:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="moneyUserInfo">
 			<tr>
+					<td>${moneyUserInfo.id}</td>
+					<td>${moneyUserInfo.username}</td>
+					<td >${moneyUserInfo.pass}</td>
+					<td>${moneyUserInfo.loginid}</td>
 				<shiro:hasPermission name="moneyuser:moneyUserInfo:edit"><td>
     				<a href="${ctx}/moneyuser/moneyUserInfo/form?id=${moneyUserInfo.id}">修改</a>
 					<a href="${ctx}/moneyuser/moneyUserInfo/delete?id=${moneyUserInfo.id}" onclick="return confirmx('确认要删除该理财系统用户吗？', this.href)">删除</a>

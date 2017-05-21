@@ -5,6 +5,10 @@ package com.thinkgem.jeesite.modules.money.utils;
 
 import java.util.List;
 
+import math.utils.EqualUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.Lists;
 import com.renjie120.modules.moneyuser.dao.MoneyUserInfoDao;
 import com.renjie120.modules.moneyuser.entity.MoneyUserInfo;
@@ -16,7 +20,6 @@ import com.thinkgem.jeesite.modules.money.entity.TallyType;
 
 /**
  * 字典工具类
- * 
  * @author ThinkGem
  * @version 2013-5-29
  */
@@ -60,7 +63,14 @@ public class MoneyUtils {
 		}
 		return lists;
 	}
-
+	
+    public static String getMoneyTypename(String str){
+    	String str1="";
+    	if(StringUtils.isNotBlank(str)){
+    		 str1=moneyUserInfoDao.finTypename(str);
+    	}
+    	return str1;
+    }
 	/**
 	 * 返回字典列表（JSON）
 	 * 

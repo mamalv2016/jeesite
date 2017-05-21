@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+
 <html>
 <head>
 	<title>金额列表管理</title>
@@ -18,7 +19,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/moneydetail/moneyDetailInfo/">金额列表列表</a></li>
+		<li class="active"><a href="${ctx}/moneydetail/moneyDetailInfo/">金额明细列表</a></li>
 		<shiro:hasPermission name="moneydetail:moneyDetailInfo:edit"><li><a href="${ctx}/moneydetail/moneyDetailInfo/form">金额列表添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="moneyDetailInfo" action="${ctx}/moneydetail/moneyDetailInfo/" method="post" class="breadcrumb form-search">
@@ -74,7 +75,7 @@
 					${moneyDetailInfo.money}
 				</td>
 				<td>
-					${fns:getDictLabel(moneyDetailInfo.moneyType, '', '')}
+					${fnc:getMoneyTypename(moneyDetailInfo.moneyType)}
 				</td>
 				<td>
 					${moneyDetailInfo.moneyDesc}
