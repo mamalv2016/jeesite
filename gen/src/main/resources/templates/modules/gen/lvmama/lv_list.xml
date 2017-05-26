@@ -209,7 +209,7 @@
             url : "${"$"}{request.contextPath}/${className}/query${ClassName}List",
             datatype : "json",
             mtype : "POST",
-            colNames : [<#list table.columnList as c>'${c.comments}',</#list>,'操作'],
+            colNames : [<#list table.columnList as c>'${c.comments}',</#list>'操作'],
             colModel : [<#list table.columnList as c>{
                 name : '${c.javaFieldId}',//${c.comments}
                 index : '${c.javaFieldId}',

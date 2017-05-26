@@ -115,7 +115,7 @@ public class ${ClassName}ControllerImpl implements ${ClassName}Controller {
 			${ClassName}Form queryForm, HttpServletRequest request,
 			HttpServletResponse response) {
 		${ClassName}Dto ${ClassName}Dto = queryForm.get${ClassName}Dto();
-		${ClassName}Dto.setCityStatus(ValidStatus.VALID);//默认有效
+		//${ClassName}Dto.setCityStatus(ValidStatus.VALID);//默认有效
 		BaseSingleResultDto<${ClassName}Dto> result =  vasTransferClient.insert${ClassName}(${ClassName}Dto);
 		Map<String, Object> retMap = new HashMap<String, Object>();
 		retMap.put("flag", result.getStatus().name());
