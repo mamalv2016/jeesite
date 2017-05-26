@@ -10,11 +10,8 @@ import java.util.List;
 
 import com.lvmama.lvf.common.dto.BaseQueryDto;
 import com.lvmama.lvf.common.dto.BaseResultDto;
-import com.lvmama.lvf.common.dto.BaseSingleResultDto;
-import ${packageName}.${moduleName}.common.dto.request.transfer.${ClassName}SearchRequest;
-import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
-import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}ProductDto;
-import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}VehicleDto;
+import com.lvmama.lvf.common.dto.BaseSingleResultDto; 
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto; 
 
 /**
  * ${moduleDesc}服务

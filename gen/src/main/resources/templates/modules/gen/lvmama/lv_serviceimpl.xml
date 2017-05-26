@@ -19,11 +19,8 @@ import com.lvmama.lvf.common.dto.BaseResultDto;
 import com.lvmama.lvf.common.dto.BaseSingleResultDto;
 import com.lvmama.lvf.common.dto.status.ResultStatus;
 import ${packageName}.${moduleName}.business.service.${ClassName}Service;
-import ${packageName}.${moduleName}.common.dto.enums.ValidStatus;
-import ${packageName}.${moduleName}.common.dto.request.transfer.${ClassName}SearchRequest;
-import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
-import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}ProductDto;
-import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}VehicleDto;
+import ${packageName}.${moduleName}.common.dto.enums.ValidStatus; 
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto; 
 import ${packageName}.${moduleName}.persistence.mapper.${ClassName}Mapper; 
 
 /**
