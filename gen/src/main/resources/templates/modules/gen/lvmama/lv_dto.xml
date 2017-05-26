@@ -2,7 +2,7 @@
 <template>
 	<name>Service</name>
 	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
-	<fileName>${ClassName}Service.java</fileName>
+	<fileName>${ClassName}Dto.java</fileName>
 	<content><![CDATA[
 package ${packageName}.${moduleName}.business.service;
 
@@ -23,7 +23,7 @@ import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}VehicleDto;
 * @author Administrator
 * @date 
 */
-public class ${ClassName}Dto extends ${ClassName}Dto extends Entity implements Serializable {
+public class ${ClassName}Dto  extends Entity implements Serializable {
 	private static final long serialVersionUID = 1L; 
  <#list table.columnList as c> 
  	//${c.comments}
