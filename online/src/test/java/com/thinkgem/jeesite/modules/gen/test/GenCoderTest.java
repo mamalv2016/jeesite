@@ -25,12 +25,16 @@ public class GenCoderTest {
 	String transferVendor= "aa715205e2924327be0f802a3745ce93";//服务供应商
 	
 	String transferVendorRel= "3a026dc1565c4ff99014ed9783b35a9c";//关联服务供应商
+	
+	String transferLocation= "6eb3ffcfd59a4671b1fd3f50affbfff1";//位置信息
+	
+	String orderSyn= "3f91c4823b8541358ebaf45f1091a246";//供应商状态同步
 	@Test
 	public void testGenCode() {
 		Long l = 1492592445000L;
 		Date d = new Date(l); 
 		System.out.println(DateUtils.formatDateTime(d));
-		GenScheme scheme   = genSchemeService.get(transferVendorRel);
+		GenScheme scheme   = genSchemeService.get(orderSyn);
 		scheme.setFlag("1");
 		scheme.setReplaceFile(true);
 		System.out.println(scheme.getDbName());

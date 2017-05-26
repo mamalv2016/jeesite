@@ -8,15 +8,15 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-     <link rel="stylesheet" href="${request.contextPath}/css/trip-list.css">
-    <link rel="stylesheet" href="${request.contextPath}/css/order-details.css" type="text/css"/>
-	<link type="text/css" rel="stylesheet" href="${request.contextPath}/js/resources/jquery-ui-1.8.11/css/redmond/jquery-ui-1.8.11.css"/>
-	<link type="text/css" rel="stylesheet" href="${request.contextPath}/js/resources/jqGrid/css/ui.jqgrid.css"/>
-	<script src="${request.contextPath}/js/resources/jqGrid/js/jquery-1.7.2.min.js"> </script>
-	<script src="${request.contextPath}/js/resources/jquery-ui-1.8.10.custom.min.js"></script>
-	<script src="${request.contextPath}/js/resources/jqGrid/src/i18n/grid.locale-cn.js"></script>
-	<script src="${request.contextPath}/js/resources/jqGrid/js/jquery.jqGrid.src.js"></script>
-	<script type="text/javascript" src="${request.contextPath}/js/My97DatePicker/WdatePicker.js"></script>
+     <link rel="stylesheet" href="${"$"}{request.contextPath}/css/trip-list.css">
+    <link rel="stylesheet" href="${"$"}{request.contextPath}/css/order-details.css" type="text/css"/>
+	<link type="text/css" rel="stylesheet" href="${"$"}{request.contextPath}/js/resources/jquery-ui-1.8.11/css/redmond/jquery-ui-1.8.11.css"/>
+	<link type="text/css" rel="stylesheet" href="${"$"}{request.contextPath}/js/resources/jqGrid/css/ui.jqgrid.css"/>
+	<script src="${"$"}{request.contextPath}/js/resources/jqGrid/js/jquery-1.7.2.min.js"> </script>
+	<script src="${"$"}{request.contextPath}/js/resources/jquery-ui-1.8.10.custom.min.js"></script>
+	<script src="${"$"}{request.contextPath}/js/resources/jqGrid/src/i18n/grid.locale-cn.js"></script>
+	<script src="${"$"}{request.contextPath}/js/resources/jqGrid/js/jquery.jqGrid.src.js"></script>
+	<script type="text/javascript" src="${"$"}{request.contextPath}/js/My97DatePicker/WdatePicker.js"></script>
 
   	<style>
         span{
@@ -33,15 +33,7 @@
                 <div class="main">
 
                     <div class="part">
-                        <span style="width:15%;">城市名称：</span> <input type="text" id="cityName" name="cityName" value="" mod="address|notice" mod_address_source="hotel" 
-							mod_address_suggest="" mod_address_reference="getcityid" placeholder="中文/拼音" />
-                        <span>有效性:</span>&nbsp;&nbsp;
-                        <select id="cityStatus" name="cityStatus" >
-                         <option value="">全部</option>
-					  	 <#list validStatus as tp>
-							 <option value="${tp}">${tp.cnName}</option>
-					  	 </#list> 							  	
-                        </select><br>                  
+                                      
                     </div>
 
                 </div>
@@ -116,7 +108,7 @@
 				return false;
 			} */
             $.ajax({
-                url : '${request.contextPath}/${className}/edit${className}',
+                url : '${"$"}{request.contextPath}/${className}/edit${ClassName}',
                 type : 'POST',
                 data : {
 	                <#assign editvals><#list table.columnList as c>
@@ -146,7 +138,7 @@
 			} */
 			
             $.ajax({
-                url : '${request.contextPath}/${className}/insert${className}',
+                url : '${"$"}{request.contextPath}/${className}/insert${ClassName}',
                 type : 'POST',
                 data : {
                     <#assign addvals><#list table.columnList as c>
@@ -174,7 +166,7 @@
     //查询列表信息
     function query() { 
         $("#${className}List").jqGrid('setGridParam', {
-            url : "${request.contextPath}/${className}/query${ClassName}List",
+            url : "${"$"}{request.contextPath}/${className}/query${ClassName}List",
             datatype : "json",
             mtype : "POST",
             postData : getQueryParams()
@@ -209,26 +201,26 @@
 	}
   
 
-   function getQueryParams() { 
-	var cn = $("#cityName").val();
-	cn = cn.substring(0,cn.indexOf('(')); 
-    return  {
-            'cityName':cn, 
-            'cityStatus':$("#cityStatus").val() }
+   function getQueryParams() {  
     } 
 		
     function initGrid() {
         $("#${className}List").jqGrid({
-            url : "${request.contextPath}/${className}/queryVasCityList",
+            url : "${"$"}{request.contextPath}/${className}/query${ClassName}List",
             datatype : "json",
             mtype : "POST",
-            colNames : [<#assign listTitle><#list table.columnList as c>${c.comments},</#list></#assign>${listTitle?substring(0, listTitle?last_index_of(","))}],
-            colModel : [<#assign listModel><#list table.columnList as c>{
-                name : '${c.javaFieldId}',
+            colNames : [<#list table.columnList as c>'${c.comments}',</#list>,'操作'],
+            colModel : [<#list table.columnList as c>{
+                name : '${c.javaFieldId}',//${c.comments}
                 index : '${c.javaFieldId}',
                 align : 'center', 
                 sortable:false
-            },</#list></#assign>${listModel?substring(0, listModel?last_index_of(","))}],
+            },</#list>{
+                name : 'operate',
+                index : 'operate',
+                align : 'center',
+                sortable:false
+            }],
             rowNum: 10,            //每页显示记录数
             autowidth: true,      //自动匹配宽度
             pager: '#pager',      //表格数据关联的分页条，html元素

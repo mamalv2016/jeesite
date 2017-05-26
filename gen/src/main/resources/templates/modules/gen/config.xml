@@ -19,7 +19,9 @@
 			<template>lvmama/lv_mapper.xml</template>
 			<template>lvmama/lv_resource.xml</template>
 			<template>lvmama/lv_service.xml</template>
+			<template>lvmama/lv_list.xml</template> 
 			<template>lvmama/lv_serviceimpl.xml</template>
+			<template>lvmama/lv_dto.xml</template>
 		</category>
 		<category value="curd_many" label="增删改查（一对多）">
 			<template>curd/controller.xml</template>

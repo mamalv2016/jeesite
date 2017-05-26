@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>Service</name>
+	<filePath>src/main/resources/mappings/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${ClassName}Service.java</fileName>
+	<content><![CDATA[
+package ${packageName}.${moduleName}.business.service;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.lvmama.lvf.common.dto.Entity;  
+import ${packageName}.${moduleName}.common.dto.request.transfer.${ClassName}SearchRequest;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}Dto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}ProductDto;
+import ${packageName}.${moduleName}.common.dto.transfer.${ClassName}VehicleDto;
+
+/**
+ * ${moduleDesc}信息
+* @author Administrator
+* @date 
+*/
+public class ${ClassName}Dto extends ${ClassName}Dto extends Entity implements Serializable {
+	private static final long serialVersionUID = 1L; 
+ <#list table.columnList as c> 
+ 	//${c.comments}
+ 	private ${c.simpleJavaType} ${c.javaFieldId};
+ 	
+ 	public ${c.simpleJavaType} get${c.javaFieldId?cap_first}(){
+ 		return this.${c.javaFieldId};
+ 	}
+ 	
+ 	public void set${c.javaFieldId?cap_first}(${c.simpleJavaType} ${c.javaFieldId}){
+ 		this.${c.javaFieldId} = ${c.javaFieldId};
+ 	} 
+ 	
+</#list>
+} 
+]]>
+	</content>
+</template>

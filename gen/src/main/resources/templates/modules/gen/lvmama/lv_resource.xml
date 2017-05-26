@@ -50,7 +50,7 @@ public class ${ClassName}Resource{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path(${ClassName}BusinessClientPath.Path.QUERY_${CLASSNAME}_BY_ID)
-	public Response queryProductTypeById(Long cityId){ 
+	public Response query${ClassName}ById(Long cityId){ 
 		try {
 			${ClassName}Dto ${className}Dto = ${className}Service.query${ClassName}ById(cityId);
 			return Response.ok(${className}Dto).build();
