@@ -17,6 +17,8 @@
 */.settings/*
 temp/*
 *.log
+logs/*
+temp/*
 online/.externalToolBuilders/
 logs/*
 *.data

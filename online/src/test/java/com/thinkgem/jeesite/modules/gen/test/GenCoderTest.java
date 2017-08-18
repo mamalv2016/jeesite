@@ -29,12 +29,14 @@ public class GenCoderTest {
 	String transferLocation= "6eb3ffcfd59a4671b1fd3f50affbfff1";//位置信息
 	
 	String orderSyn= "3f91c4823b8541358ebaf45f1091a246";//供应商状态同步
+	
+	String promotionActivity= "3626584e6d35431c9ef8f58a8bebda4a";//促销活动
 	@Test
 	public void testGenCode() {
 		Long l = 1492592445000L;
 		Date d = new Date(l); 
 		System.out.println(DateUtils.formatDateTime(d));
-		GenScheme scheme   = genSchemeService.get(orderSyn);
+		GenScheme scheme   = genSchemeService.get(promotionActivity);
 		scheme.setFlag("1");
 		scheme.setReplaceFile(true);
 		System.out.println(scheme.getDbName());
