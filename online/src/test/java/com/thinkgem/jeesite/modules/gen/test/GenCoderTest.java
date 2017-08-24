@@ -33,7 +33,7 @@ public class GenCoderTest {
 	String promotionActivity= "3626584e6d35431c9ef8f58a8bebda4a";//促销活动
 	@Test
 	public void testGenCode() {
-		Long l = 1492592445000L;
+		/*Long l = 1492592445000L;
 		Date d = new Date(l); 
 		System.out.println(DateUtils.formatDateTime(d));
 		GenScheme scheme   = genSchemeService.get(promotionActivity);
@@ -41,7 +41,7 @@ public class GenCoderTest {
 		scheme.setReplaceFile(true);
 		System.out.println(scheme.getDbName());
 		genSchemeService.save(scheme);
-		System.out.println(1);
+		System.out.println(1);*/
 	}
 	
 	
