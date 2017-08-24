@@ -48,10 +48,12 @@
 		<div class="control-group">
 			<label class="control-label">上级编码:</label>
 			<div class="controls">
-				<form:select path="parentCode" class="input-medium">
+			<sys:treeselect id="orderId" name="orderId" value="${tallyType.orderId}" labelName="TALLY_TYPE_DESC" labelValue="${tallyType.moneyTypeDesc}"
+					title="编码" url="/money/tallytype/treeData?type=1" cssClass="required" checked="true"/>
+				<%-- <form:select path="parentCode" class="input-medium">
 					<form:option     value="" htmlEscape="false">不选择</form:option>
 					<form:options items="${fns:getTallyTypeList()}" itemLabel="moneyTypeDesc" itemValue="typeCode" htmlEscape="false"/>
-				</form:select> 
+				</form:select>  --%>
 			</div>
 		</div>
 		<div class="control-group">

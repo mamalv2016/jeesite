@@ -3,6 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.money.web;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,15 +16,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.money.entity.TallyType;
 import com.thinkgem.jeesite.modules.money.service.wrapper.TallyTypeServiceWrapper;
-import com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils;
+import com.thinkgem.jeesite.modules.money.utils.MoneyUtils;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 /**
  * 字典Controller
  * @author ThinkGem
@@ -55,7 +62,7 @@ public class TallyTypeController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(TallyType tallyType, Model model) {
 		model.addAttribute("tallyType", tallyType);
-		model.addAttribute("types",TallyTypeUtils.getTallyTypes());
+		model.addAttribute("types",MoneyUtils.getTallyTypes());
 		return "modules/money/tallyTypeForm";
 	}
 
@@ -76,5 +83,22 @@ public class TallyTypeController extends BaseController {
 		tallyTypeService.delete(tallyType);
 		addMessage(redirectAttributes, "删除类型成功");
 		return "redirect:modules/money/tallyTypeList";
+	}
+	@ResponseBody
+	@RequestMapping(value = "treeData")
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, @RequestParam(required=false) String type,
+			@RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		List<TallyType> list = tallyTypeService.findList(null);
+		for (int i=0; i<list.size(); i++){
+			TallyType e = list.get(i);
+				Map<String, Object> map = Maps.newHashMap();
+				map.put("id", e.getTypeCode());
+				map.put("pId", e.getParentCode());
+				map.put("name", e.getMoneyTypeDesc());
+				mapList.add(map);
+			
+		}
+		return mapList;
 	}
 }

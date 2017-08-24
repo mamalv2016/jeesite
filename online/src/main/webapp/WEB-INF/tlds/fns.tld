@@ -247,8 +247,16 @@
    <function>
     <description>获取金额类型列表</description>
     <name>getTallyTypeList</name>
-    <function-class>com.thinkgem.jeesite.modules.money.utils.TallyTypeUtils</function-class>
+    <function-class>com.thinkgem.jeesite.modules.money.utils.MoneyUtils</function-class>
     <function-signature>java.util.List getTallyTypes()</function-signature>
     <example>${fns:getTallyTypeList()}</example>  
+  </function>
+  
+  <function>
+    <description>获取理财系统用户列表</description>
+    <name>getMoneyUserList</name>
+    <function-class>com.thinkgem.jeesite.modules.money.utils.MoneyUtils</function-class>
+    <function-signature>java.util.List getMoneyUsers()</function-signature>
+    <example>${fns:getMoneyUserList()}</example>  
   </function>
 </taglib>

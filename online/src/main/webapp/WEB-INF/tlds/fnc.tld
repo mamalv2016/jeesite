@@ -98,5 +98,11 @@
     <function-signature>java.util.List getLinkList(java.lang.String, java.lang.String, int, java.lang.String)</function-signature>
     <example>${fnc:getLinkList(siteId, categoryId, number, param)}</example>  
   </function>
-  
+  <function>
+     <description>获取金额类型</description>
+     <name>getMoneyTypename</name>
+     <function-class>com.thinkgem.jeesite.modules.money.utils.MoneyUtils</function-class>
+     <function-signature>java.lang.String getMoneyTypename(java.lang.String)</function-signature>
+     <example>${fnc:getMoneyTypename(str)}</example>
+  </function>
 </taglib>

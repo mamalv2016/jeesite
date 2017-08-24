@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.renjie120.modules.moneydetail.dao.MoneyDetailInfoDao">
+    
+	<sql id="moneyDetailInfoColumns">
+		a.money_sno AS "moneySno",
+		a.money_time AS "moneyTime",
+		a.money AS "money",
+		a.money_type AS "moneyType",
+		a.money_desc AS "moneyDesc",
+		a.shopcard AS "shopcard",
+		a.useful AS "useful",
+		a.booktype AS "booktype",
+		a.splitno AS "splitno",
+		a.real_money AS "realMoney",
+		a.username AS "username"
+	</sql>
+	
+	<sql id="moneyDetailInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="MoneyDetailInfo">
+		SELECT 
+			<include refid="moneyDetailInfoColumns"/>
+		FROM money_detail_t a
+		<include refid="moneyDetailInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MoneyDetailInfo">
+		SELECT 
+			<include refid="moneyDetailInfoColumns"/>
+		FROM money_detail_t a
+		<include refid="moneyDetailInfoJoins"/>
+		<where>
+			
+			<if test="beginMoneyTime != null and endMoneyTime != null and beginMoneyTime != '' and endMoneyTime != ''">
+				AND a.money_time BETWEEN #{beginMoneyTime} AND #{endMoneyTime}
+			</if>
+			<if test="money != null and money != ''">
+				AND a.money = #{money}
+			</if>
+			<if test="moneyType != null and moneyType != ''">
+				AND a.money_type = #{moneyType}
+			</if>
+			<if test="moneyDesc != null and moneyDesc != ''">
+				AND a.money_desc LIKE 
+					<if test="dbName == 'oracle'">'%'||#{moneyDesc}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{moneyDesc}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{moneyDesc},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MoneyDetailInfo">
+		SELECT 
+			<include refid="moneyDetailInfoColumns"/>
+		FROM money_detail_t a
+		<include refid="moneyDetailInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO money_detail_t(
+			money_sno,
+			money_time,
+			money,
+			money_type,
+			money_desc,
+			shopcard,
+			useful,
+			booktype,
+			splitno,
+			real_money,
+			username
+		) VALUES (
+			#{moneySno},
+			#{moneyTime},
+			#{money},
+			#{moneyType},
+			#{moneyDesc},
+			#{shopcard},
+			#{useful},
+			#{booktype},
+			#{splitno},
+			#{realMoney},
+			#{username}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE money_detail_t SET 	
+			money_time = #{moneyTime},
+			money = #{money},
+			money_type = #{moneyType},
+			money_desc = #{moneyDesc},
+			shopcard = #{shopcard},
+			useful = #{useful},
+			booktype = #{booktype},
+			splitno = #{splitno},
+			real_money = #{realMoney},
+			username = #{username}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM money_detail_t
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
