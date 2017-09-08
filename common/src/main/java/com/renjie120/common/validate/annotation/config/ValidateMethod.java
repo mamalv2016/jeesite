@@ -3,11 +3,6 @@ package com.renjie120.common.validate.annotation.config;
 import java.lang.annotation.*;
 
 
-/**
- * 
- * @author dengcheng
- *
- */
 @Inherited
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

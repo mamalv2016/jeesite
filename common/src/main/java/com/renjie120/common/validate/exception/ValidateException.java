@@ -1,7 +1,8 @@
 package com.renjie120.common.validate.exception;
 
 
-import com.lvmama.lvtraffic.common.validate.enums.LvtrafficCode;
+
+import com.renjie120.common.validate.enums.ValidateErrorCode;
 
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ public class ValidateException extends RuntimeException implements Serializable 
     private static final long serialVersionUID = 3420279558457367260L;
 
     /** 状态枚举 */
-    private LvtrafficCode lvtrafficCode;
+    private ValidateErrorCode validateErrorCode;
 
     /** 错误消息 */
     private String errMessage;
@@ -19,17 +20,17 @@ public class ValidateException extends RuntimeException implements Serializable 
         super();
     }
 
-    public ValidateException(LvtrafficCode lvtrafficCode, String errMessage) {
-        this.lvtrafficCode = lvtrafficCode;
+    public ValidateException(ValidateErrorCode validateErrorCode, String errMessage) {
+        this.validateErrorCode = validateErrorCode;
         this.errMessage = errMessage;
     }
 
-    public LvtrafficCode getOtaCode() {
-        return lvtrafficCode;
+    public ValidateErrorCode getOtaCode() {
+        return validateErrorCode;
     }
 
-    public void setOtaCode(LvtrafficCode lvtrafficCode) {
-        this.lvtrafficCode = lvtrafficCode;
+    public void setOtaCode(ValidateErrorCode validateErrorCode) {
+        this.validateErrorCode = validateErrorCode;
     }
 
     public String getErrMessage() {

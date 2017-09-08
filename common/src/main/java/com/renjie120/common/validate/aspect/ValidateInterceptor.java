@@ -1,11 +1,11 @@
 package com.renjie120.common.validate.aspect;
 
-import com.lvmama.lvf.common.utils.DateUtils;
-import com.lvmama.lvtraffic.common.validate.annotation.valid.*;
-import com.lvmama.lvtraffic.common.validate.enums.LvtrafficCode;
-import com.lvmama.lvtraffic.common.validate.exception.ValidateException;
-import com.lvmama.lvtraffic.common.validate.inte.ValidateAble;
-import org.apache.commons.lang.StringUtils;
+import com.renjie120.common.validate.annotation.valid.*;
+import com.renjie120.common.validate.enums.ValidateErrorCode;
+import com.renjie120.common.validate.exception.ValidateException;
+import com.renjie120.common.validate.inte.ValidateAble;
+import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -32,14 +32,6 @@ public class ValidateInterceptor {
 			Object[] objects = joinPoint.getArgs();
 			for (Object obj : objects) {
 				if (null != obj) {
-//					if (obj instanceof OtaRequest) {
-//						OtaRequest ropRequestBody = (OtaRequest) obj;
-//						obj = ropRequestBody.getData();
-//						if (ropRequestBody.getData() != null) {
-//							logger.info(ropRequestBody.getData().toString());
-//						}
-//					}
-
 					for (Class<?> clazz = obj.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
 
 						logger.debug(clazz);
@@ -136,25 +128,25 @@ public class ValidateInterceptor {
 	public static void validate(Annotation annotation, Object object) throws Exception {
 		if (annotation instanceof NotNull) {
 			if (null == object) {
-				throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((NotNull) annotation).message());
+				throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((NotNull) annotation).message());
 			}
 		} else if (annotation instanceof NotEmpty) {
             if (null == object || "" == object.toString()) {
-                throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((NotEmpty) annotation).message());
+                throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((NotEmpty) annotation).message());
             }
         } else if (annotation instanceof ObjectNotEmpty) {
 			if (null == object) {
-				throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
+				throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
 			} else if (object instanceof List) {
 				if (null == object || ((List) object).size() <= 0) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
 				}
 				for (Object o : (List) object) {
 					if (null == o) {
-						throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
+						throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
 					} else if (o instanceof String) {
 						if (StringUtils.isEmpty((String) o)) {
-							throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
+							throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((ObjectNotEmpty) annotation).message());
 						}
 					}
 					else if (o instanceof ValidateAble) {
@@ -177,7 +169,7 @@ public class ValidateInterceptor {
 			if (object instanceof String) {
 				if (((String) object).length() < min
 						|| ((String) object).length() > max) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Size) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Size) annotation).message());
 				}
 			}
 		}else if (annotation instanceof IsEnum) {
@@ -188,7 +180,7 @@ public class ValidateInterceptor {
 					Method m = clz.getMethod("valueOf", String.class);
 					m.invoke(clz,(String) object);
 				}catch(Exception e){
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((IsEnum) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((IsEnum) annotation).message());
 				}
 			}
 		} else if (annotation instanceof Email) {
@@ -198,10 +190,10 @@ public class ValidateInterceptor {
 				Pattern p = Pattern.compile(regex);
 				Matcher m = p.matcher(sResult);
 				if (!m.find()) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Email) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Email) annotation).message());
 				}
 			} else {
-				throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Email) annotation).message());
+				throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Email) annotation).message());
 			}
 
 		} else if (annotation instanceof Tel) {
@@ -211,10 +203,10 @@ public class ValidateInterceptor {
 				Pattern p = Pattern.compile(regex);
 				Matcher m = p.matcher(sResult);
 				if (!m.find()) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Tel) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Tel) annotation).message());
 				}
 			} else {
-				throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Tel) annotation).message());
+				throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Tel) annotation).message());
 			}
 
 		} else if (annotation instanceof Length) {
@@ -223,25 +215,25 @@ public class ValidateInterceptor {
 			if (object instanceof String) {
 				if (((String) object).length() < min
 						|| ((String) object).length() > max) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Length) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Length) annotation).message());
 				}
 			}
 		} else if (annotation instanceof NotZero) {
 			if (object instanceof Integer) {
 				if ((Integer) object == 0) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
 				}
 			} else if (object instanceof Long) {
 				if ((Long) object == 0) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
 				}
 			} else if (object instanceof Float) {
 				if ((Float) object == 0) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
 				}
 			} else if (object instanceof Double) {
 				if ((Double) object == 0) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((NotZero) annotation).message());
 				}
 			}
 		} else if (annotation instanceof Range) {
@@ -249,31 +241,31 @@ public class ValidateInterceptor {
 			int max = ((Range) annotation).max();
 			if (object instanceof Integer) {
 				if ((((Integer) object) < min) || ((Integer) object) > max) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
 				}
 			} else if (object instanceof Long) {
 				if ((((Long) object) < min) || ((Long) object) > max) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
 				}
 			} else if (object instanceof Float) {
 				if ((((Float) object) < min) || ((Float) object) > max) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
 				}
 			} else if (object instanceof Double) {
 				if ((((Double) object) < min) || ((Double) object) > max) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Range) annotation).message());
 				}
 			}
 		} else if (annotation instanceof Future) {
 			if (null == object) {
-				throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Future) annotation).message());
+				throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Future) annotation).message());
 			} else if (object instanceof String) {
 				if (StringUtils.isEmpty(object.toString()) || DateUtils.parseDate(DateUtils.formatDate(new Date())).compareTo(DateUtils.parseDate(object.toString())) == 1) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Future) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Future) annotation).message());
 				}
 			} else if (object instanceof Date) {
 				if (new Date().before((Date) object)) {
-					throw new ValidateException(LvtrafficCode.PARAMS_ERROR, LvtrafficCode.PARAMS_ERROR.getMessage() + "：" + ((Future) annotation).message());
+					throw new ValidateException(ValidateErrorCode.PARAMS_ERROR, ValidateErrorCode.PARAMS_ERROR.getMessage() + "：" + ((Future) annotation).message());
 				}
 			}
 		}
