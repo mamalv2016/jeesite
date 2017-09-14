@@ -38,17 +38,15 @@ public class TallyTypeServiceWrapper implements ICurdService<TallyType> {
 		return tallyTypeService.findList(entity);
 	}
 
-	@LoggerPoint(pointKey=PointerKey.MONEY_TALLYTYPE)
+
 	public Page<TallyType> findPage(Page<TallyType> page, TallyType entity) { 
 		return tallyTypeService.findPage(page, entity);
 	}
 
-	@LoggerPoint(pointKey=PointerKey.MONEY_TALLYTYPE)
 	public void save(TallyType entity) {
 		tallyTypeService.save(entity);
 	}
 
-	@LoggerPoint(pointKey=PointerKey.MONEY_TALLYTYPE)
 	public void delete(TallyType entity) {
 		tallyTypeService.delete(entity);
 	}

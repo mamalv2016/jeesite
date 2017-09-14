@@ -3,6 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.money.service;
 
+import com.renjie120.common.annotation.log.LoggerPoint;
+import com.renjie120.common.enums.PointerKey;
+import com.thinkgem.jeesite.common.persistence.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +24,8 @@ import com.thinkgem.jeesite.modules.money.utils.MoneyUtils;
 @Transactional(readOnly = true)
 public class TallyTypeService extends CrudService<TallyTypeDao, TallyType> {  
 	
-	@Transactional(readOnly = false) 
+	@Transactional(readOnly = false)
+	@LoggerPoint(pointKey= PointerKey.MONEY_TALLYTYPE)
 	public void save(TallyType dict) {
 		if(dict.getId()==null||"".equals(dict.getId().trim())){
 			int maxId = dao.generateMaxId()+1;
@@ -32,9 +36,16 @@ public class TallyTypeService extends CrudService<TallyTypeDao, TallyType> {
 			dao.update(dict);
 		}
 		CacheUtils.remove(MoneyUtils.CACHE_TALLYTYPE);
-	} 
+	}
+
+	@Override
+	@LoggerPoint(pointKey=PointerKey.MONEY_TALLYTYPE)
+	public Page<TallyType> findPage(Page<TallyType> page, TallyType entity) {
+		return super.findPage(page,entity);
+	}
 	
 	@Transactional(readOnly = false)
+	@LoggerPoint(pointKey=PointerKey.MONEY_TALLYTYPE)
 	public void delete(TallyType dict) {
 		super.delete(dict);
 		CacheUtils.remove(MoneyUtils.CACHE_TALLYTYPE);
