@@ -44,6 +44,7 @@ public class DynamicPropertiesHelperFactory {
 			return null;
 		}
 
+		//得到这个zk的key对应的具体的值.
 		String initValue = this.configChangeSubscriber.getInitValue(key);
 		final DynamicPropertiesHelper helper = new DynamicPropertiesHelper(initValue);
 		DynamicPropertiesHelper old = (DynamicPropertiesHelper) this.helpers
@@ -57,7 +58,7 @@ public class DynamicPropertiesHelperFactory {
 		 */
 		this.configChangeSubscriber.subscribe(key, new ConfigChangeListener() {
 			public void configChanged(String key, String value) {
-				helper.refresh(value);
+				helper.refresh(key,value);
 			}
 		});
 		return helper;

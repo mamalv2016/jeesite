@@ -16,6 +16,8 @@ import com.renjie120.common.config.ConfigClient;
 
 /**
  * 自定义对属性文件进行扩展.
+ * 通过实现ConfigClient接口装载属性配置到spring的属性容器中.
+ * 可以通过:CustomizedPropertyPlaceholderConfigurer.getContextProperty(name)得到属性的值。
  * @author Administrator
  *
  */
@@ -44,7 +46,7 @@ public class CustomizedPropertyPlaceholderConfigurer extends PropertyPlaceholder
     
     public void reload(){
     	this.loadFromProperties();
-    	//下面使用ServiceLoader方式扩展属性.
+    	//下面使用ServiceLoader方式扩展属性.通过实现ConfigClient接口装载属性配置到spring的属性容器中.
     	ServiceLoader<ConfigClient> serviceLoader = ServiceLoader.load(ConfigClient.class);
 		Iterator<ConfigClient> iterators = serviceLoader.iterator();
 		while (iterators.hasNext()) {

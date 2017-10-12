@@ -41,19 +41,23 @@ public class ZkConfigPublisher {
 	}
 
 	public static void main(String[] args) {
-		loadProperties();
+//		loadProperties();
 
 		ZkClient client = new ZkClient(ZK_ADDRESS, ZK_TIMEOUT);
 		client.setZkSerializer(new ZkUtils.StringSerializer(ZK_CONF_ENCODING));
 
-		File confDir = new File(CONF_DIR);
-		System.out.println(confDir.getAbsolutePath());
-		if ((!confDir.exists()) || (!confDir.isDirectory())) {
-			System.err.println("错误： 配置目录" + confDir + "不存在或非法! ");
-			System.exit(1);
-		}
+		String path = client.createPersistentSequential("/lsq/zktest","");
+		System.out.println(path);
+		System.out.println(path);
 
-		publishConfigs(client, ZK_CONFIG_ROOTNODE, confDir);
+//		File confDir = new File(CONF_DIR);
+//		System.out.println(confDir.getAbsolutePath());
+//		if ((!confDir.exists()) || (!confDir.isDirectory())) {
+//			System.err.println("错误： 配置目录" + confDir + "不存在或非法! ");
+//			System.exit(1);
+//		}
+//
+//		publishConfigs(client, ZK_CONFIG_ROOTNODE, confDir);
 	}
 
 	private static void publishConfigs(ZkClient client, String rootNode,

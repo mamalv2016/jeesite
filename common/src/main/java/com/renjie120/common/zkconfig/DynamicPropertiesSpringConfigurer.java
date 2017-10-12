@@ -1,8 +1,8 @@
 package com.renjie120.common.zkconfig;
 
+import org.I0Itec.zkclient.ZkClient;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
@@ -21,6 +21,17 @@ public class DynamicPropertiesSpringConfigurer extends
 	private DynamicPropertiesHelperFactory helperFactory;
 	private String[] propertiesKeys;
 
+    public ZkClient getZkClient()
+    {
+        return zkClient;
+    }
+
+    public void setZkClient(ZkClient zkClient)
+    {
+        this.zkClient = zkClient;
+    }
+
+    private ZkClient zkClient;
 	public void setHelperFactory(DynamicPropertiesHelperFactory helperFactory) {
 		this.helperFactory = helperFactory;
 	}
@@ -41,6 +52,7 @@ public class DynamicPropertiesSpringConfigurer extends
 					Enumeration<String> keys = helper.getPropertyKeys();
 					while (keys.hasMoreElements()) {
 						String key = (String) keys.nextElement();
+						//helper.registerListener(key,new ZkPropertyChangeListenerImpl("/lsq/conf/"+propsKey,key));
 						props.put(key, helper.getProperty(key));
 					}
 				} else {

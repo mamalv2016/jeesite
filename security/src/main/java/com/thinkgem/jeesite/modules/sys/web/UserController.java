@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
+import com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer;
+import com.thinkgem.jeesite.modules.sys.service.TestZkService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,7 +52,10 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private SystemService systemService;
-	
+
+	@Value("jdbc.url")
+	private String propName;
+
 	@ModelAttribute
 	public User get(@RequestParam(required=false) String id) {
 		if (StringUtils.isNotBlank(id)){
@@ -265,6 +271,8 @@ public class UserController extends BaseController {
 		return "false";
 	}
 
+	@Autowired
+	private TestZkService testZkService;
 	/**
 	 * 用户信息显示及保存
 	 * @param user
@@ -288,11 +296,15 @@ public class UserController extends BaseController {
 			systemService.updateUserInfo(currentUser);
 			model.addAttribute("message", "保存用户信息成功");
 		}
+		model.addAttribute("testProp",getTestName());
 		model.addAttribute("user", currentUser);
 		model.addAttribute("Global", new Global());
 		return "modules/sys/userInfo";
 	}
 
+	private String getTestName(){
+		return CustomizedPropertyPlaceholderConfigurer.getContextProperty(propName);
+	}
 	/**
 	 * 返回用户信息
 	 * @return

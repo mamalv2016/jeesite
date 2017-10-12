@@ -29,7 +29,7 @@ public class DynamicPropertiesHelper {
 					(String) propEn.getValue());
 	}
 
-	private Properties parse(String value) {
+	public static Properties parse(String value) {
 		Properties props = new Properties();
 		if (!StringUtils.isEmpty(value))
 			try {
@@ -39,7 +39,8 @@ public class DynamicPropertiesHelper {
 		return props;
 	}
 
-	public synchronized void refresh(String propertiesAsStr) {
+	public synchronized void refresh(String key,String propertiesAsStr) {
+		System.out.println("refresh中,保存到key="+key+",zk："+propertiesAsStr);
 		Properties props = parse(propertiesAsStr);
 		for (Map.Entry<Object, Object> propEn : props.entrySet())
 			setValue((String) propEn.getKey(), (String) propEn.getValue());

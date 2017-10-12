@@ -20,7 +20,7 @@
 	<description>Spring Configuration</description>
 	
     <!-- 加载配置属性文件 -->
-	<context:property-placeholder ignore-unresolvable="true" location="classpath:jeesite.properties" />
+	<!--context:property-placeholder ignore-unresolvable="true" location="classpath:jeesite.properties" /-->
 	
 	<!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
     <util:properties id="APP_PROP" location="classpath:jeesite.properties" local-override="true"/>
@@ -33,21 +33,66 @@
 	
 	<context:component-scan base-package="com.renjie120"  ><!-- base-package 如果多个，用“,”分隔 -->
 	</context:component-scan>
-	 
-    
-    <bean id="propertyConfigurer"
-          class="com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer"
-          lazy-init="false">
-        <property name="order" value="1"/>
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <property name="fileEncoding" value="UTF-8"></property>
-        <property name="locations">
-            <list> 
-                 <value>classpath*:online.properties</value> 
-                  <!--  value>classpath*:jeesite.properties</value-->
-            </list>
-        </property>
-    </bean>
+	<context:component-scan base-package="com.renjie120.common.zkconfig" />
+	<bean id="testZkService"
+		  class="com.thinkgem.jeesite.modules.sys.service.TestZkService">
+		<property name="testProp" value="${testname}"/>
+	</bean>
+
+	<bean id="zkConfigurer"
+		  class="com.renjie120.common.zkconfig.DynamicPropertiesSpringConfigurer">
+		<property name="order" value="1" />
+		<property name="zkClient" ref="zkClient" />
+		<property name="helperFactory" ref="helperFactory" />
+		<property name="propertiesKeys">
+			<list>
+				<value>testPro2</value>
+				<value>zkpublisher.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location" value="classpath:zkpublisher.properties" />
+	</bean>
+
+	<bean id="propertyConfigurer"
+		  class="com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer"
+		  lazy-init="false">
+		<property name="order" value="2"/>
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="fileEncoding" value="UTF-8"></property>
+		<property name="locations">
+			<list>
+				<value>classpath*:online.properties</value>
+				<value>classpath*:jeesite.properties</value>
+				<!--  value>classpath*:jeesite.properties</value-->
+			</list>
+		</property>
+	</bean>
+	<bean id="zkPropertyChange" class="com.renjie120.common.zkconfig.ZkPropertyChangeListenerImpl">
+		<property name="zkClient" value="zkClient"/>
+	</bean>
+
+	<bean id="zkSerializer" class="com.renjie120.common.zkconfig.ZkUtils.StringSerializer">
+		<constructor-arg value="UTF-8" />
+	</bean>
+
+	<bean id="zkClient" class="org.I0Itec.zkclient.ZkClient">
+		<constructor-arg index="0" value="127.0.0.1:2181" />
+		<constructor-arg index="1" value="100000" />
+		<property name="zkSerializer" ref="zkSerializer"></property>
+	</bean>
+
+	<bean id="configChangeSubscriber" class="com.renjie120.common.zkconfig.ZkConfigChangeSubscriberImpl">
+		<constructor-arg index="0" ref="zkClient"></constructor-arg>
+		<constructor-arg index="1" value="/lsq/conf"></constructor-arg>
+	</bean>
+
+	<bean id="helperFactory" class="com.renjie120.common.zkconfig.DynamicPropertiesHelperFactory">
+		<constructor-arg ref="configChangeSubscriber"></constructor-arg>
+	</bean>
+
+
+
     
 	<bean id="loggerAspect" class="com.renjie120.common.annotation.log.LoggerAspect" /> 
 	

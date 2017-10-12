@@ -30,6 +30,7 @@ public class ZkConfigChangeSubscriberImpl implements ConfigChangeSubscriber {
 							+ ")不存在, 必须先定义配置才能监听配置的变化, 请检查配置的key是否正确, 如果确认配置key正确, 那么需要保证先使用配置发布命令发布配置! ");
 		}
 
+		System.out.println("监听变化的路径："+path);
 		this.zkClient.subscribeDataChanges(path, new DataListenerAdapter(
 				listener));
 	}
@@ -84,11 +85,13 @@ public class ZkConfigChangeSubscriberImpl implements ConfigChangeSubscriber {
 		}
 
 		public void handleDataChange(String s, Object obj) throws Exception {
+			System.out.println("zk路径："+s+"变化了");
 			ZkConfigChangeSubscriberImpl.this.fireConfigChanged(s,
 					(String) obj, this.configListener);
 		}
 
 		public void handleDataDeleted(String s) throws Exception {
+			System.out.println("zk路径："+s+"删除");
 		}
 	}
 }

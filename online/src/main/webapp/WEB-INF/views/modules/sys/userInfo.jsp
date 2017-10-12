@@ -22,6 +22,20 @@
 				}
 			});
 		});
+
+		function testChangeZk(){
+                    $.ajax({
+        		       type: "get",
+        		       url: "${ctx}/changeZk",
+        		       success: function(allPrice) {
+        		       	   console.info(allPrice)
+        		    	   //总价
+        		       },
+        		       error:function(data)
+        		       {
+        		       }
+        		   });
+        		}
 	</script>
 </head>
 <body>
@@ -40,6 +54,12 @@
 				<sys:ckfinder input="nameImage" type="images" uploadPath="/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
 			</div>
 		</div>
+		<div class="control-group">
+            <label class="control-label">测试zk值:</label>
+            <div class="controls">
+                <label class="lbl">${testProp}</label>
+            </div>
+        </div>
 		<div class="control-group">
 			<label class="control-label">归属公司:</label>
 			<div class="controls">
@@ -101,6 +121,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
+		    <input class="btn btn-large btn-primary" type="button" onclick='testChangeZk()' value="修改zk数据"/>&nbsp;&nbsp;
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>
 		</div>
 	</form:form>

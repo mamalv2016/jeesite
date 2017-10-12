@@ -166,8 +166,7 @@ public class JsonUtils {
 
 	/**
 	 * 解析json字符串为java对象.
-	 * 
-	 * @param obj
+	 *
 	 * @param clazz
 	 * @return
 	 */
