@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.money.service.wrapper;
 
 import java.util.*;
 
+import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
 import com.thinkgem.jeesite.modules.sys.dao.DictDao;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
@@ -90,6 +91,7 @@ public class TallyTypeServiceWrapper implements ICurdService<TallyType> {
 			dictDao.insert(d);
 		}
 
+		CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
 		DictUtils.getDictList("moneyType");
 	}
 
