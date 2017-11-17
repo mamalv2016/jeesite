@@ -41,7 +41,10 @@ public class CustomizedPropertyPlaceholderConfigurer extends PropertyPlaceholder
     } 
  
     public static <T> T getContextProperty(String name) {
-        return (T)ctxPropertiesMap.get(name); 
+    	if(ctxPropertiesMap!=null)
+       		 return (T)ctxPropertiesMap.get(name);
+    	else
+    		return null;
     } 
     
     public void reload(){

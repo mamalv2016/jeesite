@@ -5,6 +5,7 @@ package com.renjie120.modules.moneydetail.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,5 +45,18 @@ public class MoneyDetailInfoService extends CrudService<MoneyDetailInfoDao, Mone
 	public void delete(MoneyDetailInfo moneyDetailInfo) {
 		super.delete(moneyDetailInfo);
 	}
-	
+
+	@Transactional(readOnly = false)
+	public void deleteAll(MoneyDetailInfo moneyDetailInfo) {
+		if(StringUtils.isNotBlank(moneyDetailInfo.getMoneySno())){
+			String snos = moneyDetailInfo.getMoneySno();
+			String[] nos = StringUtils.split(snos,",");
+			for(String s:nos) {
+				MoneyDetailInfo info  = new MoneyDetailInfo();
+				info.setMoneySno(s);
+				super.delete(info);
+			}
+		}
+
+	}
 }

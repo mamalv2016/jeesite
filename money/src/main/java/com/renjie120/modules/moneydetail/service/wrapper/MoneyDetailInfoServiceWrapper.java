@@ -5,6 +5,7 @@ package com.renjie120.modules.moneydetail.service.wrapper;
 
 import java.util.List;
 
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,10 +47,26 @@ public class MoneyDetailInfoServiceWrapper implements ICurdService<MoneyDetailIn
 	public void save(MoneyDetailInfo moneyDetailInfo) {
 		moneyDetailInfoService.save(moneyDetailInfo);
 	}
+
+	@LoggerPoint(pointKey=PointerKey.UNKNOW)
+	public void batchSave(List<MoneyDetailInfo> moneyDetailInfos) {
+		if(!CollectionUtils.isEmpty(moneyDetailInfos)){
+			for(MoneyDetailInfo moneyDetailInfo :moneyDetailInfos )
+			{
+				moneyDetailInfo.setUseful("1");
+				moneyDetailInfoService.save(moneyDetailInfo);
+			}
+		}
+
+	}
 	 
 	@LoggerPoint(pointKey=PointerKey.UNKNOW)
 	public void delete(MoneyDetailInfo moneyDetailInfo) {
 		moneyDetailInfoService.delete(moneyDetailInfo);
 	}
-	
+
+	@LoggerPoint(pointKey=PointerKey.UNKNOW)
+	public void deleteAll(MoneyDetailInfo moneyDetailInfo) {
+		moneyDetailInfoService.deleteAll(moneyDetailInfo);
+	}
 }

@@ -39,7 +39,7 @@
 		<property name="testProp" value="${testname}"/>
 	</bean>
 
-	<bean id="zkConfigurer"
+	<!--bean id="zkConfigurer"
 		  class="com.renjie120.common.zkconfig.DynamicPropertiesSpringConfigurer">
 		<property name="order" value="1" />
 		<property name="zkClient" ref="zkClient" />
@@ -52,9 +52,9 @@
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="location" value="classpath:zkpublisher.properties" />
-	</bean>
+	</bean-->
 
-	<bean id="propertyConfigurer"
+	<!--bean id="propertyConfigurer"
 		  class="com.renjie120.common.utils.CustomizedPropertyPlaceholderConfigurer"
 		  lazy-init="false">
 		<property name="order" value="2"/>
@@ -64,10 +64,15 @@
 			<list>
 				<value>classpath*:online.properties</value>
 				<value>classpath*:jeesite.properties</value>
-				<!--  value>classpath*:jeesite.properties</value-->
 			</list>
 		</property>
+	</bean-->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!-- 指定所上传文件的总大小不能超过10MB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="5242880"/>
 	</bean>
+
 	<bean id="zkPropertyChange" class="com.renjie120.common.zkconfig.ZkPropertyChangeListenerImpl">
 		<property name="zkClient" value="zkClient"/>
 	</bean>

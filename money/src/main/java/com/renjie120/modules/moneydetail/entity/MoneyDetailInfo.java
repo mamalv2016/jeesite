@@ -3,6 +3,7 @@
  */
 package com.renjie120.modules.moneydetail.entity;
 
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -19,9 +20,13 @@ public class MoneyDetailInfo extends DataEntity<MoneyDetailInfo> {
 	
 	private static final long serialVersionUID = 1L;
 	private String moneySno;		// 主键
+	@ExcelField(title="时间" ,type=2,groups={1},columnNum = 9)
 	private Date moneyTime;		// 时间
+	@ExcelField(title="金额",type=2,groups={1},columnNum = 5)
 	private String money;		// 金额
+	@ExcelField(title="金额类型",dictType="moneyType",type=2,groups={1},columnNum =2)
 	private String moneyType;		// 类型
+	@ExcelField(title="金额描述",type=2,groups={1},columnNum = 10)
 	private String moneyDesc;		// 描述
 	private String shopcard;		// 信用卡
 	private String useful;		// 有效
@@ -60,7 +65,8 @@ public class MoneyDetailInfo extends DataEntity<MoneyDetailInfo> {
 	public void setMoneyTime(Date moneyTime) {
 		this.moneyTime = moneyTime;
 	}
-	
+
+
 	public String getMoney() {
 		return money;
 	}
@@ -70,6 +76,7 @@ public class MoneyDetailInfo extends DataEntity<MoneyDetailInfo> {
 	}
 	
 	@Length(min=1, max=10, message="类型长度必须介于 1 和 10 之间")
+
 	public String getMoneyType() {
 		return moneyType;
 	}
@@ -79,6 +86,7 @@ public class MoneyDetailInfo extends DataEntity<MoneyDetailInfo> {
 	}
 	
 	@Length(min=0, max=600, message="描述长度必须介于 0 和 600 之间")
+
 	public String getMoneyDesc() {
 		return moneyDesc;
 	}

@@ -29,6 +29,7 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/moneydetail/moneyDetailInfo/">金额列表列表</a></li>
 		<li class="active"><a href="${ctx}/moneydetail/moneyDetailInfo/form?id=${moneyDetailInfo.id}">金额列表<shiro:hasPermission name="moneydetail:moneyDetailInfo:edit">${not empty moneyDetailInfo.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="moneydetail:moneyDetailInfo:edit">查看</shiro:lacksPermission></a></li>
+		<shiro:hasPermission name="moneydetail:moneyDetailInfo:edit"><li><a href="${ctx}/moneydetail/moneyDetailInfo/import">金额列表导入</a></li></shiro:hasPermission>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="moneyDetailInfo" action="${ctx}/moneydetail/moneyDetailInfo/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>

@@ -6,6 +6,8 @@ package com.renjie120.modules.moneydetail.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -21,6 +24,9 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.renjie120.modules.moneydetail.entity.MoneyDetailInfo;
 import com.renjie120.modules.moneydetail.service.wrapper.MoneyDetailInfoServiceWrapper;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 金额列表Controller
@@ -80,4 +86,35 @@ public class MoneyDetailInfoController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/moneydetail/moneyDetailInfo/?repage";
 	}
 
+	@RequiresPermissions("moneydetail:moneyDetailInfo:edit")
+	@RequestMapping(value = "deleteAll")
+	public String deleteAll(MoneyDetailInfo moneyDetailInfo, RedirectAttributes redirectAttributes) {
+		moneyDetailInfoService.deleteAll(moneyDetailInfo);
+		addMessage(redirectAttributes, "批量删除金额列表成功");
+		return "redirect:"+Global.getAdminPath()+"/moneydetail/moneyDetailInfo/?repage";
+	}
+
+	@RequiresPermissions("moneydetail:moneyDetailInfo:edit")
+	@RequestMapping(value = {"import"})
+	public String importMoneys(HttpServletRequest request, HttpServletResponse response ) {
+		return "modules/moneydetail/moneyDetailImport";
+	}
+
+	@RequiresPermissions("moneydetail:moneyDetailInfo:edit")
+	@RequestMapping(value = {"doImport"})
+	public String doImportMoneys(@RequestParam("imageFile") CommonsMultipartFile file , HttpServletRequest request, HttpServletResponse response ) throws IOException, InvalidFormatException, IllegalAccessException, InstantiationException {
+		//用来检测程序运行时间
+		long  startTime=System.currentTimeMillis();
+		List<MoneyDetailInfo> data =  null;
+		try {
+			ImportExcel imp = new ImportExcel("test.xls", file.getInputStream(), 0, 0);
+
+			data = imp.getDataList(MoneyDetailInfo.class, 1);
+
+			moneyDetailInfoService.batchSave(data);
+	}catch(Exception e){
+		logger.error(e.getMessage(),e);
+	}
+		return "modules/moneydetail/moneyDetailImport";
+	}
 }

@@ -24,7 +24,7 @@
 			<include refid="moneyDetailInfoColumns"/>
 		FROM money_detail_t a
 		<include refid="moneyDetailInfoJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.money_sno = #{moneySno}
 	</select>
 	
 	<select id="findList" resultType="MoneyDetailInfo">
@@ -116,12 +116,12 @@
 			splitno = #{splitno},
 			real_money = #{realMoney},
 			username = #{username}
-		WHERE id = #{id}
+		WHERE money_sno = #{moneySno}
 	</update>
 	
 	<update id="delete">
 		DELETE FROM money_detail_t
-		WHERE id = #{id}
+		WHERE money_sno = #{moneySno}
 	</update>
 	
 </mapper>

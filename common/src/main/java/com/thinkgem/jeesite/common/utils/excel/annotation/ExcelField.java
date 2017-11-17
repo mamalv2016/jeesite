@@ -33,6 +33,11 @@ public @interface ExcelField {
 	int type() default 0;
 
 	/**
+	 * 对应的数据列的位置,用于导入
+	 * @return
+	 */
+	int columnNum() default 0;
+	/**
 	 * 导出字段对齐方式（0：自动；1：靠左；2：居中；3：靠右）
 	 */
 	int align() default 0;

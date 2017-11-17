@@ -71,8 +71,16 @@ public class TallyTypeController extends BaseController {
 	public String save(TallyType tallyType, Model model, RedirectAttributes redirectAttributes) { 
 		tallyTypeService.save(tallyType);  
 		return "redirect:" + adminPath + "/money/tallytype";
-	}  
-	
+	}
+
+	//
+	@RequiresPermissions("money:tallytype:edit")
+	@RequestMapping(value = "synMoneyTypeDict")//@Valid
+	public String synMoneyTypeDict(Model model, RedirectAttributes redirectAttributes) {
+		tallyTypeService.synMoneyTypeDict(null);
+		return "ok";
+	}
+
 	@RequiresPermissions("money:tallytype:edit")
 	@RequestMapping(value = "delete")
 	public String delete(TallyType tallyType, RedirectAttributes redirectAttributes) {

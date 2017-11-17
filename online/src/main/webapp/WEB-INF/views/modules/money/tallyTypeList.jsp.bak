@@ -18,11 +18,11 @@
 		       dataType: "json",
 		       url: '${ctx}/money/tallytype/synMoneyTypeDict', 
 		       success: function( ) {
-		       	    alert("同步成功");
+		       	    
 		       },
 		       error:function(data)
 		       {
-		           alert("同步成功");
+		            
 		       }
 		   });
 		}

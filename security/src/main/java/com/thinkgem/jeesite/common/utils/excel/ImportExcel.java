@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -279,9 +280,13 @@ public class ImportExcel {
 			Row row = this.getRow(i);
 			StringBuilder sb = new StringBuilder();
 			for (Object[] os : annotationList){
+				ExcelField ef = (ExcelField)os[0];
 				Object val = this.getCellValue(row, column++);
+				if(ef.columnNum()>0){
+					val = this.getCellValue(row, ef.columnNum());
+				}
 				if (val != null){
-					ExcelField ef = (ExcelField)os[0];
+					//ExcelField ef = (ExcelField)os[0];
 					// If is dict type, get dict value
 					if (StringUtils.isNotBlank(ef.dictType())){
 						val = DictUtils.getDictValue(val.toString(), ef.dictType(), "");
@@ -317,7 +322,7 @@ public class ImportExcel {
 						}else if (valType == Float.class){
 							val = Float.valueOf(val.toString());
 						}else if (valType == Date.class){
-							val = DateUtil.getJavaDate((Double)val);
+							val = parseCellDate(val);
 						}else{
 							if (ef.fieldType() != Class.class){
 								val = ef.fieldType().getMethod("getValue", String.class).invoke(null, val.toString());
@@ -349,22 +354,30 @@ public class ImportExcel {
 		return dataList;
 	}
 
-//	/**
-//	 * 导入测试
-//	 */
-//	public static void main(String[] args) throws Throwable {
-//		
-//		ImportExcel ei = new ImportExcel("target/export.xlsx", 1);
-//		
-//		for (int i = ei.getDataRowNum(); i < ei.getLastDataRowNum(); i++) {
-//			Row row = ei.getRow(i);
-//			for (int j = 0; j < ei.getLastCellNum(); j++) {
-//				Object val = ei.getCellValue(row, j);
-//				System.out.print(val+", ");
-//			}
-//			System.out.print("\n");
-//		}
-//		
-//	}
+	private Object parseCellDate(Object val){
+		if(val instanceof Double)
+		 return DateUtil.getJavaDate((Double)val);
+		else if(val instanceof String){
+			return DateUtils.parseDate(val);
+		}
+		return val;
+	}
+	/**
+	 * 导入测试
+	 */
+	public static void main(String[] args) throws Throwable {
+
+		ImportExcel ei = new ImportExcel("F:\\zhaopian\\myMoney1115171003.xls", 1);
+
+		for (int i = ei.getDataRowNum(); i < ei.getLastDataRowNum(); i++) {
+			Row row = ei.getRow(i);
+			for (int j = 0; j < ei.getLastCellNum(); j++) {
+				Object val = ei.getCellValue(row, j);
+				System.out.print(val+", ");
+			}
+			System.out.print("\n");
+		}
+
+	}
 
 }
