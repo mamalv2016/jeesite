@@ -6,6 +6,10 @@ package com.renjie120.modules.moneydetail.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.renjie120.common.utils.JsonUtils;
+import com.renjie120.math.CalcInput;
+import com.renjie120.math.CalcStrategyManager;
+import com.renjie120.math.tool.MathTool;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -98,6 +102,29 @@ public class MoneyDetailInfoController extends BaseController {
 	@RequestMapping(value = {"import"})
 	public String importMoneys(HttpServletRequest request, HttpServletResponse response ) {
 		return "modules/moneydetail/moneyDetailImport";
+	}
+
+	@RequiresPermissions("moneydetail:moneyDetailInfo:view")
+	@RequestMapping(value = {"calcInput"})
+	public String calcInput( Model model,HttpServletRequest request, HttpServletResponse response ) {
+		model.addAttribute("calcInput",new CalcInput());
+		return "modules/moneydetail/moneyCalcForm";
+	}
+
+	@RequiresPermissions("moneydetail:moneyDetailInfo:view")
+	@RequestMapping(value = {"calc"})
+	public String calc(CalcInput calcInput, Model model,HttpServletRequest request, HttpServletResponse response ) {
+			calcInput.setFee(MathTool.divide(calcInput.getFee(),100,4));
+			calcInput.setYear ((int)MathTool.divide(calcInput.getMonth(),12,2));
+			String ans = CalcStrategyManager.getHtml(calcInput,"test");
+			try {
+				logger.info("计算公式："+ JsonUtils.toJsonStr(calcInput));
+				response.setContentType("text/html;charset=UTF-8");
+				response.getWriter().write(ans);
+			} catch (IOException e) {
+				logger.error(e.getMessage(),e);
+			}
+			return null;
 	}
 
 	@RequiresPermissions("moneydetail:moneyDetailInfo:edit")
